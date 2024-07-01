@@ -29,5 +29,5 @@ jobs:
 
       - name: Test with Maven
         run: |
-          cd GenshinStart_backend
+          cd backend
           mvn clean test -B -U
