@@ -1,4 +1,4 @@
-package com.example.backend.entity;
+package com.example.backend.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -13,12 +13,12 @@ import lombok.Setter;
  * </p>
  *
  * @author feixia0g
- * @since 2024-07-02 11:24:13
+ * @since 2024-07-02 11:20:19
  */
 @Getter
 @Setter
-@TableName("te_teacher")
-public class Teacher implements Serializable {
+@TableName("te_student")
+public class Student implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

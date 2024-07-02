@@ -1,6 +1,6 @@
 package com.example.backend.service.impl;
 
-import com.example.backend.entity.Teacher;
+import com.example.backend.model.entity.Teacher;
 import com.example.backend.mapper.TeacherMapper;
 import com.example.backend.service.TeacherService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

@@ -1,6 +1,6 @@
 package com.example.backend.mapper;
 
-import com.example.backend.entity.Student;
+import com.example.backend.model.entity.Student;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
