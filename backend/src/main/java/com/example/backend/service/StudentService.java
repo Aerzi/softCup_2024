@@ -17,6 +17,8 @@ public interface StudentService extends IService<Student> {
     public boolean existStudent(String username);
     public Result addStudent(StudentRequest studentRequest);
 
+    public Student getStudentInfo(StudentRequest studentRequest);
+
     public boolean verityPassword(String username,String password);
 
     public Result loginStatus(StudentRequest studentRequest);

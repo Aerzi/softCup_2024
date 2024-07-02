@@ -7,6 +7,7 @@ import com.example.backend.mapper.StudentMapper;
 import com.example.backend.model.request.StudentRequest;
 import com.example.backend.service.StudentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.backend.utils.TokenUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -72,6 +73,26 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         }
     }
 
+    @Override
+    public Student getStudentInfo(StudentRequest studentRequest) {
+        QueryWrapper<Student> studentQueryWrapper = new QueryWrapper<>();
+        studentQueryWrapper.eq("name",studentRequest.getName());
+        String secretPassword = DigestUtils.md5DigestAsHex((SALT + studentRequest.getPassword()).getBytes(StandardCharsets.UTF_8));
+        studentQueryWrapper.eq("password",secretPassword);
+
+        Student student = new Student();
+        try{
+            student = getOne(studentQueryWrapper);
+            if(student == null){
+                System.out.println("No user found with given credentials.");
+                throw new RuntimeException("User not found or incorrect password");
+            }
+        }catch (Exception e){
+            throw new RuntimeException("Failed to fetch user info", e);
+        }
+        return null;
+    }
+
     /**
      * 判断学生用户账号密码是否相符
      * @param username
@@ -96,6 +117,11 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     @Override
     public Result loginStatus(StudentRequest studentRequest) {
         if (verityPassword(studentRequest.getName(), studentRequest.getPassword())) {
+            Student student = new Student();
+            BeanUtils.copyProperties(studentRequest,student);
+
+            String token = TokenUtils.genToken(student.getId().toString(),student.getPassword());
+            studentRequest.setToken(token);
             return Result.success("登录成功", studentRequest);
         }else{
             return Result.error("用户名或密码错误");

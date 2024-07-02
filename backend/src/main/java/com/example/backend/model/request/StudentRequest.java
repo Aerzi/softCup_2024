@@ -9,4 +9,6 @@ public class StudentRequest {
     private String name;
 
     private String password;
+
+    private String token;
 }
