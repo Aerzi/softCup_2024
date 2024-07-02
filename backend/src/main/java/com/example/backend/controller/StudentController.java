@@ -6,6 +6,7 @@ import com.example.backend.model.request.StudentRequest;
 import com.example.backend.service.StudentService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +39,11 @@ public class StudentController {
      * Todo 前台页面调用  学生账号登录
      * 学生账号登录
      */
+    @GetMapping("/login/status")
+    public Result loginStatus(@RequestBody StudentRequest studentRequest){
+        return studentService.loginStatus(studentRequest);
+    }
+
 
 
 }

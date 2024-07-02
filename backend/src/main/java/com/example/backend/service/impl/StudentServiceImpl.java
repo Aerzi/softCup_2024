@@ -32,6 +32,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
 
     /**
      * 根据name判断Student是否已被注册
+     *
      * @param username
      * @return 返回是否被注册的判断结果
      */
@@ -49,11 +50,11 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
      */
     @Override
     public Result addStudent(StudentRequest studentRequest) {
-        if(this.existStudent(studentRequest.getName())){
+        if (this.existStudent(studentRequest.getName())) {
             return Result.warning("该用户已被注册！");
         }
         Student student = new Student();
-        BeanUtils.copyProperties(studentRequest,student);
+        BeanUtils.copyProperties(studentRequest, student);
 
         //对密码进行md5加密
         String password = DigestUtils.md5DigestAsHex((SALT + studentRequest.getPassword()).getBytes(StandardCharsets.UTF_8));
@@ -68,6 +69,36 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
             }
         } catch (DataAccessException e) {
             return Result.fatal(e.getMessage());
+        }
+    }
+
+    /**
+     * 判断学生用户账号密码是否相符
+     * @param username
+     * @param password
+     * @return
+     */
+    @Override
+    public boolean verityPassword(String username, String password) {
+        QueryWrapper<Student> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("name", username);
+
+        String secretPassword = DigestUtils.md5DigestAsHex((SALT + password).getBytes(StandardCharsets.UTF_8));
+        queryWrapper.eq("password", secretPassword);
+        return studentMapper.selectCount(queryWrapper) > 0;
+    }
+
+    /**
+     * 学生用户登录
+     * @param studentRequest
+     * @return
+     */
+    @Override
+    public Result loginStatus(StudentRequest studentRequest) {
+        if (verityPassword(studentRequest.getName(), studentRequest.getPassword())) {
+            return Result.success("登录成功", studentRequest);
+        }else{
+            return Result.error("用户名或密码错误");
         }
     }
 }
