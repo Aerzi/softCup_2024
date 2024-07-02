@@ -1,7 +1,9 @@
 package com.example.backend.service;
 
+import com.example.backend.common.Result;
 import com.example.backend.model.entity.Student;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.backend.model.request.StudentRequest;
 
 /**
  * <p>
@@ -12,5 +14,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2024-07-02 11:20:19
  */
 public interface StudentService extends IService<Student> {
+
+    public boolean existStudent(String username);
+    public Result addStudent(StudentRequest studentRequest);
 
 }

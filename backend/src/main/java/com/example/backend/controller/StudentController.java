@@ -1,8 +1,13 @@
 package com.example.backend.controller;
 
+import com.example.backend.common.Result;
+import com.example.backend.model.entity.Student;
+import com.example.backend.model.request.StudentRequest;
 import com.example.backend.service.StudentService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
 
@@ -24,6 +29,10 @@ public class StudentController {
      * Todo 前台页面调用  学生账号注册
      * 学生账号注册
      */
+    @PostMapping("/register")
+    public Result addStudent(@RequestBody StudentRequest studentRequest){
+        return studentService.addStudent(studentRequest);
+    }
 
     /**
      * Todo 前台页面调用  学生账号登录
