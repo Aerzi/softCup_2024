@@ -14,5 +14,14 @@ import org.springframework.stereotype.Controller;
 @Controller
 @RequestMapping("/teacher")
 public class TeacherController {
+    /**
+     * Todo 前台页面调用  教师账号注册
+     * 教师账号注册
+     */
+
+    /**
+     * Todo 前台页面调用  教师账号登录
+     * 教师账号登录
+     */
 
 }
