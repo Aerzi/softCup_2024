@@ -8,6 +8,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
+/**
+ * @version 1.0
+ * @description The type Web mvc configuration.
+ * @author feixia0g
+ * @date 2024/7/7 10:40
+ */
 @Component
 public class WebContext {
     private static final String USER_ATTRIBUTES = "USER_ATTRIBUTES";
