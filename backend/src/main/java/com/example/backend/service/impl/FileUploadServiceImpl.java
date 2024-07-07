@@ -11,13 +11,16 @@ import com.qiniu.storage.Region;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
+import org.apache.tomcat.util.http.fileupload.FileUpload;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 @Service
 public class FileUploadServiceImpl implements FileUploadService {
-
+    private final Logger logger = LoggerFactory.getLogger(FileUpload.class);
     private final SystemConfig systemConfig;
 
     @Autowired
@@ -37,7 +40,7 @@ public class FileUploadServiceImpl implements FileUploadService {
             DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
             return qnConfig.getUrl() + "/" + putRet.key + ".png";
         } catch (QiniuException ex) {
-
+            logger.error(ex.getMessage(), ex);
         }
         return null;
     }

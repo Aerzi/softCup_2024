@@ -10,7 +10,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 
 /**
  * @version 1.0
- * @description The type Web mvc configuration.
+ * @description The enum System code.
  * @author feixia0g
  * @date 2024/7/7 10:40
  */

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @version 1.0
- * @description The type Web mvc configuration.
+ * @description The type Qn config.
  * @author feixia0g
  * @date 2024/7/7 9:50
  */

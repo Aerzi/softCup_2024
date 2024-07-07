@@ -4,7 +4,7 @@ import lombok.Data;
 
 /**
  * @version 1.0
- * @description The type Web mvc configuration.
+ * @description The type Rest response.
  * @author feixia0g
  * @date 2024/7/7 9:45
  */

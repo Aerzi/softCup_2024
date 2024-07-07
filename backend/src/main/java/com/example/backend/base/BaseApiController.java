@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @version 1.0
- * @description The type Web mvc configuration.
+ * @description The type Base api controller.
  * @author feixia0g
  * @date 2024/7/7 10:50
  */
