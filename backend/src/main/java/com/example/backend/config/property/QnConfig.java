@@ -2,6 +2,8 @@ package com.example.backend.config.property;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  * @version 1.0
@@ -11,6 +13,8 @@ import lombok.Setter;
  */
 @Setter
 @Getter
+@Component
+@ConfigurationProperties(prefix = "system.qn")
 public class QnConfig {
     /**
      * -- GETTER --
