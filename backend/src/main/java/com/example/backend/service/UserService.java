@@ -19,4 +19,6 @@ public interface UserService extends IService<User> {
      * @return User
      */
     User getUserByUserName(String username);
+
+    void changePicture(User user, String imagePath);
 }

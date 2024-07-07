@@ -7,6 +7,7 @@ import com.example.backend.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -32,5 +33,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         userQueryWrapper.eq("user_name",username);
         userQueryWrapper.eq("deleted",0);
         return userMapper.selectOne(userQueryWrapper);
+    }
+
+    @Override
+    @Transactional
+    public void changePicture(User user, String imagePath) {
+        User changePictureUser = new User();
+        changePictureUser.setId(user.getId());
+        changePictureUser.setImagePath(imagePath);
+        userMapper.updateById(changePictureUser);
     }
 }
