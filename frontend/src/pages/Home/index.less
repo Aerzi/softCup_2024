@@ -1,0 +1,63 @@
+@import "@/styles/styles.less";
+
+.xf-home__page {
+    width: 100%;
+    height: 300vh;
+
+    .xf-home__header {
+        width: 100%;
+        top: 0;
+        height: 64px;
+        background: @header-color-default;
+        transition: 0.5s ease-in-out;
+        z-index: 10;
+
+
+        .xf-home__nav {
+            align-items: center;
+            display: flex;
+            flex-flow: row nowrap;
+            height: 64px;
+            justify-content: space-between;
+            // header居中
+            margin: 0 auto;
+            width: 1200px;
+
+            .xf-home__nav-list {
+                list-style: none;
+            }
+
+            .xf-home__nav-item {
+                float: left;
+                margin-right: 20px;
+                line-height: 64px;
+                height: 64px;
+            }
+
+            .xf-home__nav-item-link {
+                text-decoration: none;
+                color: @header-font-color-default;
+                font-size: 1rem;
+                font-family: "阿里妈妈数黑体 Bold";
+            }
+        }
+    }
+
+    // 这个地方的触发逻辑由于和mask、nav的交互有关，所以最好使用函数进行控制
+    .xf-home__header--hover {
+        height: 300px;
+    }
+
+}
+
+
+.xf-home__mask {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9;
+    display: none;
+}
