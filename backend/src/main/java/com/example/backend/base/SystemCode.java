@@ -1,8 +1,8 @@
 package com.example.backend.base;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public enum SystemCode {
     /**
      * OK
@@ -36,10 +36,20 @@ public enum SystemCode {
 
     /**
      * The Code.
+     * -- GETTER --
+     *  Gets code.
+     *
+     * @return the code
+
      */
     int code;
     /**
      * The Message.
+     * -- GETTER --
+     *  Gets message.
+     *
+     * @return the message
+
      */
     String message;
 
@@ -48,21 +58,4 @@ public enum SystemCode {
         this.message = message;
     }
 
-    /**
-     * Gets code.
-     *
-     * @return the code
-     */
-    public int getCode() {
-        return code;
-    }
-
-    /**
-     * Gets message.
-     *
-     * @return the message
-     */
-    public String getMessage() {
-        return message;
-    }
 }
