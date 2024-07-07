@@ -3,18 +3,27 @@ CREATE DATABASE IF NOT EXISTS tp_education;
 
 USE tp_education;
 
-DROP TABLE IF EXISTS `te_student`;
-CREATE TABLE te_student (
-  `id` INT(11) PRIMARY KEY AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL UNIQUE,
-  `password` VARCHAR(255) NOT NULL
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `te_teacher`;
-CREATE TABLE te_teacher (
-  `id` INT(11) PRIMARY KEY AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL UNIQUE,
-  `password` VARCHAR(255) NOT NULL
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+-- ----------------------------
+-- Table structure for t_user
+-- ----------------------------
+DROP TABLE IF EXISTS `t_user`;
+CREATE TABLE `t_user`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_uuid` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `real_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `age` int NULL DEFAULT NULL,
+  `sex` int NULL DEFAULT NULL,
+  `birth_day` datetime NULL DEFAULT NULL,
+  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `role` int NULL DEFAULT NULL,
+  `status` int NULL DEFAULT NULL,
+  `image_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `create_time` datetime NULL DEFAULT NULL,
+  `modify_time` datetime NULL DEFAULT NULL,
+  `last_active_time` datetime NULL DEFAULT NULL,
+  `deleted` bit(1) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB  CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = COMPACT;
 

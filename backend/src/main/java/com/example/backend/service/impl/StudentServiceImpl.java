@@ -7,7 +7,6 @@ import com.example.backend.mapper.StudentMapper;
 import com.example.backend.model.request.StudentRequest;
 import com.example.backend.service.StudentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.backend.utils.TokenUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -120,8 +119,6 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
             Student student = new Student();
             BeanUtils.copyProperties(studentRequest,student);
 
-            String token = TokenUtils.genToken(student.getId().toString(),student.getPassword());
-            studentRequest.setToken(token);
             return Result.success("登录成功", studentRequest);
         }else{
             return Result.error("用户名或密码错误");
