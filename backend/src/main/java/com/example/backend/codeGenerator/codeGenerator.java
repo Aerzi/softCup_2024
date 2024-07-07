@@ -25,8 +25,8 @@ class codeGenerator {
                 })
                 // 策略配置
                 .strategyConfig(builder -> {
-                    builder.addInclude("te_teacher") // 设置需要生成的表名
-                            .addTablePrefix("te_") // 设置过滤表前缀
+                    builder.addInclude("t_user") // 设置需要生成的表名
+                            .addTablePrefix("t_") // 设置过滤表前缀
                             // Entity 策略配置
                             .entityBuilder()
                             .enableLombok() //开启 Lombok

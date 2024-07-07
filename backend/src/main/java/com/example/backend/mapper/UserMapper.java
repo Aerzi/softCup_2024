@@ -1,6 +1,6 @@
 package com.example.backend.mapper;
 
-import com.example.backend.model.entity.Student;
+import com.example.backend.model.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author feixia0g
- * @since 2024-07-02 11:20:19
+ * @since 2024-07-07 09:13:23
  */
-public interface StudentMapper extends BaseMapper<Student> {
+public interface UserMapper extends BaseMapper<User> {
 
 }

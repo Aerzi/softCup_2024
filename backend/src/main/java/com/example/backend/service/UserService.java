@@ -1,6 +1,6 @@
 package com.example.backend.service;
 
-import com.example.backend.model.entity.Teacher;
+import com.example.backend.model.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author feixia0g
- * @since 2024-07-02 11:24:13
+ * @since 2024-07-07 09:13:23
  */
-public interface TeacherService extends IService<Teacher> {
+public interface UserService extends IService<User> {
 
 }
