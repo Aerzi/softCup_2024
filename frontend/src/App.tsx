@@ -15,7 +15,7 @@ function App() {
           <Route path="/studyplan" element={<StudyPlan />} />
           <Route path="/teachingroom" element={<TeachingClassroom />} />
           <Route path="/userprofile" element={<UserProfile />} />
-          <Route path="mockcompetition" element={<MockCompetition />} />
+          <Route path="/mockcompetition" element={<MockCompetition />} />
         </Routes>
       </HashRouter>
     </div>

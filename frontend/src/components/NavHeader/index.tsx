@@ -1,37 +1,63 @@
 import React from "react";
-
-import { Link } from "react-router-dom";
+import "./index.less";
+import { NavLink } from "react-router-dom";
 
 const NavHeader = () => {
   return (
-    <nav className="xf-home__nav">
-      <ul className="xf-home__nav-list">
-        <li className="xf-home__nav-item">
-          <Link to={"/"} className="xf-home__nav-item-link">
-            首页
-          </Link>
+    <nav className="xf-header__nav">
+      <ul className="xf-header__nav-list">
+        <li className="xf-header__nav-item">
+          <NavLink
+            to={"/"}
+            className={({ isActive }) =>
+              `link ${isActive ? "xf-header__nav-item-link--active" : "xf-header__nav-item-link"}`
+            }
+          >
+            系统首页
+          </NavLink>
         </li>
-        <li className="xf-home__nav-item">
-          <Link to={"/studyplan"} className="xf-home__nav-item-link">
+        <li className="xf-header__nav-item">
+          <NavLink
+            to={"/studyplan"}
+            className={({ isActive }) =>
+              `link ${isActive ? "xf-header__nav-item-link--active" : "xf-header__nav-item-link"}`
+            }
+          >
             学习规划
-          </Link>
+          </NavLink>
         </li>
-        <li className="xf-home__nav-item">
-          <Link to={"/teachingroom"} className="xf-home__nav-item-link">
+        <li className="xf-header__nav-item">
+          <NavLink
+            to={"/teachingroom"}
+            className={({ isActive }) =>
+              `link ${isActive ? "xf-header__nav-item-link--active" : "xf-header__nav-item-link"}`
+            }
+          >
             教学课堂
-          </Link>
+          </NavLink>
         </li>
-        <li className="xf-home__nav-item">
-          <Link to={"/mockcompetition"} className="xf-home__nav-item-link">
+        <li className="xf-header__nav-item">
+          <NavLink
+            to={"/mockcompetition"}
+            className={({ isActive }) =>
+              `link ${isActive ? "xf-header__nav-item-link--active" : "xf-header__nav-item-link"}`
+            }
+          >
             模拟竞赛
-          </Link>
+          </NavLink>
         </li>
-        <li className="xf-home__nav-item">
-          <Link to={"/userprofile"} className="xf-home__nav-item-link">
+        <li className="xf-header__nav-item">
+          <NavLink
+            to={"/userprofile"}
+            className={({ isActive }) =>
+              `link ${isActive ? "xf-header__nav-item-link--active" : "xf-header__nav-item-link"}`
+            }
+          >
             个人信息
-          </Link>
+          </NavLink>
         </li>
       </ul>
+      <div className="xf-header__user"></div>
     </nav>
   );
 };

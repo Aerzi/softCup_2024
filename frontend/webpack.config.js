@@ -57,6 +57,7 @@ const config = {
     extensions: [".tsx", ".ts", ".jsx", ".js", "..."],
     alias: {
       "@": path.resolve(__dirname, "src"), // 将'@'设置为src目录的别名
+      "@components": path.resolve(__dirname, "src/components"),
     },
   },
 };
