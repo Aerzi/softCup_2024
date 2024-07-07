@@ -1,74 +1,73 @@
-// webpack 配置文件
-const path = require('path');
-const toml = require('toml');
-const yaml = require('yamljs');
-const json5 = require('json5');
+/* eslint-disable node/no-unpublished-require */
+// Generated using webpack-cli https://github.com/webpack/webpack-cli
 
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require("path");
 
-module.exports = {
-    // mode 用于指定不同的构建环境，以便不同的优化策略
-    mode: 'development',
-    entry: './src/main.tsx',
-    output: {
-        filename: 'main.js',
-        path: path.resolve(__dirname, 'dist'),
-        clean: true,
-    },
-    // source-map 会生成一个带有源代码的映射文件，方便开发调试
-    devtool: 'inline-source-map',
-    // 允许在 webpack 中配置多个plugin
-    plugins: [
-        new HtmlWebpackPlugin({
-            title: 'Development',
-        }),
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+const isProduction = process.env.NODE_ENV == "production";
+
+const stylesHandler = isProduction
+  ? MiniCssExtractPlugin.loader
+  : "style-loader";
+
+const config = {
+  entry: "./src/index.tsx",
+  output: {
+    path: path.resolve(__dirname, "dist"),
+  },
+  devServer: {
+    open: true,
+    host: "localhost",
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "index.html",
+    }),
+
+    // Add your plugins here
+    // Learn more about plugins from https://webpack.js.org/configuration/plugins/
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.(ts|tsx)$/i,
+        loader: "ts-loader",
+        exclude: ["/node_modules/"],
+      },
+      {
+        test: /\.css$/i,
+        use: [stylesHandler, "css-loader"],
+      },
+      {
+        test: /\.less$/i,
+        use: [stylesHandler, "css-loader", "less-loader"],
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        type: "asset",
+      },
+
+      // Add your rules for custom modules here
+      // Learn more about loaders from https://webpack.js.org/loaders/
     ],
-    // 允许在 webpack 中配置多个loader
-    module: {
-        rules: [
-            {
-                test: /\.css$/i,
-                use: ['style-loader', 'css-loader'],
-            },
-            {
-                test: /\.(png|svg|jpg|jpeg|gif)$/i,
-                type: 'asset/resource',
-            },
-            // 字体 
-            {
-                test: /\.(woff|woff2|eot|ttf|otf)$/i,
-                type: 'asset/resource',
-            },
-            {
-                test: /\.(csv|tsv)$/i,
-                use: ['csv-loader'],
-            },
-            {
-                test: /\.xml$/i,
-                use: ['xml-loader'],
-            },
-            {
-                test: /\.toml$/i,
-                type: 'json',
-                parser: {
-                    parse: toml.parse,
-                },
-            },
-            {
-                test: /\.yaml$/i,
-                type: 'json',
-                parser: {
-                    parse: yaml.parse,
-                },
-            },
-            {
-                test: /\.json5$/i,
-                type: 'json',
-                parser: {
-                    parse: json5.parse,
-                },
-            },
-        ],
+  },
+  resolve: {
+    extensions: [".tsx", ".ts", ".jsx", ".js", "..."],
+    alias: {
+      "@": path.resolve(__dirname, "src"), // 将'@'设置为src目录的别名
     },
+  },
+};
 
+module.exports = () => {
+  if (isProduction) {
+    config.mode = "production";
+
+    config.plugins.push(new MiniCssExtractPlugin());
+  } else {
+    config.mode = "development";
+  }
+  return config;
 };

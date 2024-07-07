@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "module": "NodeNext",
+    "target": "es5",
+    "lib": ["ESNext", "DOM"],
+    "jsx": "react",
+    "allowJs": true,
+    "moduleResolution": "nodenext",
+
+    "outDir": "./dist", // 指定输出目录
+
+    "resolveJsonModule": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
+}
