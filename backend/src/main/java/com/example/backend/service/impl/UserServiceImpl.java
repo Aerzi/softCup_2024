@@ -1,9 +1,11 @@
 package com.example.backend.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.backend.model.entity.User;
 import com.example.backend.mapper.UserMapper;
 import com.example.backend.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,4 +19,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
+    private final UserMapper userMapper;
+
+    @Autowired
+    public UserServiceImpl(UserMapper userMapper){
+        this.userMapper = userMapper;
+    }
+
+    @Override
+    public User getUserByUserName(String username) {
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("user_name",username);
+        userQueryWrapper.eq("deleted",0);
+        return userMapper.selectOne(userQueryWrapper);
+    }
 }
