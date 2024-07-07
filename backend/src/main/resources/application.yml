@@ -10,6 +10,13 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
+system:
+  qn:
+    url: http://sg8dboiyc.hd-bkt.clouddn.com
+    bucket: cs-education-platform
+    access-key: oJOFdOBRRkkYi7ssuvB17PpRXrXzZjU46-eOsnbd
+    secret-key: 5pp0Y1WoB1118fiQWDpnh6MJGYtKoNyd6M_zIGPI
+
 spring:
   #runningtime environment
   profiles:
