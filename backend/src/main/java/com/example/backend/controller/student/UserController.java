@@ -10,10 +10,8 @@ import com.example.backend.model.request.student.user.UserRegisterRequest;
 import com.example.backend.service.AuthenticationService;
 import com.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Date;
@@ -42,7 +40,7 @@ public class UserController extends BaseApiController {
         String encodePwd = authenticationService.pwdEncode(request.getPassword());
         user.setUserUuid(UUID.randomUUID().toString());
         user.setPassword(encodePwd);
-        user.setRole(RoleEnum.fromCode(request.getRole()).getCode());
+        user.setRole(RoleEnum.STUDENT.getCode());
         user.setStatus(UserStatusEnum.Enable.getCode());
         user.setLastActiveTime(new Date());
         user.setCreateTime(new Date());
@@ -51,13 +49,10 @@ public class UserController extends BaseApiController {
         return RestResponse.ok();
     }
 
-    @PostMapping("/login")
-    public RestResponse login(@RequestBody @Valid UserLoginRequest request){
-        boolean isAuthenticated = authenticationService.authUser(request.getUserName(), request.getPassword());
-        if(isAuthenticated){
-            return RestResponse.ok();
-        }else{
-            return RestResponse.fail(2,"登录失败");
-        }
+    @GetMapping("/test")
+    @PreAuthorize("hasAuthority('ROLE_STUDENT')")
+    public String test(){
+        System.out.println("---------->test");
+        return "test .... ";
     }
 }

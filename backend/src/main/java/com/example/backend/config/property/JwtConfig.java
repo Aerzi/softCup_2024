@@ -12,5 +12,5 @@ import org.springframework.stereotype.Component;
 public class JwtConfig {
     private String secretKey;
 
-    private String expiration;
+    private int expiration;
 }

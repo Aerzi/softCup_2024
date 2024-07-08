@@ -10,20 +10,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
+import java.util.Calendar;
 import java.util.Date;
 
 @Component
 public class JwtUtil {
-    private static final SystemConfig systemConfig = new SystemConfig();
+    private static SystemConfig systemConfig;
+    @Autowired
+    public void setSystemConfig(SystemConfig systemConfig){
+        JwtUtil.systemConfig = systemConfig;
+    }
 
     public static String generateToken(String username) {
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + systemConfig.getJwtConfig().getExpiration());
+        Calendar instance = Calendar.getInstance();
+        instance.add(Calendar.DATE,systemConfig.getJwtConfig().getExpiration()); // 默认过期时间 7天
 
         return JWT.create()
                 .withSubject(username)
-                .withIssuedAt(now)
-                .withExpiresAt(expiryDate)
+                .withIssuedAt(new Date(System.currentTimeMillis()))
+                .withExpiresAt(instance.getTime())
                 .sign(Algorithm.HMAC512(systemConfig.getJwtConfig().getSecretKey()));
     }
 
