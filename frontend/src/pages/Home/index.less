@@ -3,6 +3,8 @@
 .xf-home__page {
   width: 100%;
   height: 300vh;
+  background-color: rgb(250, 250, 250);
+
   .xf-home__header {
     width: 100%;
     top: 0;
@@ -15,6 +17,96 @@
   // 这个地方的触发逻辑由于和mask、nav的交互有关，所以最好使用函数进行控制
   .xf-home__header--hover {
     height: 300px;
+  }
+
+  .xf-home__main {
+    position: relative;
+    width: 100%;
+    margin: 20px auto;
+    height: calc(100% - 504px);
+
+    .xf-home__main-content {
+      width: 1200px;
+      margin: 0 auto;
+      height: 100%;
+
+      .xf-home__main-content--first {
+        width: 100%;
+        height: 700px;
+        position: relative;
+
+        .xf-home__main-content--first-carousel {
+          height: 350px;
+          text-align: center;
+          background: @header-color-default;
+          margin-bottom: 20px;
+
+          .xf-home__main-content--first-carousel-text {
+            position: relative;
+            margin: 10px 10px 20px 20px;
+            width: 500px;
+            height: 330px;
+            border-radius: 5px;
+            background-color: #fff;
+          }
+        }
+
+        .xf-home__main-content--first-show {
+          width: 100%;
+          margin: 30px 0;
+          height: 400px;
+          position: relative;
+          .xf-home__main-content--first-show-title {
+            width: 100%;
+            text-align: center;
+            font-size: 2rem;
+            height: 60px;
+            line-height: 60px;
+            font-family: "阿里妈妈数黑体 Bold";
+          }
+
+          .xf-home__main-content--first-show-subtitle {
+            width: 100%;
+            text-align: center;
+            font-size: 1.3rem;
+            font-family: "思源黑体 Normal";
+            font-weight: 200;
+            height: 20px;
+            line-height: 20px;
+          }
+        }
+      }
+
+      .xf-home__main-content-text {
+        margin: 10px auto;
+      }
+
+      .xf-home__main-content-text--bold {
+        font-family: "阿里妈妈数黑体 Bold";
+      }
+
+      .xf-home__main-content-text--light {
+        font-family: "思源黑体 Normal";
+      }
+
+      .xf-home__main-content--second {
+        width: 100%;
+        height: 500px;
+        position: relative;
+      }
+
+      .xf-home__main-content--third {
+        width: 100%;
+        height: calc(100% - 1200px);
+        position: relative;
+      }
+    }
+  }
+
+  .xf-home__footer {
+    width: 100%;
+    height: 400px;
+    background-color: @header-color-default;
   }
 }
 
