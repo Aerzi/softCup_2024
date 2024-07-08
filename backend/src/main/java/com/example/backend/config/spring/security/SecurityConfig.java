@@ -31,14 +31,16 @@ public class SecurityConfig {
         private final RestAccessDeniedHandler restAccessDeniedHandler;
         private final LoginAuthenticationEntryPoint loginAuthenticationEntryPoint;
         private final RestAuthenticationProvider restAuthenticationProvider;
+        private final RestLogoutSuccessHandler restLogoutSuccessHandler;
 
         @Autowired
-        public FormLoginWebSecurityConfigurerAdapter(SystemConfig systemConfig, RestDetailsServiceImpl restDetailsService, RestAccessDeniedHandler restAccessDeniedHandler, LoginAuthenticationEntryPoint loginAuthenticationEntryPoint, RestAuthenticationProvider restAuthenticationProvider, AuthenticationConfiguration authenticationConfiguration, AuthenticationConfiguration authenticationConfiguration1) {
+        public FormLoginWebSecurityConfigurerAdapter(SystemConfig systemConfig, RestDetailsServiceImpl restDetailsService, RestAccessDeniedHandler restAccessDeniedHandler, LoginAuthenticationEntryPoint loginAuthenticationEntryPoint, RestAuthenticationProvider restAuthenticationProvider, AuthenticationConfiguration authenticationConfiguration, AuthenticationConfiguration authenticationConfiguration1, RestLogoutSuccessHandler restLogoutSuccessHandler) {
             this.systemConfig = systemConfig;
             this.restDetailsService = restDetailsService;
             this.restAccessDeniedHandler = restAccessDeniedHandler;
             this.loginAuthenticationEntryPoint = loginAuthenticationEntryPoint;
             this.restAuthenticationProvider = restAuthenticationProvider;
+            this.restLogoutSuccessHandler = restLogoutSuccessHandler;
         }
 
         /**
@@ -57,7 +59,6 @@ public class SecurityConfig {
                     .addFilterBefore(new TokenVerifyFilter(), TokenLoginFilter.class)
                     .exceptionHandling().authenticationEntryPoint(loginAuthenticationEntryPoint)
                     .and().authenticationProvider(restAuthenticationProvider)
-                    .logout().disable()
                     .authorizeRequests()
                     .antMatchers(securityIgnoreUrls.toArray(ignores)).permitAll()
                     .antMatchers("/api/student/**").hasRole(RoleEnum.STUDENT.getName())
@@ -65,7 +66,8 @@ public class SecurityConfig {
                     .antMatchers("/api/admin/**").hasRole(RoleEnum.ADMIN.getName())
                     .anyRequest().permitAll()
                     .and().exceptionHandling().accessDeniedHandler(restAccessDeniedHandler)
-                    .and().userDetailsService(restDetailsService);
+                    .and().userDetailsService(restDetailsService)
+                    .logout().logoutUrl("/api/user/logout").logoutSuccessHandler(restLogoutSuccessHandler).invalidateHttpSession(true).deleteCookies("JSESSIONID");
         }
 
         /**
