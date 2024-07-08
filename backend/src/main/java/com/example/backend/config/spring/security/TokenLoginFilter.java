@@ -3,17 +3,15 @@ package com.example.backend.config.spring.security;
 import com.example.backend.base.SystemCode;
 import com.example.backend.model.request.student.user.UserLoginRequest;
 import com.example.backend.service.UserService;
+import com.example.backend.config.application.ApplicationContextProvider;
 import com.example.backend.utils.JsonUtil;
 import com.example.backend.utils.JwtUtil;
-import com.example.backend.utils.SpringContextUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -31,7 +29,7 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
     }
 
     private UserService userService(){
-        return SpringContextUtil.getBean(UserService.class);
+        return ApplicationContextProvider.getBean(UserService.class);
     }
 
     /**

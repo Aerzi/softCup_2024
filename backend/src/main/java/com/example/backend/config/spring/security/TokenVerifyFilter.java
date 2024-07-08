@@ -1,7 +1,7 @@
 package com.example.backend.config.spring.security;
 
+import com.example.backend.config.application.ApplicationContextProvider;
 import com.example.backend.utils.JwtUtil;
-import com.example.backend.utils.SpringContextUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,7 +25,7 @@ public class TokenVerifyFilter extends OncePerRequestFilter {
     ).collect(Collectors.toSet());
 
     RestDetailsServiceImpl restDetailsService(){
-        return SpringContextUtil.getBean(RestDetailsServiceImpl.class);
+        return ApplicationContextProvider.getBean(RestDetailsServiceImpl.class);
     };
 
     @Override
