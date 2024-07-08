@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import "./index.less";
 import { NavLink } from "react-router-dom";
+import UserModal from "../UserModal";
 
 const NavHeader = () => {
+  const [isUserOpen, setIsUserOpen] = useState(false);
   return (
     <nav className="xf-header__nav">
       <ul className="xf-header__nav-list">
@@ -57,7 +59,10 @@ const NavHeader = () => {
           </NavLink>
         </li>
       </ul>
-      <div className="xf-header__user"></div>
+      <div className="xf-header__user" onClick={() => setIsUserOpen(true)}>
+        登录/注册
+      </div>
+      <UserModal isOpen={isUserOpen} setIsOpen={setIsUserOpen} />
     </nav>
   );
 };

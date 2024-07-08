@@ -1,0 +1,48 @@
+@import "@/styles/styles.less";
+
+.xf-tabs-instruction {
+  width: 100%;
+  height: 64px;
+  .xf-tabs-instruction__button-list {
+    margin: 20px;
+    width: 800px;
+    margin: 0 auto;
+    height: 64px;
+
+    display: flex;
+    flex-direction: row;
+  }
+
+  .xf-tabs-instruction__button-item {
+    flex: 1;
+    height: 64px;
+    margin: 5px;
+
+    .xf-tabs-instruction__button-item-text {
+      display: block;
+      width: 100px;
+      margin: 2px auto;
+      height: 60px;
+      line-height: 60px;
+      text-align: center;
+      font-family: "思源黑体 Normal";
+      font-size: 1.5rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .xf-tabs-instruction__button-item-text:hover {
+      color: @tags-color-active;
+    }
+
+    .xf-tabs-instruction__button-item-text--active {
+      color: @tags-color-active;
+    }
+  }
+}
+
+.xf-tabs-instruction__content {
+  width: 1200px;
+  margin: 0 auto;
+  height: 400px;
+}

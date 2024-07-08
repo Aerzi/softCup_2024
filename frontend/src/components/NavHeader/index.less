@@ -9,10 +9,19 @@
   // header居中
   margin: 0 auto;
   width: 1200px;
+  transition: 0.3s ease-in-out width;
+
+  .xf-header__user {
+    width: 580px;
+    font-family: "阿里妈妈数黑体 Bold";
+    color: @header-font-color-default;
+    display: flex;
+    flex-direction: row-reverse;
+    cursor: pointer;
+  }
 
   .xf-header__nav-list {
     width: 600px;
-    margin-left: 20px;
     list-style: none;
   }
 
@@ -38,9 +47,12 @@
     position: absolute;
     bottom: 16px;
     left: 0;
-    width: 0; /* 初始宽度为0 */
-    height: 2px; /* 下划线高度 */
-    background-color: #fff; /* 下划线颜色 */
+    width: 0;
+    /* 初始宽度为0 */
+    height: 2px;
+    /* 下划线高度 */
+    background-color: #fff;
+    /* 下划线颜色 */
   }
 
   .xf-header__nav-item-link:hover::before {
@@ -59,9 +71,12 @@
     position: absolute;
     bottom: 16px;
     left: 0;
-    width: 64px; /* 初始宽度为0 */
-    height: 2px; /* 下划线高度 */
-    background-color: #fff; /* 下划线颜色 */
+    width: 64px;
+    /* 初始宽度为0 */
+    height: 2px;
+    /* 下划线高度 */
+    background-color: #fff;
+    /* 下划线颜色 */
   }
 }
 
@@ -70,6 +85,7 @@
   from {
     width: 0;
   }
+
   to {
     width: 64px;
   }
@@ -79,6 +95,7 @@
   from {
     width: 64px;
   }
+
   to {
     width: 0;
   }
