@@ -12,7 +12,4 @@ public class UserLoginRequest {
 
     @NotBlank
     private String password;
-
-    @NotNull
-    private Integer role;
 }

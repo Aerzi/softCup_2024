@@ -19,9 +19,9 @@ import java.util.stream.Stream;
 public class TokenVerifyFilter extends OncePerRequestFilter {
 
     private static final Set<String> WHITE_LIST = Stream.of(
-            "/api/student/register", "/api/student/user/login",
-            "/api/teacher/register", "/api/teacher/login",
-            "api/admin/login","/register","login"
+            "/api/student/user/register",
+            "/api/teacher/user/register",
+            "/api/admin/user/register"
     ).collect(Collectors.toSet());
 
     RestDetailsServiceImpl restDetailsService(){

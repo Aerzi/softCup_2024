@@ -1,4 +1,4 @@
-package com.example.backend.controller.teacher;
+package com.example.backend.controller.admin;
 
 import com.example.backend.base.BaseApiController;
 import com.example.backend.base.RestResponse;
@@ -9,17 +9,18 @@ import com.example.backend.model.request.student.user.UserRegisterRequest;
 import com.example.backend.service.AuthenticationService;
 import com.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.UUID;
 
-@RestController("TeacherUserController")
-@RequestMapping(value = "/api/teacher/user")
+@RestController("AdminUserController")
+@RequestMapping(value = "/api/admin/user")
 public class UserController extends BaseApiController {
-
     private final UserService userService;
 
     private final AuthenticationService authenticationService;
@@ -40,7 +41,7 @@ public class UserController extends BaseApiController {
         String encodePwd = authenticationService.pwdEncode(request.getPassword());
         user.setUserUuid(UUID.randomUUID().toString());
         user.setPassword(encodePwd);
-        user.setRole(RoleEnum.TEACHER.getCode());
+        user.setRole(RoleEnum.ADMIN.getCode());
         user.setStatus(UserStatusEnum.Enable.getCode());
         user.setLastActiveTime(new Date());
         user.setCreateTime(new Date());
@@ -49,10 +50,4 @@ public class UserController extends BaseApiController {
         return RestResponse.ok();
     }
 
-    @GetMapping("/test")
-    @PreAuthorize("hasAuthority('ROLE_TEACHER')")
-    public String test(){
-        System.out.println("---------->test/teacher");
-        return "test/teacher .... ";
-    }
 }

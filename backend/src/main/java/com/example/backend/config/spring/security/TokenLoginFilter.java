@@ -81,7 +81,7 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
         if (null != object) {
             User springUser = (User) object;
             com.example.backend.model.entity.User user = userService().getUserByUserName(springUser.getUsername());
-            if (null != object) {
+            if (null != user) {
                 com.example.backend.model.entity.User newUser = new com.example.backend.model.entity.User();
                 newUser.setUserName(user.getUserName());
                 newUser.setImagePath(user.getImagePath());
