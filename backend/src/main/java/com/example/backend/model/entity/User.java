@@ -4,7 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,7 +39,7 @@ public class User implements Serializable {
 
     private Integer sex;
 
-    private LocalDateTime birthDay;
+    private Date birthDay;
 
     private String phone;
 
@@ -48,11 +49,11 @@ public class User implements Serializable {
 
     private String imagePath;
 
-    private LocalDateTime createTime;
+    private Date createTime;
 
-    private LocalDateTime modifyTime;
+    private Date modifyTime;
 
-    private LocalDateTime lastActiveTime;
+    private Date lastActiveTime;
 
     private Boolean deleted;
 }

@@ -2,6 +2,8 @@ package com.example.backend.base;
 
 import com.example.backend.context.WebContext;
 import com.example.backend.model.entity.User;
+import com.example.backend.utils.ModelMapperSingle;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +15,11 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class BaseApiController {
+    /**
+     * The constant modelMapper.
+     */
+    protected final static ModelMapper modelMapper = ModelMapperSingle.Instance();
+
     /**
      * The Web context.
      */

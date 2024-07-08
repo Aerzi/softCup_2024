@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
-
     private final UserMapper userMapper;
 
     @Autowired
@@ -42,5 +41,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         changePictureUser.setId(user.getId());
         changePictureUser.setImagePath(imagePath);
         userMapper.updateById(changePictureUser);
+    }
+
+    @Override
+    public void insertByFilter(User user) {
+        userMapper.insert(user);
     }
 }

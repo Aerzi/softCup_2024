@@ -21,4 +21,6 @@ public interface UserService extends IService<User> {
     User getUserByUserName(String username);
 
     void changePicture(User user, String imagePath);
+
+    void insertByFilter(User user);
 }

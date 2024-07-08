@@ -14,7 +14,7 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-    private final static SystemConfig systemConfig = new SystemConfig();
+    private static final SystemConfig systemConfig = new SystemConfig();
 
     public static String generateToken(String username) {
         Date now = new Date();

@@ -1,43 +1,37 @@
 package com.example.backend.config.spring.security;
 
-import com.alibaba.fastjson.JSON;
 import com.example.backend.base.SystemCode;
-import com.example.backend.model.request.student.user.UserRegisterRequest;
+import com.example.backend.model.request.student.user.UserLoginRequest;
 import com.example.backend.service.UserService;
+import com.example.backend.utils.JsonUtil;
 import com.example.backend.utils.JwtUtil;
 import com.example.backend.utils.SpringContextUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
+
 public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
+
     public TokenLoginFilter(AuthenticationManager authenticationManager){
         this.authenticationManager = authenticationManager;
+        super.setFilterProcessesUrl("/login");
     }
 
     private UserService userService(){
         return SpringContextUtil.getBean(UserService.class);
-    }
-
-    public String getJson(HttpServletRequest request) throws IOException {
-        BufferedReader streamReader = new BufferedReader(new InputStreamReader(request.getInputStream(), "UTF-8"));
-        StringBuilder sb = new StringBuilder();
-        String inputStr;
-        while ((inputStr = streamReader.readLine()) != null) {
-            sb.append(inputStr);
-        }
-        return sb.toString();
     }
 
     /**
@@ -52,13 +46,16 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
 
-        UserRegisterRequest user = null;
-        try {
-            user = JSON.parseObject(getJson(request), UserRegisterRequest.class);
+        UsernamePasswordAuthenticationToken authRequest;
+        try (InputStream is = request.getInputStream()) {
+            UserLoginRequest user = null;
+            user = JsonUtil.toJsonObject(is, UserLoginRequest.class);
+            authRequest = new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword());
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
+            authRequest = new UsernamePasswordAuthenticationToken("", "");
         }
-        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword());
+
         this.setDetails(request, authRequest);
         return authenticationManager.authenticate(authRequest);
     }
