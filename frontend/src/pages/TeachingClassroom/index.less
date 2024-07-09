@@ -1,0 +1,30 @@
+@import "@/styles/styles.less";
+
+.xf-teaching__page {
+  width: 100%;
+  height: 100%;
+  .xf-teaching__header {
+    width: 100%;
+    top: 0;
+    height: 64px;
+    background: @header-color-default;
+    transition: 0.5s ease-in-out;
+    z-index: 10;
+  }
+
+  // 这个地方的触发逻辑由于和mask、nav的交互有关，所以最好使用函数进行控制
+  .xf-teaching__header--hover {
+    height: 300px;
+  }
+}
+
+.xf-teaching__mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9;
+  display: none;
+}
