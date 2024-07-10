@@ -2,8 +2,8 @@ package com.example.backend.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.backend.model.entity.File;
-
-import java.util.List;
+import com.example.backend.model.request.student.file.FilePageRequest;
+import com.github.pagehelper.PageInfo;
 
 /**
  * <p>
@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface FileService extends IService<File> {
     public void insertByFilter(File file);
-    public List<File> getAllFileByType(String type);
-    public List<File> getAllValidFileByType(String type);
+    public PageInfo<File> getAllFileByType(FilePageRequest request);
+    public PageInfo<File> getAllValidFileByType(FilePageRequest request);
 
 }
