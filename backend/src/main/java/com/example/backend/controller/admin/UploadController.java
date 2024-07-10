@@ -2,6 +2,7 @@ package com.example.backend.controller.admin;
 
 import com.example.backend.base.BaseApiController;
 import com.example.backend.base.RestResponse;
+import com.example.backend.service.FileService;
 import com.example.backend.service.FileUploadService;
 import com.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +19,20 @@ import java.io.InputStream;
 @RequestMapping("/api/admin/upload")
 @RestController("AdminUploadController")
 public class UploadController extends BaseApiController {
+    private final FileService fileService;
     private final FileUploadService fileUpload;
     private final UserService userService;
 
     @Autowired
-    public UploadController(FileUploadService fileUpload, UserService userService) {
+    public UploadController(FileService fileService, FileUploadService fileUpload, UserService userService) {
+        this.fileService = fileService;
         this.fileUpload = fileUpload;
         this.userService = userService;
     }
 
-    @RequestMapping("/image")
+    @RequestMapping("/avatar/image")
     @ResponseBody
-    public RestResponse questionUploadImgAndReadExcel(HttpServletRequest request) {
+    public RestResponse avatarUploadImg(HttpServletRequest request) {
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
         MultipartFile multipartFile = multipartHttpServletRequest.getFile("file");
         long attachSize = multipartFile.getSize();
@@ -43,16 +46,32 @@ public class UploadController extends BaseApiController {
         }
     }
 
-    @RequestMapping("/file")
+    @RequestMapping("/image")
     @ResponseBody
-    public RestResponse questionUploadFileAndReadExcel(HttpServletRequest request) {
+    public RestResponse uploadImg(HttpServletRequest request) {
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
         MultipartFile multipartFile = multipartHttpServletRequest.getFile("file");
         long attachSize = multipartFile.getSize();
         String imgName = multipartFile.getOriginalFilename();
         try (InputStream inputStream = multipartFile.getInputStream()) {
             String filePath = fileUpload.uploadFile(inputStream, attachSize, imgName);
-            userService.changePicture(getCurrentUser(), filePath);
+            //Todo 将上传的图片相关信息存储到数据库
+            return RestResponse.ok(filePath);
+        } catch (IOException e) {
+            return RestResponse.fail(2, e.getMessage());
+        }
+    }
+
+    @RequestMapping("/file")
+    @ResponseBody
+    public RestResponse uploadFile(HttpServletRequest request) {
+        MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
+        MultipartFile multipartFile = multipartHttpServletRequest.getFile("file");
+        long attachSize = multipartFile.getSize();
+        String imgName = multipartFile.getOriginalFilename();
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            String filePath = fileUpload.uploadFile(inputStream, attachSize, imgName);
+            //Todo 将上传的图片相关信息存储到数据库
             return RestResponse.ok(filePath);
         } catch (IOException e) {
             return RestResponse.fail(2, e.getMessage());

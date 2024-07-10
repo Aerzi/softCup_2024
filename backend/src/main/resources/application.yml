@@ -38,3 +38,9 @@ spring:
       exclude: WEB-INF/**
   freemarker:
     cache: false    #页面不加载缓存，修改即时生效
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10GB
+      max-request-size: 200MB
+
