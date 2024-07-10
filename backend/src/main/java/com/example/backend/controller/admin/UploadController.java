@@ -15,6 +15,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
+
+import static com.example.backend.model.enums.FileTypeEnum.getTypeByExtension;
 
 @RequestMapping("/api/admin/upload")
 @RestController("AdminUploadController")
@@ -46,32 +49,31 @@ public class UploadController extends BaseApiController {
         }
     }
 
-    @RequestMapping("/image")
-    @ResponseBody
-    public RestResponse uploadImg(HttpServletRequest request) {
-        MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
-        MultipartFile multipartFile = multipartHttpServletRequest.getFile("file");
-        long attachSize = multipartFile.getSize();
-        String imgName = multipartFile.getOriginalFilename();
-        try (InputStream inputStream = multipartFile.getInputStream()) {
-            String filePath = fileUpload.uploadFile(inputStream, attachSize, imgName);
-            //Todo 将上传的图片相关信息存储到数据库
-            return RestResponse.ok(filePath);
-        } catch (IOException e) {
-            return RestResponse.fail(2, e.getMessage());
-        }
-    }
-
     @RequestMapping("/file")
     @ResponseBody
     public RestResponse uploadFile(HttpServletRequest request) {
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
         MultipartFile multipartFile = multipartHttpServletRequest.getFile("file");
         long attachSize = multipartFile.getSize();
-        String imgName = multipartFile.getOriginalFilename();
+        String fileName = multipartFile.getOriginalFilename();
         try (InputStream inputStream = multipartFile.getInputStream()) {
-            String filePath = fileUpload.uploadFile(inputStream, attachSize, imgName);
+            String filePath = fileUpload.uploadFile(inputStream, attachSize, fileName);
             //Todo 将上传的图片相关信息存储到数据库
+            String fileSuffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+
+            com.example.backend.model.entity.File file = new com.example.backend.model.entity.File();
+            // Todo name和description可以为空
+            file.setName(request.getParameter("name"));
+            file.setExtension(fileSuffix);
+            file.setType(getTypeByExtension(fileSuffix).toString());
+            file.setFilePath(filePath);
+            file.setCreateTime(new Date());
+            file.setDeleted(false);
+            file.setStatus(1);
+            file.setDescription(request.getParameter("description"));
+            file.setDeleted(false);
+            file.setUserId(getCurrentUser().getId());
+            fileService.insertByFilter(file);
             return RestResponse.ok(filePath);
         } catch (IOException e) {
             return RestResponse.fail(2, e.getMessage());

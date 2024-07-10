@@ -6,6 +6,7 @@ public enum FileTypeEnum {
     DOC("doc", "docx"),
     IMG("jpg", "jpeg", "png","gif"),
     VIDEO("mp4","avi"),
+    CODE("c","cpp","java","py","js","ts"),
     UNKNOWN("unknown");
 
     private final String[] extensions;
