@@ -5,6 +5,8 @@ import UserModal from "../UserModal";
 
 const NavHeader = () => {
   const [isUserOpen, setIsUserOpen] = useState(false);
+  // 对于导航栏，需要设置两种状态，一种是已登录，一种是未登录
+
   return (
     <nav className="xf-header__nav">
       <ul className="xf-header__nav-list">
@@ -40,12 +42,12 @@ const NavHeader = () => {
         </li>
         <li className="xf-header__nav-item">
           <NavLink
-            to={"/mockcompetition"}
+            to={"/softwaredevelopment"}
             className={({ isActive }) =>
               `link ${isActive ? "xf-header__nav-item-link--active" : "xf-header__nav-item-link"}`
             }
           >
-            模拟竞赛
+            编程开发
           </NavLink>
         </li>
         <li className="xf-header__nav-item">
