@@ -1,10 +1,10 @@
-package com.example.backend.model.request.teacher.calss;
+package com.example.backend.model.request.teacher.aclass;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+
 @Getter
 @Setter
 public class ClassEditRequest {
@@ -16,6 +16,4 @@ public class ClassEditRequest {
     private String description;
 
     private Integer status;
-
-    private Integer userId;
 }

@@ -1,22 +1,23 @@
-package com.example.backend.model.request.teacher.calss;
+package com.example.backend.model.request.teacher.aclass;
 
+import com.example.backend.base.BasePage;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
-
 @Getter
 @Setter
-public class ClassResponse {
+public class ClassPageRequest extends BasePage {
+
     private Integer id;
 
     private String name;
 
     private String description;
 
-    private String createTime;
+    private Date createTime;
 
-    private String modifyTime;
+    private Date modifyTime;
 
     private Integer status;
 

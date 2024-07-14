@@ -1,4 +1,4 @@
-package com.example.backend.model.request.teacher.calss;
+package com.example.backend.model.request.teacher.aclass;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +13,4 @@ public class ClassCreateRequest {
     private String name;
 
     private String description;
-
-    @NotNull
-    private Integer userId;
 }

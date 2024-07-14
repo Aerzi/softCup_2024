@@ -2,6 +2,8 @@ package com.example.backend.service;
 
 import com.example.backend.model.entity.ClassStudent;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.backend.model.request.student.aclass.ClassStudentExitRequest;
+import com.example.backend.model.request.student.aclass.ClassStudentResponse;
 import com.example.backend.model.request.teacher.calssstudent.ClassStudentPageRequest;
 import com.example.backend.model.request.teacher.calssstudent.Student;
 import com.github.pagehelper.PageInfo;
@@ -22,4 +24,6 @@ public interface ClassStudentService extends IService<ClassStudent> {
     public PageInfo<Student> page(ClassStudentPageRequest request);
     public void deleteByUserId(Integer userId);
     public void deleteByClassId(Integer classId);
+    public void deleteByClassIdAndUserId(ClassStudentExitRequest request);
+    public ClassStudentResponse atClass(Integer userId);
 }

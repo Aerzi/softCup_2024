@@ -3,10 +3,10 @@ package com.example.backend.controller.teacher;
 import com.example.backend.base.BaseApiController;
 import com.example.backend.base.RestResponse;
 import com.example.backend.model.entity.Class;
-import com.example.backend.model.request.teacher.calss.ClassEditRequest;
-import com.example.backend.model.request.teacher.calss.ClassPageRequest;
-import com.example.backend.model.request.teacher.calss.ClassCreateRequest;
-import com.example.backend.model.request.teacher.calss.ClassResponse;
+import com.example.backend.model.request.teacher.aclass.ClassEditRequest;
+import com.example.backend.model.request.teacher.aclass.ClassPageRequest;
+import com.example.backend.model.request.teacher.aclass.ClassCreateRequest;
+import com.example.backend.model.request.teacher.aclass.ClassResponse;
 import com.example.backend.service.ClassService;
 import com.example.backend.service.ClassStudentService;
 import com.example.backend.utils.DateTimeUtil;
@@ -37,6 +37,7 @@ public class ClassController extends BaseApiController {
         aClass.setCreateTime(new Date());
         aClass.setDeleted(false);
         aClass.setStatus(1);
+        aClass.setUserId(getCurrentUser().getId());
         classService.insertByFilter(aClass);
         return RestResponse.ok();
     }
@@ -72,6 +73,7 @@ public class ClassController extends BaseApiController {
     public RestResponse edit(@RequestBody @Valid ClassEditRequest request){
         Class aclass = modelMapper.map(request,Class.class);
         aclass.setModifyTime(new Date());
+        aclass.setUserId(getCurrentUser().getId());
         classService.updateByIdFilter(aclass);
         return RestResponse.ok();
     }

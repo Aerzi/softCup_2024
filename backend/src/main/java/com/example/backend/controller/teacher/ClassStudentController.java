@@ -51,7 +51,7 @@ public class ClassStudentController extends BaseApiController {
     }
 
     //查询某个课堂的所有学生情况
-    @GetMapping("/page")
+    @PostMapping("/page")
     public RestResponse<ClassStudentResponse> page(@RequestBody @Valid ClassStudentPageRequest request) {
         ClassStudentResponse response = new ClassStudentResponse();
         response.setStudents(classStudentService.page(request));

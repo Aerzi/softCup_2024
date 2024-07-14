@@ -5,8 +5,8 @@ import com.example.backend.base.RestResponse;
 import com.example.backend.model.entity.User;
 import com.example.backend.model.enums.RoleEnum;
 import com.example.backend.model.enums.UserStatusEnum;
-import com.example.backend.model.request.student.user.UserLoginRequest;
-import com.example.backend.model.request.student.user.UserRegisterRequest;
+import com.example.backend.model.request.user.UserEditRequest;
+import com.example.backend.model.request.user.UserRegisterRequest;
 import com.example.backend.service.AuthenticationService;
 import com.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,10 +49,12 @@ public class UserController extends BaseApiController {
         return RestResponse.ok();
     }
 
-    @GetMapping("/test")
-    @PreAuthorize("hasAuthority('ROLE_STUDENT')")
-    public String test(){
-        System.out.println("---------->test");
-        return "test .... ";
+    @PutMapping("/edit")
+    public RestResponse edit(@RequestBody @Valid UserEditRequest request){
+        User user = modelMapper.map(request,User.class);
+        user.setId(getCurrentUser().getId());
+        userService.edit(user);
+        return RestResponse.ok();
     }
+
 }

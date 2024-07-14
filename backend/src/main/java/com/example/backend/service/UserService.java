@@ -2,6 +2,7 @@ package com.example.backend.service;
 
 import com.example.backend.model.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.backend.model.request.user.UserEditRequest;
 
 /**
  * <p>
@@ -18,9 +19,11 @@ public interface UserService extends IService<User> {
      * @param username username
      * @return User
      */
-    User getUserByUserName(String username);
+    public User getUserByUserName(String username);
 
-    void changePicture(User user, String imagePath);
+    public void changePicture(User user, String imagePath);
 
-    void insertByFilter(User user);
+    public void insertByFilter(User user);
+
+    public void edit(User request);
 }

@@ -1,7 +1,7 @@
 package com.example.backend.config.spring.security;
 
 import com.example.backend.base.SystemCode;
-import com.example.backend.model.request.student.user.UserLoginRequest;
+import com.example.backend.model.request.user.UserLoginRequest;
 import com.example.backend.service.UserService;
 import com.example.backend.config.application.ApplicationContextProvider;
 import com.example.backend.utils.JsonUtil;

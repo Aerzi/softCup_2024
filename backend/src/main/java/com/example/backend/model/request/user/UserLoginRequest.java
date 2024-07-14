@@ -1,4 +1,4 @@
-package com.example.backend.model.request.student.user;
+package com.example.backend.model.request.user;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class UserRegisterRequest {
+public class UserLoginRequest {
     @NotBlank
     private String userName;
 

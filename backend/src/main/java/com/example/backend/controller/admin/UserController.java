@@ -5,7 +5,7 @@ import com.example.backend.base.RestResponse;
 import com.example.backend.model.entity.User;
 import com.example.backend.model.enums.RoleEnum;
 import com.example.backend.model.enums.UserStatusEnum;
-import com.example.backend.model.request.student.user.UserRegisterRequest;
+import com.example.backend.model.request.user.UserRegisterRequest;
 import com.example.backend.service.AuthenticationService;
 import com.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

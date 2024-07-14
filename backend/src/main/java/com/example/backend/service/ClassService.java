@@ -2,8 +2,7 @@ package com.example.backend.service;
 
 import com.example.backend.model.entity.Class;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.backend.model.request.teacher.calss.ClassEditRequest;
-import com.example.backend.model.request.teacher.calss.ClassPageRequest;
+import com.example.backend.model.request.teacher.aclass.ClassPageRequest;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;

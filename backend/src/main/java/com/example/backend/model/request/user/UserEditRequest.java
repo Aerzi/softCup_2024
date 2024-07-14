@@ -1,4 +1,4 @@
-package com.example.backend.model.request.teacher.calssstudent;
+package com.example.backend.model.request.user;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,12 +7,11 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class Student {
-    private Integer id;
-
-    private String userUuid;
+public class UserEditRequest {
 
     private String userName;
+
+    private String password;
 
     private String realName;
 
@@ -26,7 +25,5 @@ public class Student {
 
     private Integer status;
 
-    private String createTime;
-
-    private String modifyTime;
+    private Boolean deleted;
 }
