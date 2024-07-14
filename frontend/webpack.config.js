@@ -5,6 +5,8 @@ const path = require("path");
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+// 添加编辑器插件
+const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 
 const isProduction = process.env.NODE_ENV == "production";
 
@@ -24,6 +26,22 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "index.html",
+    }),
+    new MonacoWebpackPlugin({
+      languages: [
+        "json",
+        "java",
+        "python",
+        "sql",
+        "mysql",
+        "html",
+        "css",
+        "less",
+        "scss",
+        "javascript",
+        "typescript",
+        "xml",
+      ],
     }),
 
     // Add your plugins here

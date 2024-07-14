@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import StudyPlan from "./pages/StudyPlan";
 import TeachingClassroom from "./pages/TeachingClassroom";
 import UserProfile from "./pages/UserProfile";
-import MockCompetition from "./pages/MockCompetition";
+import SoftwareDevelopment from "./pages/SoftwareDevelopment";
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
           <Route path="/studyplan" element={<StudyPlan />} />
           <Route path="/teachingroom" element={<TeachingClassroom />} />
           <Route path="/userprofile" element={<UserProfile />} />
-          <Route path="/mockcompetition" element={<MockCompetition />} />
+          <Route path="/softwaredevelopment" element={<SoftwareDevelopment />} />
         </Routes>
       </HashRouter>
     </div>

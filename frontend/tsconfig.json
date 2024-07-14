@@ -1,17 +1,18 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "noImplicitAny": true,
-    "module": "NodeNext",
+    "module": "ESNext",
     "target": "es5",
     "lib": ["ESNext", "DOM"],
     "jsx": "react",
     "allowJs": true,
-    "moduleResolution": "nodenext",
+    "moduleResolution": "node",
 
     "outDir": "./dist", // 指定输出目录
 
     "resolveJsonModule": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/services/http/http.ts"]
 }

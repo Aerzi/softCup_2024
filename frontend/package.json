@@ -17,6 +17,7 @@
   "license": "ISC",
   "devDependencies": {
     "@eslint/js": "^9.6.0",
+    "@types/nprogress": "^0.2.3",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@webpack-cli/generators": "^3.0.7",
@@ -46,9 +47,18 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.3.7",
+    "@ant-design/pro-components": "^2.7.10",
     "antd": "^5.19.1",
+    "axios": "^1.7.2",
+    "echarts": "^5.5.1",
+    "monaco-editor": "^0.44.0",
+    "monaco-editor-webpack-plugin": "^7.1.0",
+    "nprogress": "^0.2.0",
+    "qs": "^6.12.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-echarts": "^0.1.1",
+    "react-monaco-editor": "^0.55.0",
     "react-router": "^6.24.1",
     "react-router-dom": "^6.24.1",
     "web-vitals": "^2.1.4"
