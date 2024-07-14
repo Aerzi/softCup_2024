@@ -2,7 +2,7 @@
 
 .xf-plan__page {
   width: 100%;
-  height: 100%;
+  height: auto;
   .xf-plan__header {
     width: 100%;
     top: 0;
@@ -15,6 +15,71 @@
   // 这个地方的触发逻辑由于和mask、nav的交互有关，所以最好使用函数进行控制
   .xf-plan__header--hover {
     height: 300px;
+  }
+
+  .xf-plan__main {
+    width: 100%;
+    height: calc(100% - 64px);
+    position: relative;
+    background-color: rgb(240, 242, 245);
+    .xf-plan__main-content {
+      width: 1200px;
+      height: 100%;
+      margin: 0 auto;
+
+      .xf-plan__main-header {
+        width: 100%;
+        height: 150px;
+        padding: 30px 0;
+        margin-bottom: 20px;
+
+        .xf-plan__main-header-card {
+          height: 90px;
+          font-size: 1.3rem;
+          font-family: "阿里妈妈数黑体 Bold";
+          border: 2px solid rgb(255, 255, 255);
+          .xf-plan__main-header-left {
+            width: 20%;
+            height: 100%;
+            display: inline-block;
+            .xf-plan__main-header-text {
+              font-family: "思源黑体 Normal";
+              font-size: 1.2rem;
+              padding: 0 16px;
+            }
+          }
+
+          .xf-plan__main-header-right {
+            width: 80%;
+            height: 100%;
+            display: inline-block;
+            .xf-plan__main-header-right-body {
+              /* 使父元素成为Flex容器 */
+              display: flex;
+              /* 子元素在主轴上均匀分布 */
+              justify-content: space-between;
+              /* 如果需要填充整个容器的高度 */
+              align-items: stretch;
+            }
+            .xf-plan__main-header-text {
+              font-family: "思源黑体 Normal";
+              font-size: 1rem;
+              flex: 1;
+              text-align: center;
+            }
+          }
+        }
+      }
+
+      .xf-plan__main-body {
+        width: 100%;
+        height: calc(100% - 170px);
+        position: relative;
+        .xf-plan__main-card {
+          height: 300px;
+        }
+      }
+    }
   }
 }
 
