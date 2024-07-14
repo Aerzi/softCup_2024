@@ -2,6 +2,7 @@ package com.example.backend.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.example.backend.mapper.FileMapper;
 import com.example.backend.model.entity.File;
 import com.example.backend.model.request.student.file.FilePageRequest;
@@ -37,6 +38,17 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
     }
 
     @Override
+    public File selectById(Integer id) {
+        return fileMapper.selectById(id);
+    }
+
+    @Override
+    public List<File> allFile() {
+        QueryWrapper<File> fileQueryWrapper = new QueryWrapper<>();
+        return fileMapper.selectList(fileQueryWrapper);
+    }
+
+    @Override
     public PageInfo<File> getAllFileByType(FilePageRequest request) {
         QueryWrapper<File> fileQueryWrapper = new QueryWrapper<>();
         fileQueryWrapper.eq("deleted", 0);
@@ -55,5 +67,18 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
         return PageHelper.startPage(request.getPageIndex(), request.getPageSize(), "id desc").doSelectPageInfo(() ->
                 fileMapper.selectList(fileQueryWrapper)
         );
+    }
+
+    @Override
+    public void updateByIdFilter(File file) {
+        fileMapper.updateById(file);
+    }
+
+    @Override
+    public void deleteByIdFilter(Integer id) {
+        LambdaUpdateWrapper<File> fileQueryWrapper = new LambdaUpdateWrapper<>();
+        fileQueryWrapper.eq(File::getId,id);
+        fileQueryWrapper.set(File::getDeleted,1);
+        fileMapper.update(null,fileQueryWrapper);
     }
 }

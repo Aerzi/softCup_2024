@@ -29,7 +29,5 @@ public class FileResponse extends BaseRequest {
 
     private String description;
 
-    private Boolean deleted;
-
     private Integer userId;
 }

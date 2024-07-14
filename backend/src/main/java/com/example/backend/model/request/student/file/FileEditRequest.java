@@ -1,27 +1,32 @@
 package com.example.backend.model.request.student.file;
 
-import com.example.backend.base.BasePage;
+import com.example.backend.model.request.BaseRequest;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Getter
 @Setter
-public class FilePageRequest extends BasePage {
+public class FileEditRequest extends BaseRequest {
+    @NotNull
     private Integer id;
-
+    @NotBlank
     private String name;
 
     private String extension;
 
-    @NotBlank
     private String type;
+
+    private String filePath;
+
+    private Integer size;
 
     private Integer status;
 
     private String description;
 
-    private String userId;
+    private Integer userId;
 }
