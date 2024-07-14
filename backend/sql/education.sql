@@ -55,6 +55,8 @@ CREATE TABLE t_class (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL, -- 班级描述，可选
+  `create_time` datetime NULL DEFAULT NULL,
+  `modify_time` datetime NULL DEFAULT NULL,
   `status` int NULL DEFAULT NULL,
   `deleted` bit(1) NULL DEFAULT NULL,
   `user_id` int NULL DEFAULT NULL,

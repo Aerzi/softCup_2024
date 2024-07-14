@@ -44,7 +44,7 @@ public class FileController extends BaseApiController {
 
     @PostMapping("/page")
     public RestResponse<PageInfo<FileResponse>> pageList(@RequestBody FilePageRequest request) {
-        PageInfo<File> pageInfo = fileService.getAllFileByType(request);
+        PageInfo<File> pageInfo = fileService.page(request);
         PageInfo<FileResponse> page = PageInfoHelper.copyMap(pageInfo, q -> {
             FileResponse res = modelMapper.map(q, FileResponse.class);
             res.setCreateTime(DateTimeUtil.dateFormat(q.getCreateTime()));
@@ -67,6 +67,5 @@ public class FileController extends BaseApiController {
         fileService.deleteByIdFilter(id);
         return RestResponse.ok();
     }
-
 
 }

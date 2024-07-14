@@ -1,6 +1,7 @@
 package com.example.backend.service.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.example.backend.mapper.FileMapper;
@@ -49,21 +50,17 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
     }
 
     @Override
-    public PageInfo<File> getAllFileByType(FilePageRequest request) {
-        QueryWrapper<File> fileQueryWrapper = new QueryWrapper<>();
-        fileQueryWrapper.eq("deleted", 0);
-        fileQueryWrapper.eq("type", request.getType());
-        return PageHelper.startPage(request.getPageIndex(), request.getPageSize(), "id desc").doSelectPageInfo(() ->
-                fileMapper.selectList(fileQueryWrapper)
-        );
-    }
+    public PageInfo<File> page(FilePageRequest request) {
+        LambdaQueryWrapper<File> fileQueryWrapper = new LambdaQueryWrapper<>();
+        fileQueryWrapper.eq(request.getId()!=null, File::getId,request.getId())
+                .eq(request.getName()!=null,File::getName,request.getName())
+                .eq(request.getExtension()!=null,File::getExtension,request.getExtension())
+                .eq(request.getType()!=null,File::getType,request.getType())
+                .eq(request.getStatus()!=null,File::getStatus,request.getStatus())
+                .eq(request.getDescription()!=null,File::getDescription,request.getDescription())
+                .eq(request.getUserId()!=null,File::getUserId,request.getUserId())
+                .eq(File::getDeleted,0);
 
-    @Override
-    public PageInfo<File> getAllValidFileByType(FilePageRequest request) {
-        QueryWrapper<File> fileQueryWrapper = new QueryWrapper<>();
-        fileQueryWrapper.eq("deleted", 0);
-        fileQueryWrapper.eq("status", 1);
-        fileQueryWrapper.eq("type", request.getType());
         return PageHelper.startPage(request.getPageIndex(), request.getPageSize(), "id desc").doSelectPageInfo(() ->
                 fileMapper.selectList(fileQueryWrapper)
         );

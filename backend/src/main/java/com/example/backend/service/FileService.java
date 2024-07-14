@@ -19,8 +19,7 @@ public interface FileService extends IService<File> {
     public void insertByFilter(File file);
     public File selectById(Integer id);
     public List<File> allFile();
-    public PageInfo<File> getAllFileByType(FilePageRequest request);
-    public PageInfo<File> getAllValidFileByType(FilePageRequest request);
+    public PageInfo<File> page(FilePageRequest request);
     public void updateByIdFilter(File file);
     public void deleteByIdFilter(Integer id);
 }

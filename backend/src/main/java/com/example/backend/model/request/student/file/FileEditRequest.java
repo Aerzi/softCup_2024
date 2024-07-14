@@ -10,10 +10,10 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class FileEditRequest extends BaseRequest {
+public class FileEditRequest {
     @NotNull
     private Integer id;
-    @NotBlank
+
     private String name;
 
     private String extension;

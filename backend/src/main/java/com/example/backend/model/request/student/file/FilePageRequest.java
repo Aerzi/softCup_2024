@@ -16,7 +16,6 @@ public class FilePageRequest extends BasePage {
 
     private String extension;
 
-    @NotBlank
     private String type;
 
     private Integer status;
