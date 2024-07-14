@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./index.less";
 import { Button, Form, Input, Modal, Tabs } from "antd";
 import type { TabsProps } from "antd";
+import { ProCard } from "@ant-design/pro-components";
 
 interface UserModalData {
   isOpen: boolean;
@@ -60,7 +61,7 @@ const UserModal = ({ isOpen, setIsOpen }: UserModalData) => {
       label: "注册",
       children: (
         <div>
-          <Form name="login" form={login} layout="vertical">
+          <Form name="register" form={register} layout="vertical">
             <Form.Item<FieldType>
               label="用户名"
               name="username"
@@ -121,7 +122,7 @@ const UserModal = ({ isOpen, setIsOpen }: UserModalData) => {
     <div>
       <Modal
         title="登录/注册"
-        width={600}
+        width={850}
         height={400}
         open={isOpen}
         onOk={handleOk}
@@ -129,7 +130,19 @@ const UserModal = ({ isOpen, setIsOpen }: UserModalData) => {
         footer={null}
         className="xf-user__modal"
       >
-        <Tabs defaultActiveKey="1" items={items} onChange={onTabsChange} />
+        <span className="xf-user__modal-tabs">
+          <Tabs defaultActiveKey="1" items={items} onChange={onTabsChange} />
+        </span>
+        {/* 除了进行登录注册的筛选外，还需要进行老师和学生的筛选 */}
+        <span className="xf-user__modal-card">
+          <ProCard
+            bordered
+            style={{ width: "100%", height: "100%" }}
+            className="xf-user__modal-card-body"
+          >
+            <div>哎呀我去，原来我是老师</div>
+          </ProCard>
+        </span>
       </Modal>
     </div>
   );
