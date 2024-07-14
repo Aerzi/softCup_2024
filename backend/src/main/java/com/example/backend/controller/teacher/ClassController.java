@@ -5,9 +5,10 @@ import com.example.backend.base.RestResponse;
 import com.example.backend.model.entity.Class;
 import com.example.backend.model.request.teacher.calss.ClassEditRequest;
 import com.example.backend.model.request.teacher.calss.ClassPageRequest;
-import com.example.backend.model.request.teacher.calss.ClassRequest;
+import com.example.backend.model.request.teacher.calss.ClassCreateRequest;
 import com.example.backend.model.request.teacher.calss.ClassResponse;
 import com.example.backend.service.ClassService;
+import com.example.backend.service.ClassStudentService;
 import com.example.backend.utils.DateTimeUtil;
 import com.example.backend.utils.PageInfoHelper;
 import com.github.pagehelper.PageInfo;
@@ -22,14 +23,16 @@ import java.util.List;
 @RestController("TeacherClassController")
 public class ClassController extends BaseApiController {
     private final ClassService classService;
+    private final ClassStudentService classStudentService;
 
     @Autowired
-    public ClassController(ClassService classService) {
+    public ClassController(ClassService classService, ClassStudentService classStudentService) {
         this.classService = classService;
+        this.classStudentService = classStudentService;
     }
 
     @PostMapping("/create")
-    public RestResponse createClass(@RequestBody @Valid ClassRequest request) {
+    public RestResponse createClass(@RequestBody @Valid ClassCreateRequest request) {
         com.example.backend.model.entity.Class aClass = modelMapper.map(request, com.example.backend.model.entity.Class.class);
         aClass.setCreateTime(new Date());
         aClass.setDeleted(false);
@@ -73,9 +76,11 @@ public class ClassController extends BaseApiController {
         return RestResponse.ok();
     }
 
+    //解散课堂
     @DeleteMapping("/delete/{id}")
     public RestResponse delete(@PathVariable Integer id){
         classService.deleteByIdFilter(id);
+        classStudentService.deleteByClassId(id);
         return RestResponse.ok();
     }
 
