@@ -93,7 +93,7 @@ public class ClassStudentServiceImpl extends ServiceImpl<ClassStudentMapper, Cla
     }
 
     @Override
-    public void deleteByClassIdAndUserId(ClassStudentExitRequest request) {
+    public void deleteByClassIdAndUserId(ClassStudent request) {
         QueryWrapper<ClassStudent> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id",request.getUserId());
         queryWrapper.eq("class_id",request.getClassId());

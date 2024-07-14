@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.example.backend.mapper.FileMapper;
 import com.example.backend.model.entity.File;
-import com.example.backend.model.request.student.file.FilePageRequest;
+import com.example.backend.model.request.file.FilePageRequest;
 import com.example.backend.service.FileService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;

@@ -9,8 +9,5 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class ClassStudentExitRequest {
     @NotNull
-    private Integer userId;
-
-    @NotNull
     private Integer classId;
 }

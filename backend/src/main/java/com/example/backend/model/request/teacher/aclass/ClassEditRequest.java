@@ -16,4 +16,6 @@ public class ClassEditRequest {
     private String description;
 
     private Integer status;
+
+    private Integer userId;
 }

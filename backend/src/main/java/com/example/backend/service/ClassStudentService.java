@@ -24,6 +24,6 @@ public interface ClassStudentService extends IService<ClassStudent> {
     public PageInfo<Student> page(ClassStudentPageRequest request);
     public void deleteByUserId(Integer userId);
     public void deleteByClassId(Integer classId);
-    public void deleteByClassIdAndUserId(ClassStudentExitRequest request);
+    public void deleteByClassIdAndUserId(ClassStudent request);
     public ClassStudentResponse atClass(Integer userId);
 }

@@ -1,4 +1,4 @@
-package com.example.backend.model.request.student.file;
+package com.example.backend.model.request.file;
 
 import com.example.backend.model.request.BaseRequest;
 import lombok.Getter;

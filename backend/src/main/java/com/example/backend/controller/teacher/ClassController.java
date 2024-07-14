@@ -73,7 +73,6 @@ public class ClassController extends BaseApiController {
     public RestResponse edit(@RequestBody @Valid ClassEditRequest request){
         Class aclass = modelMapper.map(request,Class.class);
         aclass.setModifyTime(new Date());
-        aclass.setUserId(getCurrentUser().getId());
         classService.updateByIdFilter(aclass);
         return RestResponse.ok();
     }

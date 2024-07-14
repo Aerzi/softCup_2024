@@ -2,7 +2,7 @@ package com.example.backend.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.backend.model.entity.File;
-import com.example.backend.model.request.student.file.FilePageRequest;
+import com.example.backend.model.request.file.FilePageRequest;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;

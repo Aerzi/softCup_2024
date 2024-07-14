@@ -40,16 +40,19 @@ public class ClassController extends BaseApiController {
     }
 
     //查询学生在哪个教室
-    @GetMapping("/{userId}")
-    public RestResponse<ClassStudentResponse> atClass(@PathVariable Integer userId){
-        ClassStudentResponse response = classStudentService.atClass(userId);
+    @GetMapping("/select")
+    public RestResponse<ClassStudentResponse> atClass(){
+        ClassStudentResponse response = classStudentService.atClass(getCurrentUser().getId());
         return RestResponse.ok(response);
     }
 
     //学生退出课程
     @DeleteMapping("/exit")
     public RestResponse exitClass(@PathVariable ClassStudentExitRequest request){
-        classStudentService.deleteByClassIdAndUserId(request);
+        ClassStudent classStudent  = new ClassStudent();
+        classStudent.setUserId(getCurrentUser().getId());
+        classStudent.setClassId(request.getClassId());
+        classStudentService.deleteByClassIdAndUserId(classStudent);
         return RestResponse.ok();
     }
 }

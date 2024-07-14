@@ -1,4 +1,4 @@
-package com.example.backend.controller.student;
+package com.example.backend.controller.teacher;
 
 import com.example.backend.base.BaseApiController;
 import com.example.backend.base.RestResponse;
@@ -17,8 +17,8 @@ import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 
-@RequestMapping("/api/student/file")
-@RestController("StudentFileController")
+@RequestMapping("/api/teacher/file")
+@RestController("TeacherFileController")
 public class FileController extends BaseApiController {
     private final FileService fileService;
 
@@ -67,5 +67,4 @@ public class FileController extends BaseApiController {
         fileService.deleteByIdFilter(id);
         return RestResponse.ok();
     }
-
 }
