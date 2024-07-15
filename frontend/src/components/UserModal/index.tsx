@@ -3,6 +3,12 @@ import "./index.less";
 import { Button, Form, Input, Modal, Tabs } from "antd";
 import type { TabsProps } from "antd";
 import { ProCard } from "@ant-design/pro-components";
+import student from "./student.svg";
+import teacher from "./teacher.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../stores/redux/store";
+import { updateUser } from "../../stores/slices/userSlice";
+import { use } from "echarts";
 
 interface UserModalData {
   isOpen: boolean;
@@ -19,6 +25,17 @@ const UserModal = ({ isOpen, setIsOpen }: UserModalData) => {
   const [login] = Form.useForm();
 
   const [register] = Form.useForm();
+
+  // 引入user, 有student和teacher两种状态
+  const user = useSelector((state: RootState) => state.user);
+
+  // 使用useDispatch钩子获取dispatch函数
+  const dispatch = useDispatch();
+  // 定义一个切换角色的函数
+  const toggleRole = () => {
+    // 根据当前角色切换到另一个角色
+    dispatch(updateUser(!(user.role === "student")));
+  };
 
   const items: TabsProps["items"] = [
     {
@@ -123,26 +140,33 @@ const UserModal = ({ isOpen, setIsOpen }: UserModalData) => {
       <Modal
         title="登录/注册"
         width={850}
-        height={400}
         open={isOpen}
         onOk={handleOk}
         onCancel={handleCancel}
         footer={null}
         className="xf-user__modal"
       >
-        <span className="xf-user__modal-tabs">
-          <Tabs defaultActiveKey="1" items={items} onChange={onTabsChange} />
-        </span>
-        {/* 除了进行登录注册的筛选外，还需要进行老师和学生的筛选 */}
-        <span className="xf-user__modal-card">
-          <ProCard
-            bordered
-            style={{ width: "100%", height: "100%" }}
-            className="xf-user__modal-card-body"
-          >
-            <div>哎呀我去，原来我是老师</div>
-          </ProCard>
-        </span>
+        <div className="xf-user__modal-content">
+          <span className="xf-user__modal-tabs">
+            <Tabs defaultActiveKey="1" items={items} onChange={onTabsChange} />
+          </span>
+          {/* 除了进行登录注册的筛选外，还需要进行老师和学生的筛选 */}
+          <span className="xf-user__modal-card">
+            <ProCard
+              bordered
+              style={{ width: "100%", height: "100%" }}
+              className="xf-user__modal-card-body"
+              onClick={() => toggleRole()}
+            >
+              {/* 判断之后，展示导入的图片 */}
+              {user.role === "student" ? (
+                <img src={student} className="xf-user__modal-card-img" />
+              ) : (
+                <img src={teacher} className="xf-user__modal-card-img" />
+              )}
+            </ProCard>
+          </span>
+        </div>
       </Modal>
     </div>
   );
