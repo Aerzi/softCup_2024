@@ -14,5 +14,5 @@
 
     "resolveJsonModule": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/services/http/http.ts"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "images.d.ts"]
 }

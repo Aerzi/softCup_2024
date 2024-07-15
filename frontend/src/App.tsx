@@ -5,6 +5,9 @@ import StudyPlan from "./pages/StudyPlan";
 import TeachingClassroom from "./pages/TeachingClassroom";
 import UserProfile from "./pages/UserProfile";
 import SoftwareDevelopment from "./pages/SoftwareDevelopment";
+import ScheduleManagement from "./pages/ScheduleManagement";
+import ClassManagement from "./pages/ClassManagement";
+import HomeworkManagement from "./pages/HomeworkManagement";
 
 function App() {
   return (
@@ -15,7 +18,13 @@ function App() {
           <Route path="/studyplan" element={<StudyPlan />} />
           <Route path="/teachingroom" element={<TeachingClassroom />} />
           <Route path="/userprofile" element={<UserProfile />} />
-          <Route path="/softwaredevelopment" element={<SoftwareDevelopment />} />
+          <Route
+            path="/softwaredevelopment"
+            element={<SoftwareDevelopment />}
+          />
+          <Route path="/schedulemanagement" element={<ScheduleManagement />} />
+          <Route path="/classmanagement" element={<ClassManagement />} />
+          <Route path="/homeworkmanagement" element={<HomeworkManagement />} />
         </Routes>
       </HashRouter>
     </div>
