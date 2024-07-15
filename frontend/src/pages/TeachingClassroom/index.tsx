@@ -2,6 +2,8 @@ import React from "react";
 import "./index.less";
 import NavHeader from "../../components/NavHeader";
 import { ProCard } from "@ant-design/pro-components";
+import TablePro from "../../components/TablePro";
+import ListPro from "../../components/ListPro";
 
 const TeachingClassroom = () => {
   return (
@@ -13,12 +15,12 @@ const TeachingClassroom = () => {
         <main className="xf-teaching__main">
           <div className="xf-teaching__main-content">
             <ProCard style={{ marginBlockStart: 8 }} gutter={8} ghost>
-              <ProCard colSpan="300px" layout="center" direction="column" bordered className="xf-teaching__main-content-card-left">
-                <ProCard colSpan="300px" layout="center" bordered className="xf-teaching__main-content-card-left--1">
-                  colSpan - 300px
+              <ProCard colSpan="500px" layout="center" direction="column" bordered className="xf-teaching__main-content-card-left">
+                <ProCard colSpan="500px" layout="center" bordered className="xf-teaching__main-content-card-left--1">
+                  
                 </ProCard>
-                <ProCard colSpan="300px" layout="center" bordered className="xf-teaching__main-content-card-left--2">
-                  colSpan - 300px
+                <ProCard colSpan="500px" layout="center" bordered className="xf-teaching__main-content-card-left--2">
+                  <ListPro />
                 </ProCard>
               </ProCard>
               <ProCard layout="center" bordered className="xf-teaching__main-content-card-right">

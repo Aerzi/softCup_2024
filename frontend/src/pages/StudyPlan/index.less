@@ -3,6 +3,8 @@
 .xf-plan__page {
   width: 100%;
   height: auto;
+  min-height: 100vh;
+  background-color: rgb(240, 242, 245);
   .xf-plan__header {
     width: 100%;
     top: 0;
@@ -21,11 +23,12 @@
     width: 100%;
     height: calc(100% - 64px);
     position: relative;
-    background-color: rgb(240, 242, 245);
+    
     .xf-plan__main-content {
       width: 1200px;
       height: 100%;
-      margin: 0 auto;
+      margin: 5px auto;
+      padding: 30px 0;
 
       .xf-plan__main-header {
         width: 100%;
@@ -69,6 +72,7 @@
             }
           }
         }
+
       }
 
       .xf-plan__main-body {
@@ -77,6 +81,10 @@
         position: relative;
         .xf-plan__main-card {
           height: 300px;
+        }
+
+        .xf-plan__main-card--long {
+          height: 550px;
         }
       }
     }

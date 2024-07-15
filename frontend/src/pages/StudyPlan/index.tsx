@@ -5,6 +5,10 @@ import { ProCard } from "@ant-design/pro-components";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import GradientStacked from "../../components/GradientStacked";
+import LiquidChart from "../../components/LiquidChart";
+import DescJob from "../../components/DescJob";
+import RadarChart from "../../components/RadarChart";
+import TablePro from "../../components/TablePro";
 
 const StudyPlan = () => {
   return (
@@ -40,20 +44,22 @@ const StudyPlan = () => {
               {/* 这部分主要是数据展板，展示数据，使用proCard来进行排布 */}
               <ProCard style={{ marginBlockStart: 8 }} gutter={8} ghost>
                 <ProCard
+                  title="完成任务占比"
                   colSpan="300px"
                   layout="center"
                   bordered
                   className="xf-plan__main-card"
                 >
-                  签到 -- 百分比图
+                  <LiquidChart />
                 </ProCard>
                 <ProCard
+                  title="已选课程"
                   colSpan="300px"
                   layout="center"
                   bordered
                   className="xf-plan__main-card"
                 >
-                  已选课程 -- 数量图
+                  <DescJob classNum={20} />
                 </ProCard>
                 <ProCard
                   layout="center"
@@ -64,15 +70,16 @@ const StudyPlan = () => {
                 </ProCard>
               </ProCard>
               <ProCard style={{ marginBlockStart: 8 }} gutter={8} ghost>
-                <ProCard colSpan="30%" bordered className="xf-plan__main-card">
-                  个人能力 -- 雷达图
+                <ProCard title="个人能力" colSpan="30%" bordered className="xf-plan__main-card xf-plan__main-card--long">
+                  <RadarChart />
                 </ProCard>
                 <ProCard
+                  title="学习清单"
                   bordered
                   layout="center"
-                  className="xf-plan__main-card"
+                  className="xf-plan__main-card xf-plan__main-card--long"
                 >
-                  学习清单 -- 列表
+                  <TablePro />
                 </ProCard>
               </ProCard>
             </div>
