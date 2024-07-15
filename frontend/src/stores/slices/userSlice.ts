@@ -3,6 +3,7 @@ import { UserState } from "../../types/UserType";
 
 const initialState: UserState = {
   role: "student",
+  isLogin: false,
 };
 
 // 创建slice
@@ -11,11 +12,9 @@ export const UserSlice = createSlice({
   initialState,
   reducers: {
     // 这里定义修改User的action
-    updateUser(state, action: PayloadAction<Partial<boolean>>) {
+    updateUser(state, action: PayloadAction<Partial<UserState>>) {
       if (action.payload) {
-        state.role = "student";
-      } else {
-        state.role = "teacher";
+        return { ...state, ...action.payload };
       }
     },
   },

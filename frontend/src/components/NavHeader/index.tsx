@@ -101,8 +101,9 @@ const NavHeader = () => {
             </li>
           </>
         )}
-
-        <li className="xf-header__nav-item">
+      </ul>
+      <div className="xf-header__user" onClick={() => setIsUserOpen(true)}>
+        {user.isLogin ? (
           <NavLink
             to={"/userprofile"}
             className={({ isActive }) =>
@@ -111,10 +112,9 @@ const NavHeader = () => {
           >
             个人信息
           </NavLink>
-        </li>
-      </ul>
-      <div className="xf-header__user" onClick={() => setIsUserOpen(true)}>
-        登录/注册
+        ) : (
+          <span>登录/注册</span>
+        )}
       </div>
       <UserModal isOpen={isUserOpen} setIsOpen={setIsUserOpen} />
     </nav>

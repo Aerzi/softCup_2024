@@ -34,7 +34,14 @@ const UserModal = ({ isOpen, setIsOpen }: UserModalData) => {
   // 定义一个切换角色的函数
   const toggleRole = () => {
     // 根据当前角色切换到另一个角色
-    dispatch(updateUser(!(user.role === "student")));
+    dispatch(
+      updateUser({ role: user.role === "student" ? "teacher" : "student" })
+    );
+  };
+
+  // 定义一个切换是否登录的函数
+  const toggleLogin = () => {
+    dispatch(updateUser({ isLogin: !user.isLogin }));
   };
 
   const items: TabsProps["items"] = [
@@ -65,7 +72,11 @@ const UserModal = ({ isOpen, setIsOpen }: UserModalData) => {
             </Form.Item>
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-              <Button type="primary" htmlType="submit">
+              <Button
+                type="primary"
+                htmlType="submit"
+                onClick={() => toggleLogin()}
+              >
                 登录
               </Button>
             </Form.Item>
