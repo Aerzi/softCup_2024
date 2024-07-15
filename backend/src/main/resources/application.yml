@@ -26,6 +26,24 @@ system:
     bucket: cs-education-platform
     access-key: oJOFdOBRRkkYi7ssuvB17PpRXrXzZjU46-eOsnbd
     secret-key: 5pp0Y1WoB1118fiQWDpnh6MJGYtKoNyd6M_zIGPI
+  judge0:
+    create:
+      url: https://judge0-extra-ce.p.rapidapi.com/submissions?base64_encoded=true&wait=false&fields=*
+      X-RapidAPI-Key: 30aec1aee9msh3853a2407d66699p112776jsn580b58a4ab68
+      X-RapidAPI-Host: judge0-extra-ce.p.rapidapi.com
+    get:
+      url-front: https://judge0-extra-ce.p.rapidapi.com/submissions/
+      url-back: ?base64_encoded=true&wait=false&fields=*
+      X-RapidAPI-Key: 30aec1aee9msh3853a2407d66699p112776jsn580b58a4ab68
+      X-RapidAPI-Host: judge0-extra-ce.p.rapidapi.com
+    status:
+      url: https://judge0-extra-ce.p.rapidapi.com/statuses
+      X-RapidAPI-Key: 30aec1aee9msh3853a2407d66699p112776jsn580b58a4ab68
+      X-RapidAPI-Host: judge0-extra-ce.p.rapidapi.com
+    lang:
+      url: https://judge0-extra-ce.p.rapidapi.com/languages
+      X-RapidAPI-Key: 30aec1aee9msh3853a2407d66699p112776jsn580b58a4ab68
+      X-RapidAPI-Host: judge0-extra-ce.p.rapidapi.com
 
 spring:
   #runningtime environment
@@ -44,3 +62,12 @@ spring:
       max-file-size: 10GB
       max-request-size: 200MB
 
+ok:
+  http:
+    connect-timeout: 180
+    read-timeout: 180
+    write-timeout: 180
+    # 连接池中整体的空闲连接的最大数量
+    max-idle-connections: 200
+    # 连接空闲时间最多为 300 秒
+    keep-alive-duration: 300

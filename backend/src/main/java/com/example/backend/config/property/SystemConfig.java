@@ -1,5 +1,9 @@
 package com.example.backend.config.property;
 
+import com.example.backend.config.property.judge0.Judge0CreateConfig;
+import com.example.backend.config.property.judge0.Judge0GetConfig;
+import com.example.backend.config.property.judge0.Judge0LangConfig;
+import com.example.backend.config.property.judge0.Judge0StatusConfig;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,4 +34,19 @@ public class SystemConfig {
 
     @Autowired
     private QnConfig qn;
+
+    @Autowired
+    private OkHttpConfig okHttpConfig;
+
+    @Autowired
+    private Judge0CreateConfig judge0CreateConfig;
+
+    @Autowired
+    private Judge0GetConfig judge0GetConfig;
+
+    @Autowired
+    private Judge0StatusConfig judge0StatusConfig;
+
+    @Autowired
+    private Judge0LangConfig judge0LangConfig;
 }
