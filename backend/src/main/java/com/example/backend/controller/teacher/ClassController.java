@@ -9,6 +9,7 @@ import com.example.backend.model.request.teacher.aclass.ClassCreateRequest;
 import com.example.backend.model.request.teacher.aclass.ClassResponse;
 import com.example.backend.service.ClassService;
 import com.example.backend.service.ClassStudentService;
+import com.example.backend.service.QuestionService;
 import com.example.backend.utils.DateTimeUtil;
 import com.example.backend.utils.PageInfoHelper;
 import com.github.pagehelper.PageInfo;
@@ -24,11 +25,13 @@ import java.util.List;
 public class ClassController extends BaseApiController {
     private final ClassService classService;
     private final ClassStudentService classStudentService;
+    private final QuestionService questionService;
 
     @Autowired
-    public ClassController(ClassService classService, ClassStudentService classStudentService) {
+    public ClassController(ClassService classService, ClassStudentService classStudentService, QuestionService questionService) {
         this.classService = classService;
         this.classStudentService = classStudentService;
+        this.questionService = questionService;
     }
 
     @PostMapping("/create")
@@ -82,6 +85,7 @@ public class ClassController extends BaseApiController {
     public RestResponse delete(@PathVariable Integer id){
         classService.deleteByIdFilter(id);
         classStudentService.deleteByClassId(id);
+        questionService.deleteByClassIdFilter(id);
         return RestResponse.ok();
     }
 

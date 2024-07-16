@@ -54,8 +54,8 @@ public class ClassServiceImpl extends ServiceImpl<ClassMapper, Class> implements
         LambdaQueryWrapper<Class> classQueryWrapper = new LambdaQueryWrapper<>();
         classQueryWrapper.eq(request.getId()!= null,Class::getId,request.getId())
                 .eq(request.getName()!=null,Class::getName,request.getName())
-                .eq(request.getDescription()!=null,Class::getDescription,request.getDescription())
-                .ge(request.getModifyTime()!=null,Class::getCreateTime,request.getCreateTime())
+                .like(request.getDescription()!=null,Class::getDescription,request.getDescription())
+                .ge(request.getCreateTime()!=null,Class::getCreateTime,request.getCreateTime())
                 .eq(request.getModifyTime()!=null,Class::getModifyTime,request.getModifyTime())
                 .eq(request.getStatus()!=null,Class::getStatus,request.getStatus())
                 .eq(request.getUserId()!=null,Class::getUserId,request.getUserId())
