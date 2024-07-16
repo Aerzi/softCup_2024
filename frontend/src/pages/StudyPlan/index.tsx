@@ -45,7 +45,7 @@ const StudyPlan = () => {
               <ProCard style={{ marginBlockStart: 8 }} gutter={8} ghost>
                 <ProCard
                   title="完成任务占比"
-                  colSpan="300px"
+                  colSpan="350px"
                   layout="center"
                   bordered
                   className="xf-plan__main-card"
@@ -54,25 +54,28 @@ const StudyPlan = () => {
                 </ProCard>
                 <ProCard
                   title="已选课程"
-                  colSpan="300px"
+                  colSpan="350px"
                   layout="center"
                   bordered
                   className="xf-plan__main-card"
                 >
                   <DescJob classNum={20} />
                 </ProCard>
+                <ProCard title="个人能力" colSpan="auto" bordered className="xf-plan__main-card xf-plan__main-card">
+                  <RadarChart />
+                </ProCard>
+              </ProCard>
+              <ProCard style={{ marginBlockStart: 8 }} gutter={8} ghost>
                 <ProCard
                   layout="center"
                   bordered
                   className="xf-plan__main-card"
+
                 >
                   <GradientStacked />
                 </ProCard>
               </ProCard>
               <ProCard style={{ marginBlockStart: 8 }} gutter={8} ghost>
-                <ProCard title="个人能力" colSpan="30%" bordered className="xf-plan__main-card xf-plan__main-card--long">
-                  <RadarChart />
-                </ProCard>
                 <ProCard
                   title="学习清单"
                   bordered

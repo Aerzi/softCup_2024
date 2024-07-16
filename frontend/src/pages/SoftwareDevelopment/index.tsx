@@ -3,6 +3,7 @@ import NavHeader from "../../components/NavHeader";
 import "./index.less";
 import CodeSphere from "../../components/CodeSphere";
 import { ProCard } from "@ant-design/pro-components";
+import LinkLoader from "../../components/LinkLoader";
 
 const SoftwareDevelopment = () => {
   const [code, setCode] = useState('');
@@ -20,7 +21,9 @@ const SoftwareDevelopment = () => {
         <main className="xf-soft__main">
           <div className="xf-soft__main-content">
             <div className="xf-soft__main-content-left">
-              <ProCard  bordered boxShadow className="xf-soft__main--content-left-card"></ProCard>
+              <ProCard  bordered boxShadow className="xf-soft__main--content-left-card">
+                <LinkLoader />
+              </ProCard>
             </div>
             <div className="xf-soft__main-content-right">
               <CodeSphere 
