@@ -2,6 +2,7 @@ package com.example.backend.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.example.backend.model.entity.Class;
 import com.example.backend.mapper.ClassMapper;
 import com.example.backend.model.request.teacher.aclass.ClassPageRequest;
@@ -72,9 +73,9 @@ public class ClassServiceImpl extends ServiceImpl<ClassMapper, Class> implements
 
     @Override
     public void deleteByIdFilter(Integer id) {
-        LambdaQueryWrapper<Class> queryWrapper = new LambdaQueryWrapper<>();
+        LambdaUpdateWrapper<Class> queryWrapper = new LambdaUpdateWrapper<>();
         queryWrapper.eq(Class::getId,id)
-                .eq(Class::getDeleted,1);
+                .set(Class::getDeleted,1);
         classMapper.update(null,queryWrapper);
     }
 

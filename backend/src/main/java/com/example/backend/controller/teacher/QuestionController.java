@@ -35,6 +35,15 @@ public class QuestionController extends BaseApiController {
         return RestResponse.ok();
     }
 
+    @GetMapping("/select/{id}")
+    public RestResponse<QuestionResponse> select(@PathVariable Integer id){
+        Question question = questionService.select(id);
+        QuestionResponse response = modelMapper.map(question,QuestionResponse.class);
+        response.setCreateTime(DateTimeUtil.dateFormat(question.getCreateTime()));
+        response.setModifyTime(DateTimeUtil.dateFormat(question.getModifyTime()));
+        return RestResponse.ok(response);
+    }
+
     @GetMapping("/list")
     public RestResponse<List<Question>> list(){
         List<Question> questions = questionService.list();

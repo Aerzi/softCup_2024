@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class JudgeRequest {
-    private String code_source;
+    private String source_code;
 
     private String language_id;
 

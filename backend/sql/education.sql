@@ -148,7 +148,7 @@ CREATE TABLE t_task (
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, -- 发布的任务描述，可选
   `status` int NULL DEFAULT NULL,
   `deleted` bit(1) NULL DEFAULT NULL,
-  `class_id` int NULL DEFAULT NULL,--哪个班级发布的任务
+  `class_id` int NULL DEFAULT NULL,-- 哪个班级发布的任务
   `question_id` int NULL DEFAULT NULL,-- 题目id
   `proj_id` int NULL DEFAULT NULL,-- 项目id
   PRIMARY KEY (`id`) USING BTREE
