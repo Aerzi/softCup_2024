@@ -110,24 +110,25 @@ CREATE TABLE t_question_user_answer (
 ) ENGINE = InnoDB  CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
--- Table structure for t_proj
+-- Table structure for t_project
 -- ----------------------------
-DROP TABLE IF EXISTS `t_proj`;
+DROP TABLE IF EXISTS `t_project`;
 CREATE TABLE t_proj (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, -- 项目描述，可选
   `nums` int(11) NULL DEFAULT NULL,-- 思维链步骤数量
+  `finished_condition` int(11) NULL DEFAULT NULL, -- 项目完成情况
   `deleted` bit(1) NULL DEFAULT NULL,
   `user_id` int NULL DEFAULT NULL,-- 项目创建者
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB  CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
--- Table structure for t_proj_steps
+-- Table structure for t_proj_step
 -- ----------------------------
-DROP TABLE IF EXISTS `t_proj_step`;
-CREATE TABLE t_proj_step (
+DROP TABLE IF EXISTS `t_project_step`;
+CREATE TABLE t_project_step (
   `id` int NOT NULL AUTO_INCREMENT,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, -- 思维链步骤描述，可选
   `assess` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, -- 思维链步骤评测，可选
@@ -153,10 +154,6 @@ CREATE TABLE t_task (
   `proj_id` int NULL DEFAULT NULL,-- 项目id
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB  CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = COMPACT;
-
--- ---------------------------------
--- Table structure for t_user_assess
--- ---------------------------------
 
 
 
