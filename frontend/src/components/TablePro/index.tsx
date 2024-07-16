@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './index.less';
 import { EllipsisOutlined, PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { ProTable, TableDropdown } from '@ant-design/pro-components';
 import { Button, Dropdown, Space, Tag } from 'antd';
 import { useRef } from 'react';
+
+import data from './data.json'
+
+const localData: any[] = data;
 
 export const waitTimePromise = async (time: number = 100) => {
     return new Promise((resolve) => {
@@ -148,15 +152,35 @@ const columns: ProColumns<GithubIssueItem>[] = [
     },
 ];
 
-export default () => {
+const TablePro = () => {
     const actionRef = useRef<ActionType>();
+    // 模拟的分页数据
+    const [currentPageData, setCurrentPageData] = useState([]);
+
+    // 模拟从后端获取数据的函数
+    const fetchData = async (params: { current: number; pageSize: number; }) => {
+        const { current, pageSize } = params;
+        const startIndex = (current - 1) * pageSize;
+        const endIndex = current * pageSize;
+        const pageData = localData.slice(startIndex, endIndex);
+        return { data: pageData, success: true, total: localData.length };
+    };
+
+    // 在初始化渲染页面时
+    useEffect(() => {
+        // 初始化时获取第一页数据
+        fetchData({ current: 1, pageSize: 5 }).then((response) => {
+            setCurrentPageData(response.data);
+        });
+    }, []);
     return (
+
         <ProTable<GithubIssueItem>
             columns={columns}
             actionRef={actionRef}
             cardBordered
-            className='pro-table'
-            
+            // 使用request属性来指定如何获取数据
+            request={fetchData}
             editable={{
                 type: 'multiple',
             }}
@@ -176,7 +200,7 @@ export default () => {
             }}
             options={{
                 setting: {
-                    listsHeight: 400,
+                    listsHeight: 200,
                 },
             }}
             form={{
@@ -233,5 +257,8 @@ export default () => {
                 </Dropdown>,
             ]}
         />
+
     );
 };
+
+export default TablePro;
