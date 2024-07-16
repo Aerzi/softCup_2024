@@ -171,9 +171,17 @@ const UserModal = ({ isOpen, setIsOpen }: UserModalData) => {
             >
               {/* 判断之后，展示导入的图片 */}
               {user.role === "student" ? (
-                <img src={student} className="xf-user__modal-card-img" />
+                <div className="xf-user__modal-card-body-content">
+                  <img src={student} className="xf-user__modal-card-img" />
+                  <span className="xf-user__modal-card-text">我是学生</span>
+                </div>
+
               ) : (
-                <img src={teacher} className="xf-user__modal-card-img" />
+                <div className="xf-user__modal-card-body-content">
+                  <img src={teacher} className="xf-user__modal-card-img" />
+                  <span className="xf-user__modal-card-text">我是老师</span>
+                </div>
+
               )}
             </ProCard>
           </span>
