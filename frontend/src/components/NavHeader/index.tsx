@@ -71,32 +71,12 @@ const NavHeader = () => {
           <>
             <li className="xf-header__nav-item">
               <NavLink
-                to={"/schedulemanagement"}
-                className={({ isActive }) =>
-                  `link ${isActive ? "xf-header__nav-item-link--active" : "xf-header__nav-item-link"}`
-                }
-              >
-                日程管理
-              </NavLink>
-            </li>
-            <li className="xf-header__nav-item">
-              <NavLink
                 to={"/classmanagement"}
                 className={({ isActive }) =>
                   `link ${isActive ? "xf-header__nav-item-link--active" : "xf-header__nav-item-link"}`
                 }
               >
-                班级管理
-              </NavLink>
-            </li>
-            <li className="xf-header__nav-item">
-              <NavLink
-                to={"/homeworkmanagement"}
-                className={({ isActive }) =>
-                  `link ${isActive ? "xf-header__nav-item-link--active" : "xf-header__nav-item-link"}`
-                }
-              >
-                作业管理
+                课程管理
               </NavLink>
             </li>
           </>
