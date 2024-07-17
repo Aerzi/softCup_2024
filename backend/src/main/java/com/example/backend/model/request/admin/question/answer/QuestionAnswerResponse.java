@@ -15,4 +15,6 @@ public class QuestionAnswerResponse {
     private Integer userId;
 
     private Integer questionId;
+
+    private Integer classId;
 }

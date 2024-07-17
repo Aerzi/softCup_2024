@@ -7,11 +7,12 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class UserEditRequest {
+public class UserResponse {
+    private Integer id;
+
+    private String userUuid;
 
     private String userName;
-
-    private String password;
 
     private String realName;
 
@@ -28,4 +29,12 @@ public class UserEditRequest {
     private String major;
 
     private Integer status;
+
+    private String imagePath;
+
+    private String createTime;
+
+    private String modifyTime;
+
+    private String lastActiveTime;
 }

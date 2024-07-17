@@ -13,4 +13,6 @@ public class QuestionAnswerResponse {
     private Integer score;
 
     private Integer userId;
+
+    private Integer classId;
 }

@@ -45,6 +45,10 @@ public class User implements Serializable {
 
     private Integer role;
 
+    private Integer gradeLevel;
+
+    private String major;
+
     private Integer status;
 
     private String imagePath;

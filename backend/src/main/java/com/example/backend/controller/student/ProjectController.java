@@ -5,7 +5,7 @@ import com.example.backend.base.RestResponse;
 import com.example.backend.config.property.SystemConfig;
 import com.example.backend.model.entity.Project;
 import com.example.backend.model.entity.message.ProjectSparkMessage;
-import com.example.backend.model.entity.result.ProjectSparkResult;
+import com.example.backend.model.entity.result.ProjectSparkCommonResult;
 import com.example.backend.model.request.student.project.ProjectAddRequest;
 import com.example.backend.model.request.student.project.ProjectEditRequest;
 import com.example.backend.model.request.student.project.ProjectPageRequest;
@@ -81,15 +81,15 @@ public class ProjectController extends BaseApiController {
     }
 
     @PostMapping("/thought/chain/generate")
-    public RestResponse<ProjectSparkResult> thoughtChainGenerate(@RequestBody @Valid ProjectSparkMessage message){
+    public RestResponse<ProjectSparkCommonResult> thoughtChainGenerate(@RequestBody @Valid ProjectSparkMessage message){
         String receivedMessage = null;
-        ProjectSparkResult result = null;
+        ProjectSparkCommonResult result = null;
         try {
             webSocketService.connect(systemConfig.getWebSocketPropertyConfig().getUrl());
             webSocketService.sendMessage(gson.toJson(message));
 
             receivedMessage = webSocketService.getReceivedMessage();
-            result = objectMapper.readValue(receivedMessage, ProjectSparkResult.class);
+            result = objectMapper.readValue(receivedMessage,ProjectSparkCommonResult.class);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } catch (ExecutionException e) {

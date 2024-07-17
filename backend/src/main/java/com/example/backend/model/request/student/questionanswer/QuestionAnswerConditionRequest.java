@@ -12,5 +12,9 @@ public class QuestionAnswerConditionRequest extends BasePage {
     @NotNull
     private Integer userId;
 
+    @NotNull
     private Integer questionId;
+
+    @NotNull
+    private Integer classId;
 }

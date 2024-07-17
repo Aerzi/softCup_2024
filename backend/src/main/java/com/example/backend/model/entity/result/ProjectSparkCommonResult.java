@@ -7,6 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ProjectSparkResult {
+public class ProjectSparkCommonResult {
     private List<String> result;
+    private ProjectSparkNodeResult tree_structure;
 }

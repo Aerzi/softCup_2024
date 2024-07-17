@@ -35,11 +35,10 @@ public class FileUploadServiceImpl implements FileUploadService {
         UploadManager uploadManager = new UploadManager(cfg);
         Auth auth = Auth.create(qnConfig.getAccessKey(), qnConfig.getSecretKey());
         String upToken = auth.uploadToken(qnConfig.getBucket());
-        String fileSuffix = extName.substring(extName.lastIndexOf("."));
         try {
             Response response = uploadManager.put(inputStream, null, upToken, null, null);
             DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
-            return qnConfig.getUrl() + "/" + putRet.key + fileSuffix;
+            return qnConfig.getUrl() + "/" + putRet.key ;
         } catch (QiniuException ex) {
             logger.error(ex.getMessage(), ex);
         }

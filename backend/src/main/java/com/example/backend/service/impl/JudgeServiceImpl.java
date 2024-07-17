@@ -4,6 +4,7 @@ import com.example.backend.base.RestResponse;
 import com.example.backend.base.SystemCode;
 import com.example.backend.config.property.SystemConfig;
 import com.example.backend.model.entity.JudgeToken;
+import com.example.backend.model.entity.judge.JudgeResult;
 import com.example.backend.service.JudgeService;
 import com.example.backend.utils.JsonUtil;
 import com.example.backend.utils.OkHttpClientUtil;
@@ -18,11 +19,14 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 @Service
 public class JudgeServiceImpl implements JudgeService {
     private final SystemConfig systemConfig;
     private static final ObjectMapper MAPPER = new ObjectMapper();
+    private CountDownLatch latch;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
     public JudgeServiceImpl(SystemConfig systemConfig) {
@@ -31,6 +35,7 @@ public class JudgeServiceImpl implements JudgeService {
 
     @Override
     public String createSubmission(String json) {
+        this.latch = new CountDownLatch(1);
         Map<String, String> headers = new HashMap<>();
         headers.put("X-RapidAPI-Key", systemConfig.getJudge0CreateConfig().getXRapidAPIKey());
         headers.put("X-RapidAPI-Host", systemConfig.getJudge0CreateConfig().getXRapidAPIHost());
@@ -40,37 +45,47 @@ public class JudgeServiceImpl implements JudgeService {
         String token = null;
         try {
             String responseBody = OkHttpClientUtil.doPostJson(systemConfig.getJudge0CreateConfig().getUrl(), json, headers);
-            JudgeToken judgeToken = JsonUtil.toJsonObject(responseBody,JudgeToken.class);
+            JudgeToken judgeToken = JsonUtil.toJsonObject(responseBody, JudgeToken.class);
             token = judgeToken.getToken();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        latch.countDown(); // 释放锁
         return token;
     }
 
     @Override
-    public RestResponse<String> getJudgeResult(String token) {
-        Map<String, String> headers = new HashMap<>();
-        headers.put("X-RapidAPI-Key", systemConfig.getJudge0GetConfig().getXRapidAPIKey());
-        headers.put("X-RapidAPI-Host", systemConfig.getJudge0GetConfig().getXRapidAPIHost());
-        String url = systemConfig.getJudge0GetConfig().getUrlFront() + token + systemConfig.getJudge0GetConfig().getUrlBack();
-
-        String responseBody = OkHttpClientUtil.doGet(url,null,headers);
+    public JudgeResult getJudgeResult(String token) {
+        JudgeResult result = null;
         try {
-        // 将 JSON 字符串解析为 JsonNode 对象
-        JsonNode jsonNode = MAPPER.readTree(responseBody);
+            latch.await(); // 等待消息接收完成
+            Map<String, String> headers = new HashMap<>();
+            headers.put("X-RapidAPI-Key", systemConfig.getJudge0GetConfig().getXRapidAPIKey());
+            headers.put("X-RapidAPI-Host", systemConfig.getJudge0GetConfig().getXRapidAPIHost());
+            String url = systemConfig.getJudge0GetConfig().getUrlFront() + token + systemConfig.getJudge0GetConfig().getUrlBack();
 
-        // 在此处处理 JSON 数据
-        ((ObjectNode) jsonNode).put("processed", true);
+            String responseBody = OkHttpClientUtil.doGet(url, null, headers);
 
-        // 将处理后的 JsonNode 对象转换为 JSON 字符串
-        String processedJson = MAPPER.writeValueAsString(jsonNode);
+            try {
+                // 将 JSON 字符串解析为 JsonNode 对象
+                JsonNode jsonNode = MAPPER.readTree(responseBody);
 
-        return RestResponse.ok(processedJson);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return RestResponse.fail(SystemCode.InnerError.getCode(),SystemCode.InnerError.getMessage());
+                // 在此处处理 JSON 数据
+                ((ObjectNode) jsonNode).put("processed", true);
+
+                // 将处理后的 JsonNode 对象转换为 JSON 字符串
+                String processedJson = MAPPER.writeValueAsString(jsonNode);
+
+                result = objectMapper.readValue(processedJson, JudgeResult.class);
+
+                return result;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
+        return result;
     }
 
     @Override
@@ -80,7 +95,7 @@ public class JudgeServiceImpl implements JudgeService {
         headers.put("X-RapidAPI-Host", systemConfig.getJudge0StatusConfig().getXRapidAPIHost());
         String url = systemConfig.getJudge0StatusConfig().getUrl();
 
-        String responseBody = OkHttpClientUtil.doGet(url,null,headers);
+        String responseBody = OkHttpClientUtil.doGet(url, null, headers);
         return RestResponse.ok(responseBody);
     }
 
@@ -91,7 +106,7 @@ public class JudgeServiceImpl implements JudgeService {
         headers.put("X-RapidAPI-Host", systemConfig.getJudge0LangConfig().getXRapidAPIHost());
         String url = systemConfig.getJudge0LangConfig().getUrl();
 
-        String responseBody = OkHttpClientUtil.doGet(url,null,headers);
+        String responseBody = OkHttpClientUtil.doGet(url, null, headers);
         return RestResponse.ok(responseBody);
     }
 }

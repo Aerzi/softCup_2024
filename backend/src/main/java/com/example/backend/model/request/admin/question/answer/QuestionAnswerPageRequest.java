@@ -16,4 +16,6 @@ public class QuestionAnswerPageRequest extends BasePage {
     private Integer userId;
 
     private Integer questionId;
+
+    private Integer classId;
 }
