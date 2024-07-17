@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.backend.model.entity.User;
 import com.example.backend.mapper.UserMapper;
 import com.example.backend.model.request.user.UserEditRequest;
+import com.example.backend.model.request.user.UserResponse;
 import com.example.backend.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,5 +53,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public void edit(User request) {
         userMapper.updateById(request);
+    }
+
+    @Override
+    public User getCurrentUserInfo(Integer id) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id",id);
+        return userMapper.selectOne(queryWrapper);
     }
 }

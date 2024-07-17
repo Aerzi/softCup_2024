@@ -40,7 +40,8 @@ public class QuestionUserAnswerServiceImpl extends ServiceImpl<QuestionUserAnswe
     public PageInfo<QuestionUserAnswer> conditionPage(QuestionAnswerConditionRequest request) {
         LambdaQueryWrapper<QuestionUserAnswer> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(request.getUserId()!=null,QuestionUserAnswer::getUserId,request.getUserId())
-                .eq(request.getQuestionId()!=null,QuestionUserAnswer::getQuestionId,request.getQuestionId());
+                .eq(request.getQuestionId()!=null,QuestionUserAnswer::getQuestionId,request.getQuestionId())
+                .eq(request.getClassId()!=null,QuestionUserAnswer::getClassId,request.getClassId());
         return PageHelper.startPage(request.getPageIndex(),request.getPageSize(),"id desc").doSelectPageInfo(()->
                 questionUserAnswerMapper.selectList(queryWrapper)
         );
@@ -51,6 +52,7 @@ public class QuestionUserAnswerServiceImpl extends ServiceImpl<QuestionUserAnswe
         LambdaQueryWrapper<QuestionUserAnswer> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(request.getUserId()!=null,QuestionUserAnswer::getUserId,request.getUserId())
                 .eq(request.getQuestionId()!=null,QuestionUserAnswer::getQuestionId,request.getQuestionId())
+                .eq(request.getClassId()!=null,QuestionUserAnswer::getClassId,request.getClassId())
                 .eq(QuestionUserAnswer::getScore,0);
         return PageHelper.startPage(request.getPageIndex(),request.getPageSize(),"id desc").doSelectPageInfo(()->
                 questionUserAnswerMapper.selectList(queryWrapper)

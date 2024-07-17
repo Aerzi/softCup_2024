@@ -15,4 +15,7 @@ public class QuestionAnswerAnswerRequest {
 
     @NotNull
     private Integer questionId;
+
+    @NotNull
+    private Integer classId;
 }

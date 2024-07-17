@@ -23,7 +23,9 @@ public class UserEditRequest {
 
     private String phone;
 
-    private Integer status;
+    private Integer gradeLevel;
 
-    private Boolean deleted;
+    private String major;
+
+    private Integer status;
 }

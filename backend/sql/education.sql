@@ -18,6 +18,8 @@ CREATE TABLE `t_user`  (
   `birth_day` datetime NULL DEFAULT NULL,
   `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `role` int NULL DEFAULT NULL,
+  `grade_level`  int NULL DEFAULT NULL,-- 大学年级
+  `major` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,-- 专业
   `status` int NULL DEFAULT NULL,
   `image_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `create_time` datetime NULL DEFAULT NULL,
@@ -43,6 +45,7 @@ CREATE TABLE t_file (
     `status` int NULL DEFAULT NULL,
     `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, -- 文件描述，可选
     `deleted` bit(1) NULL DEFAULT NULL,
+    `class_id` int NULL DEFAULT NULL, -- 文件所在班级的ID
     `user_id` int NULL DEFAULT NULL, -- 上传文件的用户 ID
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB  CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = COMPACT;
@@ -106,6 +109,7 @@ CREATE TABLE t_question_user_answer (
   `deleted` bit(1) NULL DEFAULT NULL,
   `user_id` int NULL DEFAULT NULL,-- 答题者
   `question_id` int NULL DEFAULT NULL,-- 回答的问题
+  `class_id` int NULL DEFAULT NULL,-- 所在班级
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB  CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = COMPACT;
 
@@ -113,13 +117,14 @@ CREATE TABLE t_question_user_answer (
 -- Table structure for t_project
 -- ----------------------------
 DROP TABLE IF EXISTS `t_project`;
-CREATE TABLE t_proj (
+CREATE TABLE t_project (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, -- 项目描述，可选
   `nums` int(11) NULL DEFAULT NULL,-- 思维链步骤数量
   `finished_condition` int(11) NULL DEFAULT NULL, -- 项目完成情况
   `deleted` bit(1) NULL DEFAULT NULL,
+  `class_id` int NULL DEFAULT NULL,-- 项目所在班级
   `user_id` int NULL DEFAULT NULL,-- 项目创建者
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB  CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = COMPACT;

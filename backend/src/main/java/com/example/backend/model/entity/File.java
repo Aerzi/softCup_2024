@@ -47,5 +47,7 @@ public class File implements Serializable {
 
     private Boolean deleted;
 
+    private Integer classId;
+
     private Integer userId;
 }

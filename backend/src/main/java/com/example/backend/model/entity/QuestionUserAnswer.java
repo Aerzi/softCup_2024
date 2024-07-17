@@ -34,4 +34,6 @@ public class QuestionUserAnswer implements Serializable {
     private Integer userId;
 
     private Integer questionId;
+
+    private Integer classId;
 }

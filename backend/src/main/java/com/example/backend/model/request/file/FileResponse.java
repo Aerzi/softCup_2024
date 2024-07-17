@@ -29,5 +29,7 @@ public class FileResponse extends BaseRequest {
 
     private String description;
 
+    private Integer classId;
+
     private Integer userId;
 }

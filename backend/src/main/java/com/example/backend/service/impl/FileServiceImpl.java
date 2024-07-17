@@ -58,6 +58,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
                 .eq(request.getType()!=null,File::getType,request.getType())
                 .eq(request.getStatus()!=null,File::getStatus,request.getStatus())
                 .eq(request.getDescription()!=null,File::getDescription,request.getDescription())
+                .eq(request.getClassId()!=null,File::getClassId,request.getClassId())
                 .eq(request.getUserId()!=null,File::getUserId,request.getUserId())
                 .eq(File::getDeleted,0);
 

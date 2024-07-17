@@ -44,6 +44,8 @@ system:
       url: https://judge0-extra-ce.p.rapidapi.com/languages
       X-RapidAPI-Key: 30aec1aee9msh3853a2407d66699p112776jsn580b58a4ab68
       X-RapidAPI-Host: judge0-extra-ce.p.rapidapi.com
+  websocket:
+    url: ws://localhost:8890
 
 spring:
   #runningtime environment
@@ -60,7 +62,7 @@ spring:
     multipart:
       enabled: true
       max-file-size: 10GB
-      max-request-size: 200MB
+      max-request-size: 300MB
 
 ok:
   http:

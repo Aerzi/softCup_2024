@@ -15,4 +15,6 @@ public class QuestionEditRequest {
     private Integer userId;
 
     private Integer questionId;
+
+    private Integer classId;
 }

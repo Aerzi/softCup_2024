@@ -7,6 +7,7 @@ import com.example.backend.model.enums.RoleEnum;
 import com.example.backend.model.enums.UserStatusEnum;
 import com.example.backend.model.request.user.UserEditRequest;
 import com.example.backend.model.request.user.UserRegisterRequest;
+import com.example.backend.model.request.user.UserResponse;
 import com.example.backend.service.AuthenticationService;
 import com.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,4 +58,10 @@ public class UserController extends BaseApiController {
         return RestResponse.ok();
     }
 
+    @GetMapping("/info")
+    public RestResponse<UserResponse> getCurrentInfo(){
+        User user = userService.getCurrentUserInfo(getCurrentUser().getId());
+        UserResponse response = modelMapper.map(user,UserResponse.class);
+        return RestResponse.ok(response);
+    }
 }
