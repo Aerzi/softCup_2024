@@ -1,0 +1,30 @@
+.ai-show-controller {
+  transform: translate3d(0, 0, 0);
+  will-change: opacity, transform;
+
+  &-enter {
+    opacity: 0;
+    transform: translate3d(-2px, -9px, 0) scale(0.94);
+  }
+
+  &-enter-active {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    transition:
+      opacity 400ms cubic-bezier(0.17, 0, 0.3, 1),
+      transform 400ms cubic-bezier(0.17, 0, 0.3, 1);
+  }
+
+  &-exit {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  &-exit-active {
+    opacity: 0;
+    transform: translate3d(-2px, -9px, 0) scale(0.94);
+    transition:
+      opacity 300ms cubic-bezier(0.17, 0, 0.3, 1),
+      transform 300ms cubic-bezier(0.17, 0, 0.3, 1);
+  }
+}
