@@ -2,7 +2,9 @@
 
 .xf-soft__page {
   width: 100%;
-  height: 100%;
+  height: auto;
+  min-height: 100vh;
+  background-image: linear-gradient(to right, #a8edea 0%, #fed6e3 100%);
 
   .xf-soft__header {
     width: 100%;
@@ -20,14 +22,15 @@
 
   .xf-soft__main {
     width: 100%;
-    height: calc(100% - 64px);
+    height: 90vh;
     position: relative;
-    background-color: @soft-color-default;
+    background-color: transparent;
 
     .xf-soft__main-content {
       width: 100%;
       height: 100%;
       position: relative;
+
       .xf-soft__main-content-left {
         width: 35%;
         height: 100%;
@@ -35,15 +38,17 @@
         position: absolute;
         top: 0;
         left: 0;
-        background-color: @soft-color-default;
+        background-color: transparent;
+
         .xf-soft__main--content-left-card {
           width: 100%;
           height: 100%;
           position: relative;
-          background-color: @soft-color-default;
+
           overflow-y: auto;
         }
       }
+
       .xf-soft__main-content-right {
         width: 65%;
         height: 100%;
@@ -51,7 +56,7 @@
         position: absolute;
         top: 0;
         right: 0;
-        background-color: @soft-color-default;
+        background-color: transparent;
       }
     }
   }

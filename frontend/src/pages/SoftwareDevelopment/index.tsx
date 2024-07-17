@@ -4,9 +4,11 @@ import "./index.less";
 import CodeSphere from "../../components/CodeSphere";
 import { ProCard } from "@ant-design/pro-components";
 import LinkLoader from "../../components/LinkLoader";
+import ChatBox from "../../components/ChatBox";
 
 const SoftwareDevelopment = () => {
   const [code, setCode] = useState('');
+  const [isLinkLoading, setIsLinkLoading] = useState(false);
 
   const handleEditorChange = (newValue: string) => {
     setCode(newValue);
@@ -21,16 +23,20 @@ const SoftwareDevelopment = () => {
         <main className="xf-soft__main">
           <div className="xf-soft__main-content">
             <div className="xf-soft__main-content-left">
-              <ProCard  bordered boxShadow className="xf-soft__main--content-left-card">
-                <LinkLoader />
+              <ProCard bordered boxShadow className="xf-soft__main--content-left-card">
+                <LinkLoader isLinkLoading={isLinkLoading} setIsLinkLoading={setIsLinkLoading} />
               </ProCard>
             </div>
             <div className="xf-soft__main-content-right">
-              <CodeSphere 
-              value={code}
-              language="typescript"
-              onChange={handleEditorChange} 
-              />
+              {
+                isLinkLoading ? <ChatBox /> : <CodeSphere
+                  value={code}
+                  language={"javascript" || "json" || "typescript" || "mysql" || "html" || "xml" || "python"} 
+                  onChange={handleEditorChange}
+                  select={true}
+                />
+              }
+
             </div>
           </div>
         </main>
