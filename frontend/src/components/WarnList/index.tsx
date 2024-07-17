@@ -12,7 +12,7 @@ const WarnList = () => {
 
     return (
         <div className="xf-warn__list">
-            <div className="xf-warn__list-header"></div>
+            <div className="xf-warn__list-header">课程任务</div>
             <div className="xf-warn__list-content">
                 <ul className="xf-warn__list-content-list">
                     {arr.map((item, index) => (

@@ -1,23 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import "./index.less";
 import TablePro from "../TablePro";
 import { Button } from "antd";
-import TreeChart from "../TreeChart";
 
-const LinkLoader = () => {
-  const [isLinkLoading, setIsLinkLoading] = useState(false);
+const LinkLoader = ({isLinkLoading,setIsLinkLoading} : {
+  isLinkLoading: boolean,
+  setIsLinkLoading: (arg0: boolean) => void
+}) => {
+  
   return (
     <div className="xf-table">
       <div className="xf-table__header">
-        <Button onClick={() => setIsLinkLoading(!isLinkLoading)}>思维链</Button>
+        <Button type="primary" onClick={() => setIsLinkLoading(!isLinkLoading)}>{isLinkLoading ? "返回项目开发" : "启用思维链"}</Button>
       </div>
-      {isLinkLoading ? (
-        <div className="xf-table__content">
-          <TreeChart />
-        </div>
-      ) : (
-        <TablePro />
-      )}
+      <TablePro />
     </div>
   );
 };

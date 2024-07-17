@@ -53,7 +53,8 @@ const NavHeader = () => {
                   `link ${isActive ? "xf-header__nav-item-link--active" : "xf-header__nav-item-link"}`
                 }
               >
-                教学课堂
+                {/* 在个人课堂界面中，学生用户可以获取到推荐的视频与自己的当前资源清单，并且提示哪些内容告急 */}
+                个人课堂
               </NavLink>
             </li>
             <li className="xf-header__nav-item">

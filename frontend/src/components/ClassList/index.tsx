@@ -12,7 +12,7 @@ const ClassList = () => {
 
     return (
         <div className="xf-class__list">
-            <div className="xf-class__list-header"></div>
+            <div className="xf-class__list-header">每日一荐</div>
             <div className="xf-class__list-content">
                 <ul className="xf-class__list-content-list">
                     {arr.map((item, index) => (
