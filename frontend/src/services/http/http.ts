@@ -3,16 +3,21 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 // 定义接口
 interface IRequestConfig extends AxiosRequestConfig {
   // 可以在这里添加额外的配置属性
+  url: string;
+  method: "post" | "get" | "put" | "delete" | "patch";
+  data?: any;
+  headers?: any;
 }
 
 interface IResponse<T = any> {
   data: T;
-  status: number;
-  statusText: string;
+  code: number;
+  message: string;
   // 根据实际返回的数据结构添加更多属性
 }
 
 interface IError {
+  code: number;
   response?: AxiosResponse;
   message: string;
   // 可以根据需要添加更多属性
@@ -21,14 +26,14 @@ interface IError {
 // 创建axios实例
 const instance: AxiosInstance = axios.create({
   baseURL: "你的API基础URL",
-  timeout: 1000, // 超时时间
+  timeout: 10000, // 超时时间
 });
 
 // 请求拦截器
 instance.interceptors.request.use(
   (config) => {
     // 在发送请求之前做些什么，例如设置token
-    config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
+    config.headers.token = `${localStorage.getItem("token")}`;
     return config;
   },
   (error) => {
@@ -58,11 +63,11 @@ instance.interceptors.response.use(
 function request<T = any>(config: IRequestConfig): Promise<IResponse<T>> {
   return new Promise((resolve, reject) => {
     instance(config)
-      .then((response: AxiosResponse<T>) => {
+      .then((response: AxiosResponse<IResponse<T>>) => {
         resolve({
-          data: response.data,
-          status: response.status,
-          statusText: response.statusText,
+          data: response.data.data,
+          code: response.data.code,
+          message: response.data.message,
         });
       })
       .catch((error: any) => {
