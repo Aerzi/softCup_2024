@@ -43,6 +43,7 @@ CREATE TABLE t_file (
     `status` int NULL DEFAULT NULL,
     `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, -- 文件描述，可选
     `deleted` bit(1) NULL DEFAULT NULL,
+    `class_id` int NULL DEFAULT NULL, -- 文件所在班级的ID
     `user_id` int NULL DEFAULT NULL, -- 上传文件的用户 ID
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB  CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = COMPACT;
@@ -113,13 +114,14 @@ CREATE TABLE t_question_user_answer (
 -- Table structure for t_project
 -- ----------------------------
 DROP TABLE IF EXISTS `t_project`;
-CREATE TABLE t_proj (
+CREATE TABLE t_project (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, -- 项目描述，可选
   `nums` int(11) NULL DEFAULT NULL,-- 思维链步骤数量
   `finished_condition` int(11) NULL DEFAULT NULL, -- 项目完成情况
   `deleted` bit(1) NULL DEFAULT NULL,
+  `class_id` int NULL DEFAULT NULL,-- 项目所在班级
   `user_id` int NULL DEFAULT NULL,-- 项目创建者
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB  CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = COMPACT;

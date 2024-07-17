@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import java.util.Date;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,12 +13,12 @@ import lombok.Setter;
  * </p>
  *
  * @author feixia0g
- * @since 2024-07-10 03:18:46
+ * @since 2024-07-17 09:35:01
  */
 @Getter
 @Setter
-@TableName("t_file")
-public class File implements Serializable {
+@TableName("t_project")
+public class Project implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,21 +27,11 @@ public class File implements Serializable {
 
     private String name;
 
-    private String extension;
-
-    private String type;
-
-    private String filePath;
-
-    private Date createTime;
-
-    private Date modifyTime;
-
-    private Integer size;
-
-    private Integer status;
-
     private String description;
+
+    private Integer nums;
+
+    private Integer finishedCondition;
 
     private Boolean deleted;
 

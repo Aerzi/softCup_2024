@@ -28,5 +28,7 @@ public class FileEditRequest {
 
     private String description;
 
+    private Integer classId;
+
     private Integer userId;
 }
