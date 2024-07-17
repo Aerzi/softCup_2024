@@ -49,4 +49,7 @@ public class SystemConfig {
 
     @Autowired
     private Judge0LangConfig judge0LangConfig;
+
+    @Autowired
+    private WebSocketPropertyConfig webSocketPropertyConfig;
 }

@@ -2,27 +2,43 @@ package com.example.backend.controller.student;
 
 import com.example.backend.base.BaseApiController;
 import com.example.backend.base.RestResponse;
+import com.example.backend.config.property.SystemConfig;
 import com.example.backend.model.entity.Project;
+import com.example.backend.model.entity.message.ProjectSparkMessage;
+import com.example.backend.model.entity.result.ProjectSparkResult;
 import com.example.backend.model.request.student.project.ProjectAddRequest;
 import com.example.backend.model.request.student.project.ProjectEditRequest;
 import com.example.backend.model.request.student.project.ProjectPageRequest;
 import com.example.backend.model.request.student.project.ProjectResponse;
 import com.example.backend.service.ProjectService;
+import com.example.backend.service.WebSocketService;
 import com.example.backend.utils.PageInfoHelper;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 @RequestMapping("/api/student/project")
 @RestController("StudentProjectController")
 public class ProjectController extends BaseApiController {
     private final ProjectService projectService;
+    private final WebSocketService webSocketService;
+    private final SystemConfig systemConfig;
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private static final Gson gson = new Gson();
 
     @Autowired
-    public ProjectController(ProjectService projectService) {
+    public ProjectController(ProjectService projectService, WebSocketService webSocketService, SystemConfig systemConfig) {
         this.projectService = projectService;
+        this.webSocketService = webSocketService;
+        this.systemConfig = systemConfig;
     }
 
     @PostMapping("/add")
@@ -63,5 +79,31 @@ public class ProjectController extends BaseApiController {
         projectService.deleteByIdFilter(id);
         return RestResponse.ok();
     }
+
+    @PostMapping("/thought/chain/generate")
+    public RestResponse<ProjectSparkResult> thoughtChainGenerate(@RequestBody @Valid ProjectSparkMessage message){
+        String receivedMessage = null;
+        ProjectSparkResult result = null;
+        try {
+            webSocketService.connect(systemConfig.getWebSocketPropertyConfig().getUrl());
+            webSocketService.sendMessage(gson.toJson(message));
+
+            receivedMessage = webSocketService.getReceivedMessage();
+            result = objectMapper.readValue(receivedMessage, ProjectSparkResult.class);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        } catch (JsonMappingException e) {
+            throw new RuntimeException(e);
+        } catch (JsonParseException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return RestResponse.ok(result);
+    }
+
+
 
 }

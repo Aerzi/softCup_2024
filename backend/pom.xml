@@ -48,6 +48,11 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+
 		<!-- hot debug -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -153,6 +158,12 @@
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
 
+		<!--WebSocket-->
+		<dependency>
+			<groupId>org.java-websocket</groupId>
+			<artifactId>Java-WebSocket</artifactId>
+			<version>1.5.2</version>
+		</dependency>
 
 
 	</dependencies>
