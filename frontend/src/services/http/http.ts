@@ -1,90 +1,72 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosRequestConfig } from "axios";
+import { getLocalData, setLocalData } from "../../utils/Storage";
+import { message } from "antd";
 
-// 定义接口
-interface IRequestConfig extends AxiosRequestConfig {
-  // 可以在这里添加额外的配置属性
-  url: string;
-  method: "post" | "get" | "put" | "delete" | "patch";
-  data?: any;
-  headers?: any;
-}
-
-interface IResponse<T = any> {
-  data: T;
-  code: number;
-  message: string;
-  // 根据实际返回的数据结构添加更多属性
-}
-
-interface IError {
-  code: number;
-  response?: AxiosResponse;
-  message: string;
-  // 可以根据需要添加更多属性
-}
-
-// 创建axios实例
-const instance: AxiosInstance = axios.create({
-  baseURL: "你的API基础URL",
-  timeout: 10000, // 超时时间
+// 创建一个 axios 实例
+const instance = axios.create({
+  baseURL: "http://localhost:8080/api",
+  timeout: 10000, // 请求超时时间
 });
 
 // 请求拦截器
-instance.interceptors.request.use(
-  (config) => {
-    // 在发送请求之前做些什么，例如设置token
-    config.headers.token = `${localStorage.getItem("token")}`;
-    return config;
+instance.interceptors.request.use((config) => {
+  // 在发送请求之前做些什么
+  config.headers.token = getLocalData("token") || "";
+  return config;
+});
+
+// 响应拦截器
+instance.interceptors.response.use(
+  (response) => {
+    // 保存响应标头中的token
+    response.headers.Authorization &&
+      setLocalData("token", response.headers.Authorization);
+    return response.data;
   },
   (error) => {
+    if (error.response) {
+      // 检查HTTP状态码
+      const { status, data } = error.response;
+
+      // 如果状态码是403，但业务状态码是200，则视为成功响应
+      if (status === 403 && data.code === 200) {
+        console.log("特殊情况的成功响应");
+        return data; // 直接返回数据
+      }
+
+      // 其他状态码的错误处理
+      message.error(`服务器错误 ${status}: ${data.message || "未知错误"}`);
+    } else if (error.request) {
+      // 请求已发出但没有收到响应
+      message.error("请求发出但没有收到响应");
+    } else {
+      // 发生了触发请求错误的问题
+      message.error("请求错误: " + error.message);
+    }
     return Promise.reject(error);
   }
 );
 
-// 响应拦截器
-instance.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response) {
-      // 服务器拒绝了请求
-      console.error("服务器拒绝了请求", error.response);
-    } else if (error.request) {
-      // 服务器没有响应
-      console.error("服务器没有响应", error.request);
-    } else {
-      // 设置请求时出了点问题
-      console.error("请求设置时出了问题", error.message);
-    }
-    return Promise.reject({ message: "网络或服务器错误" });
+// 封装不同的请求方法
+const request = (
+  method: string,
+  url: string,
+  data: any,
+  config: AxiosRequestConfig<any> | undefined
+) => {
+  switch (method.toLowerCase()) {
+    case "get":
+      return instance.get(url, config);
+    case "post":
+      return instance.post(url, data, config);
+    case "put":
+      return instance.put(url, data, config);
+    case "delete":
+      return instance.delete(url, config);
+
+    default:
+      throw new Error("请求方法不被支持");
   }
-);
+};
 
-// 封装请求方法
-function request<T = any>(config: IRequestConfig): Promise<IResponse<T>> {
-  return new Promise((resolve, reject) => {
-    instance(config)
-      .then((response: AxiosResponse<IResponse<T>>) => {
-        resolve({
-          data: response.data.data,
-          code: response.data.code,
-          message: response.data.message,
-        });
-      })
-      .catch((error: any) => {
-        reject({
-          message: error.message || "请求失败",
-        });
-      });
-  });
-}
-
-// 导出封装好的axios实例
 export default request;
-
-// 使用示例
-// import http from './http';
-// http({ url: '/user', method: 'get' }).then(response => {
-//   console.log(response.data);
-// }).catch(error => {
-//   console.error(error);
-// });
