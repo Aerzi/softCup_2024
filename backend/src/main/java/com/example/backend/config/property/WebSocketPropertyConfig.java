@@ -10,5 +10,6 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 public class WebSocketPropertyConfig {
-    private String url;
+    private String chainUrl;
+    private String assessUrl;
 }

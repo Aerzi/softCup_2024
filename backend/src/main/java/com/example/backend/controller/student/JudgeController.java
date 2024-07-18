@@ -76,7 +76,7 @@ public class JudgeController extends BaseApiController {
         String receivedMessage = null;
         ProgrammingAssessResult programmingAssessResult = null;
         try {
-            webSocketService.connect(systemConfig.getWebSocketPropertyConfig().getUrl());
+            webSocketService.connect(systemConfig.getWebSocketPropertyConfig().getAssessUrl());
             webSocketService.sendMessage(gson.toJson(assessProgramming));
 
             receivedMessage = webSocketService.getReceivedMessage();
