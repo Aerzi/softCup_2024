@@ -1,0 +1,82 @@
+2024-07-18 20:40:02.045  INFO 12636 --- [restartedMain] com.example.backend.BackendApplication   : Starting BackendApplication on LAPTOP-RNP66FO5 with PID 12636 (E:\frontendProject\softCup_2024\backend\target\classes started by 31589 in E:\frontendProject\softCup_2024\backend)
+2024-07-18 20:40:02.047  INFO 12636 --- [restartedMain] com.example.backend.BackendApplication   : The following profiles are active: dev
+2024-07-18 20:40:02.073  INFO 12636 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-07-18 20:40:02.073  INFO 12636 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-07-18 20:40:02.502  WARN 12636 --- [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.example.backend]' package. Please check your configuration.
+2024-07-18 20:40:02.892  INFO 12636 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8888 (http)
+2024-07-18 20:40:02.908  INFO 12636 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-07-18 20:40:02.908  INFO 12636 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.21]
+2024-07-18 20:40:02.915  INFO 12636 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : Loaded APR based Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2024-07-18 20:40:02.915  INFO 12636 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2024-07-18 20:40:02.915  INFO 12636 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2024-07-18 20:40:02.927  INFO 12636 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2024-07-18 20:40:02.993  INFO 12636 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-07-18 20:40:02.993  INFO 12636 --- [restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 919 ms
+2024-07-18 20:40:03.710  INFO 12636 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3f047f54, org.springframework.security.web.context.SecurityContextPersistenceFilter@6df7cbf0, org.springframework.security.web.header.HeaderWriterFilter@72aee596, org.springframework.security.web.authentication.logout.LogoutFilter@339c4e4d, com.example.backend.config.spring.security.TokenVerifyFilter@67b3eeea, com.example.backend.config.spring.security.TokenLoginFilter@324570, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6ec3556f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@253ab8d9, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@63db85c1, org.springframework.security.web.session.SessionManagementFilter@4566fca1, org.springframework.security.web.access.ExceptionTranslationFilter@1659118c, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6f4f30d0]
+2024-07-18 20:40:03.776  INFO 12636 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2024-07-18 20:40:03.967  INFO 12636 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-07-18 20:40:04.007  INFO 12636 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8888 (http) with context path ''
+2024-07-18 20:40:04.010  INFO 12636 --- [restartedMain] com.example.backend.BackendApplication   : Started BackendApplication in 2.248 seconds (JVM running for 2.943)
+2024-07-18 20:40:11.035  INFO 12636 --- [Thread-5] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2024-07-18 20:40:11.169  INFO 12636 --- [restartedMain] com.example.backend.BackendApplication   : Starting BackendApplication on LAPTOP-RNP66FO5 with PID 12636 (E:\frontendProject\softCup_2024\backend\target\classes started by 31589 in E:\frontendProject\softCup_2024\backend)
+2024-07-18 20:40:11.170  INFO 12636 --- [restartedMain] com.example.backend.BackendApplication   : The following profiles are active: dev
+2024-07-18 20:40:11.171  INFO 12636 --- [restartedMain] o.s.core.annotation.AnnotationUtils      : Failed to introspect annotations on class com.example.backend.BackendApplication: java.lang.IllegalStateException: Could not obtain annotation attribute value for public abstract java.lang.Class[] org.springframework.boot.context.properties.EnableConfigurationProperties.value()
+2024-07-18 20:40:11.173  WARN 12636 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [com.example.backend.BackendApplication]; nested exception is java.io.FileNotFoundException: class path resource [com/example/backend/BackendApplication.class] cannot be opened because it does not exist
+2024-07-18 20:40:11.176 ERROR 12636 --- [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [com.example.backend.BackendApplication]; nested exception is java.io.FileNotFoundException: class path resource [com/example/backend/BackendApplication.class] cannot be opened because it does not exist
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:181) ~[spring-context-5.1.8.RELEASE.jar:5.1.8.RELEASE]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:315) ~[spring-context-5.1.8.RELEASE.jar:5.1.8.RELEASE]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:232) ~[spring-context-5.1.8.RELEASE.jar:5.1.8.RELEASE]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:275) ~[spring-context-5.1.8.RELEASE.jar:5.1.8.RELEASE]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:95) ~[spring-context-5.1.8.RELEASE.jar:5.1.8.RELEASE]
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:705) ~[spring-context-5.1.8.RELEASE.jar:5.1.8.RELEASE]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:531) ~[spring-context-5.1.8.RELEASE.jar:5.1.8.RELEASE]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:140) ~[spring-boot-2.1.6.RELEASE.jar:2.1.6.RELEASE]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:742) ~[spring-boot-2.1.6.RELEASE.jar:2.1.6.RELEASE]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:389) ~[spring-boot-2.1.6.RELEASE.jar:2.1.6.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:311) ~[spring-boot-2.1.6.RELEASE.jar:2.1.6.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1213) ~[spring-boot-2.1.6.RELEASE.jar:2.1.6.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1202) ~[spring-boot-2.1.6.RELEASE.jar:2.1.6.RELEASE]
+	at com.example.backend.BackendApplication.main(BackendApplication.java:15) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49) ~[spring-boot-devtools-2.1.6.RELEASE.jar:2.1.6.RELEASE]
+Caused by: java.io.FileNotFoundException: class path resource [com/example/backend/BackendApplication.class] cannot be opened because it does not exist
+	at org.springframework.core.io.ClassPathResource.getInputStream(ClassPathResource.java:180) ~[spring-core-5.1.8.RELEASE.jar:5.1.8.RELEASE]
+	at org.springframework.core.type.classreading.SimpleMetadataReader.<init>(SimpleMetadataReader.java:51) ~[spring-core-5.1.8.RELEASE.jar:5.1.8.RELEASE]
+	at org.springframework.core.type.classreading.SimpleMetadataReaderFactory.getMetadataReader(SimpleMetadataReaderFactory.java:103) ~[spring-core-5.1.8.RELEASE.jar:5.1.8.RELEASE]
+	at org.springframework.boot.type.classreading.ConcurrentReferenceCachingMetadataReaderFactory.createMetadataReader(ConcurrentReferenceCachingMetadataReaderFactory.java:86) ~[spring-boot-2.1.6.RELEASE.jar:2.1.6.RELEASE]
+	at org.springframework.boot.type.classreading.ConcurrentReferenceCachingMetadataReaderFactory.getMetadataReader(ConcurrentReferenceCachingMetadataReaderFactory.java:73) ~[spring-boot-2.1.6.RELEASE.jar:2.1.6.RELEASE]
+	at org.springframework.core.type.classreading.SimpleMetadataReaderFactory.getMetadataReader(SimpleMetadataReaderFactory.java:81) ~[spring-core-5.1.8.RELEASE.jar:5.1.8.RELEASE]
+	at org.springframework.context.annotation.ConfigurationClassParser.asSourceClass(ConfigurationClassParser.java:682) ~[spring-context-5.1.8.RELEASE.jar:5.1.8.RELEASE]
+	at org.springframework.context.annotation.ConfigurationClassParser.asSourceClass(ConfigurationClassParser.java:651) ~[spring-context-5.1.8.RELEASE.jar:5.1.8.RELEASE]
+	at org.springframework.context.annotation.ConfigurationClassParser.asSourceClass(ConfigurationClassParser.java:629) ~[spring-context-5.1.8.RELEASE.jar:5.1.8.RELEASE]
+	at org.springframework.context.annotation.ConfigurationClassParser.processConfigurationClass(ConfigurationClassParser.java:240) ~[spring-context-5.1.8.RELEASE.jar:5.1.8.RELEASE]
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:199) ~[spring-context-5.1.8.RELEASE.jar:5.1.8.RELEASE]
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:167) ~[spring-context-5.1.8.RELEASE.jar:5.1.8.RELEASE]
+	... 16 common frames omitted
+
+2024-07-18 20:40:15.654  INFO 12636 --- [restartedMain] com.example.backend.BackendApplication   : Starting BackendApplication on LAPTOP-RNP66FO5 with PID 12636 (E:\frontendProject\softCup_2024\backend\target\classes started by 31589 in E:\frontendProject\softCup_2024\backend)
+2024-07-18 20:40:15.660  INFO 12636 --- [restartedMain] com.example.backend.BackendApplication   : The following profiles are active: dev
+2024-07-18 20:40:16.072  WARN 12636 --- [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.example.backend]' package. Please check your configuration.
+2024-07-18 20:40:16.354  INFO 12636 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8888 (http)
+2024-07-18 20:40:16.359  INFO 12636 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-07-18 20:40:16.363  INFO 12636 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.21]
+2024-07-18 20:40:16.365  INFO 12636 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : Loaded APR based Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2024-07-18 20:40:16.367  INFO 12636 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2024-07-18 20:40:16.367  INFO 12636 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2024-07-18 20:40:16.368  INFO 12636 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2024-07-18 20:40:16.401  INFO 12636 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-07-18 20:40:16.401  INFO 12636 --- [restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 736 ms
+2024-07-18 20:40:17.369  INFO 12636 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@568338ef, org.springframework.security.web.context.SecurityContextPersistenceFilter@6d0d4566, org.springframework.security.web.header.HeaderWriterFilter@79b636c6, org.springframework.security.web.authentication.logout.LogoutFilter@6ae72275, com.example.backend.config.spring.security.TokenVerifyFilter@2ad587d6, com.example.backend.config.spring.security.TokenLoginFilter@1825a461, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4de2ca7e, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5aad502, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@156894cb, org.springframework.security.web.session.SessionManagementFilter@1c4e7d87, org.springframework.security.web.access.ExceptionTranslationFilter@23207de4, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@599a8b4d]
+2024-07-18 20:40:17.448  INFO 12636 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2024-07-18 20:40:17.528  INFO 12636 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-07-18 20:40:17.548  INFO 12636 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8888 (http) with context path ''
+2024-07-18 20:40:17.549  INFO 12636 --- [restartedMain] com.example.backend.BackendApplication   : Started BackendApplication in 1.932 seconds (JVM running for 16.482)
+2024-07-18 20:40:17.551  INFO 12636 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-07-18 20:40:43.614  INFO 12636 --- [http-nio-8888-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-07-18 20:40:43.614  INFO 12636 --- [http-nio-8888-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-07-18 20:40:43.620  INFO 12636 --- [http-nio-8888-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
+2024-07-18 20:40:43.753  INFO 12636 --- [http-nio-8888-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-07-18 20:40:43.851  INFO 12636 --- [http-nio-8888-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
