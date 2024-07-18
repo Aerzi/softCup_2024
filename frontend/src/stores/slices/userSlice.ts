@@ -1,9 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UserState } from "../../types/UserType";
+import { getLocalData } from "../../utils/Storage";
 
 const initialState: UserState = {
   role: "student",
   isLogin: false,
+  data: getLocalData("user"),
 };
 
 // 创建slice
