@@ -85,7 +85,7 @@ public class ProjectController extends BaseApiController {
         String receivedMessage = null;
         ProjectSparkCommonResult result = null;
         try {
-            webSocketService.connect(systemConfig.getWebSocketPropertyConfig().getUrl());
+            webSocketService.connect(systemConfig.getWebSocketPropertyConfig().getChainUrl());
             webSocketService.sendMessage(gson.toJson(message));
 
             receivedMessage = webSocketService.getReceivedMessage();
