@@ -144,19 +144,16 @@ CREATE TABLE t_project_step (
 ) ENGINE = InnoDB  CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
--- Table structure for t_task
+-- Table structure for t_proj_step
 -- ----------------------------
-DROP TABLE IF EXISTS `t_task`;
-CREATE TABLE t_task (
+DROP TABLE IF EXISTS `t_programming_assess`;
+CREATE TABLE t_programming_assess (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL, -- 用于区分任务类型，例如编程题任务或者项目开发任务
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, -- 发布的任务描述，可选
-  `status` int NULL DEFAULT NULL,
-  `deleted` bit(1) NULL DEFAULT NULL,
-  `class_id` int NULL DEFAULT NULL,-- 哪个班级发布的任务
-  `question_id` int NULL DEFAULT NULL,-- 题目id
-  `proj_id` int NULL DEFAULT NULL,-- 项目id
+  `feedback` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `modified_code` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `error_analysis` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `optimization_suggestions` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `question_id` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB  CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = COMPACT;
 

@@ -9,10 +9,10 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class JudgeSubmitRequest {
     @NotNull
-    private Integer userId;
+    private Integer questionId;
 
     @NotNull
-    private Integer questionId;
+    private Integer classId;
 
     private JudgeRequest request;
 }
