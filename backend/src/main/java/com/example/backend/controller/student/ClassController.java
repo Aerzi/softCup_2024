@@ -48,7 +48,7 @@ public class ClassController extends BaseApiController {
 
     //学生退出课程
     @DeleteMapping("/exit")
-    public RestResponse exitClass(@PathVariable ClassStudentExitRequest request){
+    public RestResponse exitClass(@RequestBody ClassStudentExitRequest request){
         ClassStudent classStudent  = new ClassStudent();
         classStudent.setUserId(getCurrentUser().getId());
         classStudent.setClassId(request.getClassId());
