@@ -22,6 +22,15 @@ const config = {
   devServer: {
     open: true,
     host: "localhost",
+    port: 8080,
+    proxy: [
+      {
+        context: ["/api"], // 你希望代理的路径
+        target: "http://localhost:8888", // 你的后端服务地址
+        changeOrigin: true,
+        secure: false,
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
