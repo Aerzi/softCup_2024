@@ -3,9 +3,9 @@ import { UserState } from "../../types/UserType";
 import { getLocalData } from "../../utils/Storage";
 
 const initialState: UserState = {
-  role: "student",
-  isLogin: false,
-  data: getLocalData("user"),
+  role: getLocalData("role") || "student",
+  isLogin: getLocalData("isLogin") || false,
+  data: getLocalData("user") || null,
 };
 
 // 创建slice

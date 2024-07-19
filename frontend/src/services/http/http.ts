@@ -18,9 +18,6 @@ instance.interceptors.request.use((config) => {
 // 响应拦截器
 instance.interceptors.response.use(
   (response) => {
-    // 保存响应标头中的token
-    response.headers.Authorization &&
-      setLocalData("token", response.headers.Authorization);
     return response.data;
   },
   (error) => {
@@ -31,6 +28,10 @@ instance.interceptors.response.use(
       // 如果状态码是403，但业务状态码是200，则视为成功响应
       if (status === 403 && data.code === 200) {
         console.log("特殊情况的成功响应");
+        // 保存响应标头中的token
+        console.log("response", error.response.headers.authorization);
+        error.response.headers.authorization &&
+          setLocalData("token", error.response.headers.authorization);
         return data; // 直接返回数据
       }
 

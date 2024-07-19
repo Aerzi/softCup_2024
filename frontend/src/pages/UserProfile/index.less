@@ -2,7 +2,9 @@
 
 .xf-user__page {
   width: 100%;
-  height: 100%;
+  height: auto;
+  min-height: 100vh;
+  background-image: linear-gradient(to right, #a8edea 0%, #fed6e3 100%);
   .xf-user__header {
     width: 100%;
     top: 0;
@@ -31,10 +33,25 @@
       .xf-user__main-content-card {
         width: 100%;
         height: 100%;
+        min-height: 80vh;
         position: relative;
       }
     }
   }
+}
+
+.exit-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; // 根据需要调整间距
+}
+
+.exit-button {
+  font-size: 18px; // 根据需要调整字体大小
+  padding: 10px 20px; // 根据需要调整按钮大小
+  width: 300px;
+  height: 72px;
 }
 
 .xf-user__mask {
