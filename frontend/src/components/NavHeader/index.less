@@ -33,6 +33,7 @@
     height: 64px;
     width: 100px;
     user-select: none;
+    list-style: none;
   }
 
   .xf-header__nav-item-link {
@@ -78,6 +79,38 @@
     /* 下划线高度 */
     background-color: #fff;
     /* 下划线颜色 */
+  }
+}
+
+.link-box {
+  width: 100px;
+  height: 64px;
+  line-height: 64px;
+  position: relative;
+  .login-link {
+    color: white;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .login-link::before {
+    content: "";
+    position: absolute;
+    bottom: 16px;
+    left: 0;
+    width: 0;
+    /* 初始宽度为0 */
+    height: 2px;
+    /* 下划线高度 */
+    background-color: #fff;
+    /* 下划线颜色 */
+  }
+
+  .login-link:hover::before {
+    animation: underlineAnimation 0.5s ease-in-out forwards;
   }
 }
 

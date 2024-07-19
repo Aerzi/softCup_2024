@@ -1,21 +1,42 @@
-import { Radar } from '@ant-design/plots';
-import React from 'react';
+import { Radar } from "@ant-design/plots";
+import React from "react";
 
 const data = [
-  { name: 'G2', star: 10371 },
-  { name: 'G6', star: 7380 },
-  { name: 'F2', star: 7414 },
-  { name: 'L7', star: 2140 },
-  { name: 'X6', star: 660 },
-  { name: 'AVA', star: 885 },
-  { name: 'G2Plot', star: 1626 },
+  {
+    name: "编程语言掌握度",
+    star: 70,
+  },
+  {
+    name: "算法与数据结构",
+    star: 60,
+  },
+  {
+    name: "操作系统知识",
+    star: 50,
+  },
+  {
+    name: "网络编程",
+    star: 40,
+  },
+  {
+    name: "数据库管理",
+    star: 50,
+  },
+  {
+    name: "软件开发流程",
+    star: 70,
+  },
+  {
+    name: "软件工程",
+    star: 60,
+  },
 ];
 
 const RadarChart = () => {
   const config = {
     data: data.map((d) => ({ ...d, star: Math.sqrt(d.star) })),
-    xField: 'name',
-    yField: 'star',
+    xField: "name",
+    yField: "star",
     area: {
       style: {
         fillOpacity: 0.2,
@@ -36,7 +57,7 @@ const RadarChart = () => {
         grid: true,
       },
       y: {
-        gridAreaFill: 'rgba(0, 0, 0, 0.04)',
+        gridAreaFill: "rgba(0, 0, 0, 0.04)",
         label: false,
         title: false,
       },

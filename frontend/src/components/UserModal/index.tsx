@@ -8,7 +8,6 @@ import teacher from "./teacher.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../stores/redux/store";
 import { updateUser } from "../../stores/slices/userSlice";
-import { use } from "echarts";
 import {
   onLogin,
   onLogout,
@@ -16,6 +15,7 @@ import {
   onTeacherRegister,
 } from "../../services/userService";
 import { setLocalData } from "../../utils/Storage";
+import { useNavigate } from "react-router";
 
 interface UserModalData {
   isOpen: boolean;
@@ -29,6 +29,7 @@ type FieldType = {
 };
 
 const UserModal = ({ isOpen, setIsOpen }: UserModalData) => {
+  const navigate = useNavigate();
   // 全局挂载messageApi
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -38,18 +39,13 @@ const UserModal = ({ isOpen, setIsOpen }: UserModalData) => {
   // tabs激活页管理
   const [activeTabsKey, setActiveTabsKey] = useState("1");
 
+  const [isStudent, setIsStudent] = useState(true);
+
   // 引入user, 有student和teacher两种状态
   const user = useSelector((state: RootState) => state.user);
 
   // 使用useDispatch钩子获取dispatch函数
   const dispatch = useDispatch();
-  // 定义一个切换角色的函数
-  const toggleRole = () => {
-    // 根据当前角色切换到另一个角色
-    dispatch(
-      updateUser({ role: user.role === "student" ? "teacher" : "student" })
-    );
-  };
 
   const onUserLogin = (username: string, password: string) => {
     // 调用统一登录接口，不需要对角色做出判断
@@ -61,8 +57,16 @@ const UserModal = ({ isOpen, setIsOpen }: UserModalData) => {
           // 说明成功，调用messageApi表示目前登录状态ok
           messageApi.open({ type: "success", content: res.message });
           // 保存用户信息
-          setLocalData("user", res.response);
           dispatch(updateUser({ isLogin: true, data: res.response }));
+
+          // 存储本地，持久化
+          setLocalData("user", res.response);
+          setLocalData("role", isStudent ? "student" : "teacher");
+          setLocalData("isLogin", true);
+          // 需要跳转到用户信息页
+          navigate("/userprofile");
+          // 同时关闭登录框
+          setIsOpen(false);
         } else {
           messageApi.open({ type: "error", content: res.message });
         }
@@ -75,7 +79,7 @@ const UserModal = ({ isOpen, setIsOpen }: UserModalData) => {
 
   const onUserRegister = (username: string, password: string) => {
     // 调用注册接口，需要对角色做出判断
-    if (user.role === "student") {
+    if (isStudent) {
       onStudentRegister(username, password)
         .then((res: any) => {
           console.log("res.code为", res.code);
@@ -291,18 +295,18 @@ const UserModal = ({ isOpen, setIsOpen }: UserModalData) => {
                 bordered
                 style={{ width: "100%", height: "100%" }}
                 className="xf-user__modal-card-body"
-                onClick={() => toggleRole()}
+                onClick={() => setIsStudent(!isStudent)}
               >
                 {/* 判断之后，展示导入的图片 */}
-                {user.role === "student" ? (
+                {isStudent ? (
                   <div className="xf-user__modal-card-body-content">
                     <img src={student} className="xf-user__modal-card-img" />
-                    <span className="xf-user__modal-card-text">我是学生</span>
+                    <span className="xf-user__modal-card-text">我是学生~</span>
                   </div>
                 ) : (
                   <div className="xf-user__modal-card-body-content">
                     <img src={teacher} className="xf-user__modal-card-img" />
-                    <span className="xf-user__modal-card-text">我是老师</span>
+                    <span className="xf-user__modal-card-text">我是老师🌹</span>
                   </div>
                 )}
               </ProCard>
