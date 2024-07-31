@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./index.less";
 import { NavLink } from "react-router-dom";
 import UserModal from "../UserModal";
@@ -17,6 +17,11 @@ const NavHeader = () => {
   // 对于导航栏，需要设置两种状态，一种是已登录，一种是未登录
   // 引入user, 有student和teacher两种状态
   const user = useSelector((state: RootState) => state.user);
+  const [userRole, setUserRole] = useState<string>("student");
+
+  useEffect(() => {
+    setUserRole(user.role);
+  }, [user.role]);
 
   return (
     <>
@@ -34,7 +39,7 @@ const NavHeader = () => {
             </NavLink>
           </li>
 
-          {user.role === "student" ? (
+          {userRole === "student" ? (
             <>
               <li className="xf-header__nav-item">
                 <NavLink

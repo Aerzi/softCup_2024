@@ -14,24 +14,21 @@ const TabsContentBox = ({ activeKey }: { activeKey: number }) => {
         <div className="xf-tabs-content-box__left">
           <h3 className="xf-tabs-content-box__left-title">学习规划特点</h3>
           <p className="xf-tabs-content-box__left-text">
-            <CheckOutlined style={{ color: "rgb(96,190,158)" }} /> 特点1
+            <CheckOutlined style={{ color: "rgb(96,190,158)" }} />{" "}
+            个人能力星图，明确优势缺陷
           </p>
           <p className="xf-tabs-content-box__left-text">
-            <CheckOutlined style={{ color: "rgb(96,190,158)" }} /> 特点2
+            <CheckOutlined style={{ color: "rgb(96,190,158)" }} />{" "}
+            及时评估反馈，每次都有新收获
           </p>
           <p className="xf-tabs-content-box__left-text">
-            <CheckOutlined style={{ color: "rgb(96,190,158)" }} /> 特点3
-          </p>
-          <p className="xf-tabs-content-box__left-text">
-            <CheckOutlined style={{ color: "rgb(96,190,158)" }} /> 特点4
-          </p>
-          <p className="xf-tabs-content-box__left-textarea">
-            简述学生可以在此实现何种功能
+            <CheckOutlined style={{ color: "rgb(96,190,158)" }} />{" "}
+            基于个人学情，全方位未来规划
           </p>
         </div>
         <div className="xf-tabs-content-box__right">
           <div className="xf-tabs-content-box__right-content">
-            <img src={studyPlanPng} alt="" />
+            <img src={studyPlanPng} alt="" style={{ width: "100%" }} />
           </div>
         </div>
       </>

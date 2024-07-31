@@ -1,18 +1,23 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
 import * as echarts from "echarts";
-import data from "./data.json";
+import { Button } from "antd";
 
-const TreeChart = () => {
+const TreeChart = ({ data }: any) => {
   const chartRef = useRef(null);
   let myChart: echarts.ECharts = null;
 
+  const handleFullScreen = useCallback(() => {
+    if (myChart) {
+      myChart.dispatchAction({ type: "togglefullscreen" });
+    }
+  }, [myChart]);
+
   useEffect(() => {
-    // 在组件挂载后初始化echarts实例
     if (chartRef.current !== null) {
       myChart = echarts.init(chartRef.current);
     }
 
-    // 定义option，这里应该是你的完整option配置...
+    // 定义option
     const option = {
       tooltip: {
         trigger: "item",
@@ -24,22 +29,22 @@ const TreeChart = () => {
           data: [data],
           left: "2%",
           right: "2%",
-          top: "8%",
-          bottom: "20%",
+          top: "20%",
+          bottom: "8%",
           symbol: "emptyCircle",
-          orient: "vertical",
+          orient: "horizontal",
           expandAndCollapse: true,
           label: {
-            position: "top",
-            rotate: -90,
+            position: "right",
+            rotate: 0,
             verticalAlign: "middle",
             align: "right",
             fontSize: 9,
           },
           leaves: {
             label: {
-              position: "bottom",
-              rotate: -90,
+              position: "left",
+              rotate: 0,
               verticalAlign: "middle",
               align: "left",
             },
@@ -47,12 +52,21 @@ const TreeChart = () => {
           animationDurationUpdate: 750,
         },
       ],
+      legend: {
+        top: "top",
+        orient: "horizontal",
+        selectedMode: true,
+        data: ["tree"],
+      },
     };
 
     // 使用刚初始化的实例设置图表选项
-    if (myChart !== null) {
-      myChart.setOption(option);
-    }
+    myChart.setOption(option);
+
+    // 监听图例的点击事件
+    myChart.on("legendselectchanged", (params) => {
+      handleFullScreen();
+    });
 
     // 组件卸载时的逻辑，例如销毁echarts实例
     return () => {
@@ -60,9 +74,19 @@ const TreeChart = () => {
         myChart.dispose();
       }
     };
-  }, []); // 空依赖数组确保这个effect只在组件挂载时运行一次
+  }, [data, handleFullScreen]);
 
-  return <div ref={chartRef} style={{ width: "100%", height: "100%" }}></div>;
+  useEffect(() => {
+    if (myChart) {
+      myChart.resize();
+    }
+  }, [chartRef]); // 当chartRef变化时，重新调整图表大小
+
+  return (
+    <div style={{ width: "90%", height: "90%", position: "relative" }}>
+      <div ref={chartRef} style={{ width: "100%", height: "100%" }}></div>
+    </div>
+  );
 };
 
 export default TreeChart;
