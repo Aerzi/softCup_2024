@@ -7,7 +7,7 @@ import LinkLoader from "../../components/LinkLoader";
 import ChatBox from "../../components/ChatBox";
 
 const SoftwareDevelopment = () => {
-  const [code, setCode] = useState('');
+  const [code, setCode] = useState("");
   const [isLinkLoading, setIsLinkLoading] = useState(false);
 
   const handleEditorChange = (newValue: string) => {
@@ -22,21 +22,35 @@ const SoftwareDevelopment = () => {
         </header>
         <main className="xf-soft__main">
           <div className="xf-soft__main-content">
-            <div className="xf-soft__main-content-left">
-              <ProCard bordered boxShadow className="xf-soft__main--content-left-card">
-                <LinkLoader isLinkLoading={isLinkLoading} setIsLinkLoading={setIsLinkLoading} />
+            <div
+              className="xf-soft__main-content-left"
+              style={isLinkLoading ? { width: "13%" } : { width: "35%" }}
+            >
+              <ProCard
+                bordered
+                boxShadow
+                className="xf-soft__main--content-left-card"
+              >
+                <LinkLoader
+                  isLinkLoading={isLinkLoading}
+                  setIsLinkLoading={setIsLinkLoading}
+                />
               </ProCard>
             </div>
-            <div className="xf-soft__main-content-right">
-              {
-                isLinkLoading ? <ChatBox /> : <CodeSphere
+            <div
+              className="xf-soft__main-content-right"
+              style={isLinkLoading ? { width: "87%" } : { width: "65%" }}
+            >
+              {isLinkLoading ? (
+                <ChatBox />
+              ) : (
+                <CodeSphere
                   value={code}
-                  language={"javascript" || "json" || "typescript" || "mysql" || "html" || "xml" || "python"} 
+                  language={"python"}
                   onChange={handleEditorChange}
                   select={true}
                 />
-              }
-
+              )}
             </div>
           </div>
         </main>

@@ -17,6 +17,10 @@ import NavHeader from "../../components/NavHeader";
 import "./index.less";
 import CreateClassForm from "../../components/AboutClass/CreateClass";
 import PageClass from "../../components/AboutClass/getPageClass";
+import QuestionModal from "../../components/AboutQuestion/QuestionModal";
+import QuestionPage from "../../components/AboutQuestion/QuestionPage";
+import ProjectPage from "../../components/AboutProject/ProjectTable";
+import ProjectModal from "../../components/AboutProject/ProjectModal";
 
 const { SubMenu } = Menu;
 const { Title } = Typography;
@@ -92,19 +96,13 @@ const ClassManagement = () => {
                 </Card>
               )}
               {current === "3" && (
-                <Card
-                  title="发布项目开发任务"
-                  extra={<Button type="primary">发布</Button>}
-                >
-                  <p>在这里填写项目开发任务的相关信息。</p>
+                <Card title="发布项目开发任务" extra={<ProjectModal />}>
+                  <ProjectPage />
                 </Card>
               )}
               {current === "4" && (
-                <Card
-                  title="发布编程习题任务"
-                  extra={<Button type="primary">发布</Button>}
-                >
-                  <p>在这里填写编程习题任务的相关信息。</p>
+                <Card title="发布编程习题任务" extra={<QuestionModal />}>
+                  <QuestionPage />
                 </Card>
               )}
             </Space>

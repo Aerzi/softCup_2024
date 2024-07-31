@@ -20,7 +20,7 @@ const UserProfile = () => {
           localStorage.clear();
           dispatch(updateUser({ isLogin: false, data: null, role: "student" }));
           // 跳转到登录页
-          navigate("/login");
+          navigate("/");
         } else {
           message.error(res.message);
         }
