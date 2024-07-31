@@ -23,13 +23,44 @@ export const addTeacherQuestion = (data: IQuestion) => {
  * @param pageSize
  * @returns
  */
-export const getPageTeacherQuestion = (pageIndex: number, pageSize: number) => {
+export const getPageTeacherQuestion = (
+  pageIndex: number,
+  pageSize: number,
+  classId: number
+) => {
   return request(
     "post",
     "teacher/question/page",
     {
       pageIndex: pageIndex,
       pageSize: pageSize,
+      classId: classId,
+    },
+    {
+      headers: {
+        Authorization:
+          getLocalData("token") !== null ? getLocalData("token") : "",
+      },
+    }
+  );
+};
+
+export const onGetTeacherClassList = () => {
+  return request("get", "teacher/question/list", {}, {});
+};
+
+export const onStudentGetQuestionPage = ({
+  pageIndex,
+  pageSize,
+  classId,
+}: any): any => {
+  return request(
+    "post",
+    "student/question/page",
+    {
+      pageIndex,
+      pageSize,
+      classId,
     },
     {
       headers: {

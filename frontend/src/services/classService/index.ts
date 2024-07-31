@@ -72,3 +72,19 @@ export const onDeleteClass = (id: number) => {
     }
   );
 };
+
+export const onGetTeacherClassList = () => {
+  return request(
+    "get",
+    "teacher/class/list",
+    {},
+    {
+      headers: {
+        Authorization:
+          getLocalData("token") !== null ? getLocalData("token") : "",
+      },
+    }
+  );
+};
+
+// 学生加入课堂
