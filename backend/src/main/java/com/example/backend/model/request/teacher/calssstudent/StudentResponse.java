@@ -7,14 +7,10 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class Student {
+public class StudentResponse {
     private Integer id;
 
-    private String userUuid;
-
     private String userName;
-
-    private String realName;
 
     private Integer age;
 
@@ -22,11 +18,5 @@ public class Student {
 
     private Date birthDay;
 
-    private String phone;
-
     private Integer status;
-
-    private String createTime;
-
-    private String modifyTime;
 }

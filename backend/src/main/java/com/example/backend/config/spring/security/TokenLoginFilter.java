@@ -6,6 +6,8 @@ import com.example.backend.service.UserService;
 import com.example.backend.config.application.ApplicationContextProvider;
 import com.example.backend.utils.JsonUtil;
 import com.example.backend.utils.JwtUtil;
+import com.example.backend.utils.ModelMapperSingle;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,6 +24,8 @@ import java.io.InputStream;
 
 public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
+
+    protected final static ModelMapper modelMapper = ModelMapperSingle.Instance();
 
     public TokenLoginFilter(AuthenticationManager authenticationManager){
         this.authenticationManager = authenticationManager;
@@ -83,8 +87,8 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
             com.example.backend.model.entity.User user = userService().getUserByUserName(springUser.getUsername());
             if (null != user) {
                 com.example.backend.model.entity.User newUser = new com.example.backend.model.entity.User();
-                newUser.setUserName(user.getUserName());
-                newUser.setImagePath(user.getImagePath());
+                newUser = modelMapper.map(user,com.example.backend.model.entity.User.class);
+                newUser.setPassword(null);
                 RestUtil.response(response, SystemCode.OK.getCode(), SystemCode.OK.getMessage(), newUser);
                 response.setStatus(HttpServletResponse.SC_OK);
             } else {
