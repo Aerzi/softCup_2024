@@ -67,6 +67,22 @@ public class ClassServiceImpl extends ServiceImpl<ClassMapper, Class> implements
     }
 
     @Override
+    public PageInfo<Class> page(com.example.backend.model.request.student.aclass.ClassPageRequest request) {
+        LambdaQueryWrapper<Class> classQueryWrapper = new LambdaQueryWrapper<>();
+        classQueryWrapper.eq(request.getId()!= null,Class::getId,request.getId())
+                .eq(request.getName()!=null,Class::getName,request.getName())
+                .like(request.getDescription()!=null,Class::getDescription,request.getDescription())
+                .ge(request.getCreateTime()!=null,Class::getCreateTime,request.getCreateTime())
+                .eq(request.getModifyTime()!=null,Class::getModifyTime,request.getModifyTime())
+                .eq(request.getStatus()!=null,Class::getStatus,request.getStatus())
+                .eq(request.getUserId()!=null,Class::getUserId,request.getUserId())
+                .eq(Class::getDeleted,0);
+        return PageHelper.startPage(request.getPageIndex(),request.getPageSize(),"id desc").doSelectPageInfo(()->
+                classMapper.selectList(classQueryWrapper)
+        );
+    }
+
+    @Override
     public void updateByIdFilter(Class request) {
         classMapper.updateById(request);
     }

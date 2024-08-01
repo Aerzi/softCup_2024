@@ -20,6 +20,7 @@ public interface ClassService extends IService<Class> {
     public Class select(Integer id);
     public List<Class> list();
     public PageInfo<Class> page(ClassPageRequest request);
+    public PageInfo<Class> page(com.example.backend.model.request.student.aclass.ClassPageRequest request);
     public void updateByIdFilter(Class request);
     public void deleteByIdFilter(Integer id);
 }

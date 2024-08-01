@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ClassStudentResponse {
-    private PageInfo<Student> students;
+    private PageInfo<StudentResponse> students;
 
     private Integer classId;
 }

@@ -54,8 +54,8 @@ public class SecurityConfig {
 
             List<String> securityIgnoreUrls = systemConfig.getSecurityIgnoreUrls();
             String[] ignores = new String[securityIgnoreUrls.size()];
-            http.csrf().disable()
-                    .addFilterAt(new TokenLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+            http.csrf().disable().httpBasic()
+                    .and().addFilterAt(new TokenLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class)
                     .addFilterBefore(new TokenVerifyFilter(), TokenLoginFilter.class)
                     .exceptionHandling().authenticationEntryPoint(loginAuthenticationEntryPoint)
                     .and().authenticationProvider(restAuthenticationProvider)
