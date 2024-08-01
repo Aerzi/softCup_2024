@@ -1,0 +1,101 @@
+.xf-chat__page {
+  width: 100%;
+  height: 100%;
+  background-color: #eee;
+  border-radius: 8px;
+}
+
+.chat-box {
+  width: 100%;
+  height: calc(100% - 60px);
+  padding: 10px;
+  position: relative;
+}
+
+.chat-content {
+  height: calc(100% - 100px);
+  /* 减去输入框和按钮的高度 */
+  overflow-y: auto;
+  background-image: linear-gradient(
+    to top,
+    #fad0c4 0%,
+    #fad0c4 1%,
+    #ffd1ff 100%
+  );
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.message-container {
+  width: 100%;
+  min-height: 50px;
+  height: auto;
+  padding: 5px 10px;
+  /* 使用flex布局 */
+  display: flex;
+  /* 垂直方向排列 */
+  flex-direction: column;
+  /* 消息默认在左侧对齐 */
+  align-items: flex-start;
+}
+
+.message {
+  min-width: 50px;
+  max-width: 1200px;
+  height: auto;
+  min-height: 40px;
+  padding: 5px;
+  margin: 7px;
+  border-radius: 5px;
+  font-family: "思源黑体 Normal";
+  font-size: 1rem;
+  line-height: 30px;
+  word-break: break-all;
+  clear: both;
+  /* 清除浮动 */
+}
+
+.message.user {
+  background-color: rgb(63, 118, 252);
+  color: #fff;
+  text-align: left;
+  word-break: break-all;
+  float: right;
+  /* 将用户消息浮动到右边 */
+  margin-left: auto;
+  /* 将用户消息推到容器的右边 */
+  margin-right: 0;
+  /* 清除默认的右边距 */
+}
+
+.message.ai {
+  background-color: #fff;
+  color: black;
+  text-align: left;
+  word-break: break-all;
+  float: left;
+  /* 将AI消息浮动到左边 */
+  margin-right: auto;
+  /* 将AI消息推到容器的左边 */
+  margin-left: 0;
+  /* 清除默认的左边距 */
+}
+
+.chat-footer {
+  width: 100%;
+  height: 60px;
+
+  input[type="text"] {
+    width: calc(100% - 70px);
+    /* 减去按钮宽度 */
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+
+  .send-btn {
+    width: 60px;
+    margin: 0 auto;
+    padding: 5px 20px;
+    float: right;
+  }
+}
