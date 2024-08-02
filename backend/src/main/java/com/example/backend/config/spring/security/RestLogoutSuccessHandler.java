@@ -36,7 +36,11 @@ public class RestLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
         org.springframework.security.core.userdetails.User springUser = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
         if (null != springUser) {
             User user = userService.getUserByUserName(springUser.getUsername());
-            UserEventLog userEventLog = new UserEventLog(user.getId(), user.getUserName(), new Date());
+
+            UserEventLog userEventLog = new UserEventLog();
+            userEventLog.setUserId(user.getId());
+            userEventLog.setUserName(user.getUserName());
+            userEventLog.setCreateTime(new Date());
             userEventLog.setContent(user.getUserName() + EventLogMessage.LOGOUT);
             eventPublisher.publishEvent(new UserEvent(userEventLog));
         }

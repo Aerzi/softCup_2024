@@ -53,9 +53,14 @@ public class UserController extends BaseApiController {
         user.setCreateTime(new Date());
         user.setDeleted(false);
         userService.insertByFilter(user);
-        UserEventLog userEventLog = new UserEventLog(user.getId(), user.getUserName(), new Date());
+
+        UserEventLog userEventLog = new UserEventLog();
+        userEventLog.setUserId(user.getId());
+        userEventLog.setUserName(user.getUserName());
+        userEventLog.setCreateTime(new Date());
         userEventLog.setContent(EventLogMessage.WELCOME + user.getUserName() + EventLogMessage.REGISTER);
         eventPublisher.publishEvent(new UserEvent(userEventLog));
+
         return RestResponse.ok();
     }
 

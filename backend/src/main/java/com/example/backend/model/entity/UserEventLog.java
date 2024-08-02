@@ -37,11 +37,4 @@ public class UserEventLog implements Serializable {
     private Boolean deleted;
 
     private Date createTime;
-
-    public UserEventLog(Integer userId, String userName, Date createTime) {
-        this.userId = userId;
-        this.userName = userName;
-        this.createTime = createTime;
-        this.deleted = false;
-    }
 }

@@ -99,7 +99,10 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
                 RestUtil.response(response, SystemCode.OK.getCode(), SystemCode.OK.getMessage(), newUser);
                 response.setStatus(HttpServletResponse.SC_OK);
 
-                UserEventLog userEventLog = new UserEventLog(newUser.getId(), newUser.getUserName(), new Date());
+                UserEventLog userEventLog = new UserEventLog();
+                userEventLog.setUserId(newUser.getId());
+                userEventLog.setUserName(newUser.getUserName());
+                userEventLog.setCreateTime(new Date());
                 userEventLog.setContent(newUser.getUserName() + EventLogMessage.LOGIN);
                 userEventLogService().insertByFilter(userEventLog);
 

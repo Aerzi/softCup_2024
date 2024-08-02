@@ -16,5 +16,5 @@ public class UserEventLogResponse {
 
     private String content;
 
-    private Date createTime;
+    private String createTime;
 }
