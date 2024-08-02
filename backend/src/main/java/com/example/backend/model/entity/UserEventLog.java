@@ -3,6 +3,7 @@ package com.example.backend.model.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -11,7 +12,7 @@ import lombok.Setter;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author feixia0g
@@ -24,7 +25,7 @@ public class UserEventLog implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-      @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     private Integer userId;
@@ -36,4 +37,11 @@ public class UserEventLog implements Serializable {
     private Boolean deleted;
 
     private Date createTime;
+
+    public UserEventLog(Integer userId, String userName, Date createTime) {
+        this.userId = userId;
+        this.userName = userName;
+        this.createTime = createTime;
+        this.deleted = false;
+    }
 }
