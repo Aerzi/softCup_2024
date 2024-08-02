@@ -84,12 +84,11 @@ DROP TABLE IF EXISTS `t_question`;
 CREATE TABLE t_question (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL, -- 用于区分题目类型，例如选择/判断/填空/编程题
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, -- 题目描述，可选
-  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, -- 题目内容
-  `score` int(11) NULL DEFAULT NULL,-- 题目分数
-  `difficult` int(11) NULL DEFAULT NULL,-- 题目难度
-  `correct` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,-- 题目正确答案
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, 
+  `format` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `example` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `difficult` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `tips` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `create_time` datetime NULL DEFAULT NULL,
   `modify_time` datetime NULL DEFAULT NULL,
   `status` int NULL DEFAULT NULL,
@@ -99,63 +98,35 @@ CREATE TABLE t_question (
 ) ENGINE = InnoDB  CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
--- Table structure for t_question_user_answer
--- ----------------------------
-DROP TABLE IF EXISTS `t_question_user_answer`;
-CREATE TABLE t_question_user_answer (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `answer` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,-- 作答答案
-  `score` int(11) NULL DEFAULT NULL,-- 答题分数
-  `deleted` bit(1) NULL DEFAULT NULL,
-  `user_id` int NULL DEFAULT NULL,-- 答题者
-  `question_id` int NULL DEFAULT NULL,-- 回答的问题
-  `class_id` int NULL DEFAULT NULL,-- 所在班级
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB  CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = COMPACT;
-
--- ----------------------------
--- Table structure for t_project
--- ----------------------------
-DROP TABLE IF EXISTS `t_project`;
-CREATE TABLE t_project (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, -- 项目描述，可选
-  `nums` int(11) NULL DEFAULT NULL,-- 思维链步骤数量
-  `finished_condition` int(11) NULL DEFAULT NULL, -- 项目完成情况
-  `deleted` bit(1) NULL DEFAULT NULL,
-  `class_id` int NULL DEFAULT NULL,-- 项目所在班级
-  `user_id` int NULL DEFAULT NULL,-- 项目创建者
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB  CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = COMPACT;
-
--- ----------------------------
--- Table structure for t_proj_step
--- ----------------------------
-DROP TABLE IF EXISTS `t_project_step`;
-CREATE TABLE t_project_step (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, -- 思维链步骤描述，可选
-  `assess` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, -- 思维链步骤评测，可选
-  `finished` bit(1) NULL DEFAULT NULL,-- 该步骤是否完成
-  `deleted` bit(1) NULL DEFAULT NULL,
-  `proj_id` int NULL DEFAULT NULL,-- 项目id
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB  CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = COMPACT;
-
--- ----------------------------
 -- Table structure for t_proj_step
 -- ----------------------------
 DROP TABLE IF EXISTS `t_programming_assess`;
 CREATE TABLE t_programming_assess (
   `id` int NOT NULL AUTO_INCREMENT,
+  `code` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `feedback` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `modified_code` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `error_analysis` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `optimization_suggestions` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `question_id` int(11) NULL DEFAULT NULL,
+  `user_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB  CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = COMPACT;
+
+-- ----------------------------
+-- Table structure for t_user_event_log
+-- ----------------------------
+DROP TABLE IF EXISTS `t_user_event_log`;
+CREATE TABLE `t_user_event_log`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NULL DEFAULT NULL,
+  `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `real_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `deleted` bit(1) NULL DEFAULT NULL,
+  `create_time` datetime NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = COMPACT;
 
 
 

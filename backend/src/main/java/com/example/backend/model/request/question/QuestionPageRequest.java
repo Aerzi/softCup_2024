@@ -4,6 +4,7 @@ import com.example.backend.base.BasePage;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -14,17 +15,15 @@ public class QuestionPageRequest extends BasePage {
 
     private String name;
 
-    private String type;
-
     private String description;
 
-    private String content;
+    private String format;
 
-    private Integer score;
+    private String example;
 
-    private Integer difficult;
+    private String difficult;
 
-    private String correct;
+    private String tips;
 
     private Date createTime;
 

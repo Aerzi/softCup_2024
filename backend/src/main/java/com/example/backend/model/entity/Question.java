@@ -29,17 +29,15 @@ public class Question implements Serializable {
 
     private String name;
 
-    private String type;
-
     private String description;
 
-    private String content;
+    private String format;
 
-    private Integer score;
+    private String example;
 
-    private Integer difficult;
+    private String difficult;
 
-    private String correct;
+    private String tips;
 
     private Date createTime;
 

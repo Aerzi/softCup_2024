@@ -55,16 +55,15 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         LambdaQueryWrapper<Question> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(request.getId()!=null,Question::getId,request.getId())
                 .eq(request.getName()!=null,Question::getName,request.getName())
-                .eq(request.getType()!=null,Question::getType,request.getType())
-                .like(request.getDescription()!=null,Question::getDescription,request.getDescription())
-                .like(request.getContent()!=null,Question::getContent,request.getContent())
-                .eq(request.getScore()!=null,Question::getScore,request.getScore())
+                .like(request.getFormat()!=null,Question::getFormat,request.getFormat())
+                .like(request.getExample()!=null,Question::getExample,request.getExample())
+                .like(request.getDifficult()!=null,Question::getDifficult,request.getDifficult())
+                .like(request.getTips()!=null,Question::getTips,request.getTips())
                 .eq(request.getDifficult()!=null,Question::getDifficult,request.getDifficult())
-                .eq(request.getCorrect()!=null,Question::getCorrect,request.getCorrect())
                 .ge(request.getCreateTime()!=null,Question::getCreateTime,request.getCreateTime())
                 .ge(request.getModifyTime()!=null,Question::getModifyTime,request.getModifyTime())
                 .eq(request.getStatus()!=null,Question::getStatus,request.getStatus())
-                .eq(Question::getDeleted,0)
+                .eq(Question::getDeleted,false)
                 .eq(Question::getClassId,request.getClassId());
 
         return PageHelper.startPage(request.getPageIndex(),request.getPageSize(),"id desc").doSelectPageInfo(()->
@@ -81,7 +80,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     public void deleteByIdFilter(Integer id) {
         LambdaUpdateWrapper<Question> queryWrapper = new LambdaUpdateWrapper<>();
         queryWrapper.eq(Question::getId,id)
-                .set(Question::getDeleted,1);
+                .set(Question::getDeleted,true);
         questionMapper.update(null,queryWrapper);
     }
 

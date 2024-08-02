@@ -14,19 +14,15 @@ public class QuestionAddRequest {
     private String name;
 
     @NotBlank
-    private String type;
-
     private String description;
 
-    @NotBlank
-    private String content;
+    private String format;
 
-    private Integer score;
+    private String example;
 
-    private Integer difficult;
+    private String difficult;
 
-    @NotBlank
-    private String correct;
+    private String tips;
 
     private Date createTime;
 

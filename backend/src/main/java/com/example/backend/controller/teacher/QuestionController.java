@@ -34,11 +34,8 @@ public class QuestionController extends BaseApiController {
     @PostMapping("/add")
     public RestResponse objectiveAdd(@RequestBody @Valid QuestionAddRequest request){
         Question question = modelMapper.map(request,Question.class);
-        if (Objects.equals(request.getType(), QuestionTypeEnum.OBJECTIVE.getDescription())) {
-            question.setType(QuestionTypeEnum.OBJECTIVE.getDescription());
-        } else {
-            question.setType(QuestionTypeEnum.PROGRAMMING.getDescription());
-        }
+        question.setDeleted(false);
+        question.setStatus(1);
         questionService.insertByFilter(question);
         return RestResponse.ok();
     }

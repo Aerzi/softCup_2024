@@ -2,6 +2,7 @@ package com.example.backend.service;
 
 import com.example.backend.model.entity.ProgrammingAssess;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.backend.model.request.student.programmingassess.ProgrammingAssessSelectOneRequest;
 
 /**
  * <p>
@@ -13,6 +14,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ProgrammingAssessService extends IService<ProgrammingAssess> {
     public void insertByFilter(ProgrammingAssess programmingAssess);
-    public ProgrammingAssess select(Integer id);
+    public ProgrammingAssess select(ProgrammingAssessSelectOneRequest request);
     public void updateByIdFilter(ProgrammingAssess programmingAssess);
 }

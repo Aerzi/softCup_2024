@@ -4,6 +4,7 @@ import com.example.backend.base.BaseApiController;
 import com.example.backend.base.RestResponse;
 import com.example.backend.model.entity.ProgrammingAssess;
 import com.example.backend.model.request.student.programmingassess.ProgrammingAssessEditRequest;
+import com.example.backend.model.request.student.programmingassess.ProgrammingAssessSelectOneRequest;
 import com.example.backend.service.ProgrammingAssessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,9 +30,9 @@ public class ProgrammingAssessController extends BaseApiController {
         this.programmingAssessService = programmingAssessService;
     }
 
-    @GetMapping("/select/{id}")
-    public RestResponse<ProgrammingAssess> select(@PathVariable Integer id){
-        return RestResponse.ok(programmingAssessService.select(id));
+    @PostMapping("/select")
+    public RestResponse<ProgrammingAssess> select(@RequestBody @Valid ProgrammingAssessSelectOneRequest request){
+        return RestResponse.ok(programmingAssessService.select(request));
     }
 
     @PutMapping("/edit")
