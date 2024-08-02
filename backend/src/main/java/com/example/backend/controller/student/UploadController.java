@@ -72,6 +72,7 @@ public class UploadController extends BaseApiController {
             file.setDeleted(false);
             file.setStatus(1);
             file.setDescription(request.getParameter("description"));
+            file.setClassId(Integer.valueOf(request.getParameter("classId")));
             file.setDeleted(false);
             file.setUserId(getCurrentUser().getId());
             fileService.insertByFilter(file);
