@@ -3,37 +3,38 @@ package com.example.backend.model.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.io.Serializable;
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author feixia0g
- * @since 2024-07-15 09:20:38
+ * @since 2024-08-02 02:49:01
  */
 @Getter
 @Setter
-@TableName("t_question_user_answer")
-public class QuestionUserAnswer implements Serializable {
+@TableName("t_user_event_log")
+public class UserEventLog implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-      @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
-
-    private String answer;
-
-    private Integer score;
-
-    private Boolean deleted;
 
     private Integer userId;
 
-    private Integer questionId;
+    private String userName;
 
-    private Integer classId;
+    private String content;
+
+    private Boolean deleted;
+
+    private Date createTime;
 }

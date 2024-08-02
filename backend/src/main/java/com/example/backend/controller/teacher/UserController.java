@@ -56,6 +56,9 @@ public class UserController extends BaseApiController {
     public RestResponse edit(@RequestBody @Valid UserEditRequest request){
         User user = modelMapper.map(request,User.class);
         user.setId(getCurrentUser().getId());
+        String encodePwd = authenticationService.pwdEncode(request.getPassword());
+        user.setPassword(encodePwd);
+        user.setModifyTime(new Date());
         userService.edit(user);
         return RestResponse.ok();
     }

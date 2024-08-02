@@ -3,6 +3,8 @@ package com.example.backend.model.request.question;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Getter
@@ -12,23 +14,19 @@ public class QuestionResponse {
 
     private String name;
 
-    private String type;
-
     private String description;
 
-    private String content;
+    private String format;
 
-    private Integer score;
+    private String example;
 
-    private Integer difficult;
+    private String difficult;
 
-    private String correct;
+    private String tips;
 
     private String createTime;
 
     private String modifyTime;
-
-    private Integer status;
 
     private Integer classId;
 }

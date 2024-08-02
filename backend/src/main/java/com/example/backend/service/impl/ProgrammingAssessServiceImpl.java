@@ -1,8 +1,11 @@
 package com.example.backend.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.example.backend.model.entity.ProgrammingAssess;
 import com.example.backend.mapper.ProgrammingAssessMapper;
+import com.example.backend.model.request.student.programmingassess.ProgrammingAssessSelectOneRequest;
 import com.example.backend.service.ProgrammingAssessService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +34,23 @@ public class ProgrammingAssessServiceImpl extends ServiceImpl<ProgrammingAssessM
     }
 
     @Override
-    public ProgrammingAssess select(Integer id) {
-        QueryWrapper<ProgrammingAssess> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("id",id);
+    public ProgrammingAssess select(ProgrammingAssessSelectOneRequest request) {
+        LambdaQueryWrapper<ProgrammingAssess> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(request.getQuestionId()!=null,ProgrammingAssess::getQuestionId,request.getQuestionId())
+                        .eq(request.getUserId()!=null,ProgrammingAssess::getUserId,request.getUserId());
         return programmingAssessMapper.selectOne(queryWrapper);
     }
 
     @Override
     public void updateByIdFilter(ProgrammingAssess programmingAssess) {
         programmingAssessMapper.updateById(programmingAssess);
+    }
+
+    @Override
+    public void updateByQuestionAndUserIdFilter(ProgrammingAssessSelectOneRequest request,ProgrammingAssess programmingAssess) {
+        LambdaUpdateWrapper<ProgrammingAssess> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper.eq(request.getQuestionId()!=null,ProgrammingAssess::getQuestionId,request.getQuestionId())
+                .eq(request.getUserId()!=null,ProgrammingAssess::getUserId,request.getUserId());
+        programmingAssessMapper.update(programmingAssess,lambdaUpdateWrapper);
     }
 }

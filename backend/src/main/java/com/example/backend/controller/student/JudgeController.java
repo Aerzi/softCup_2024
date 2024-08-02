@@ -1,32 +1,29 @@
 package com.example.backend.controller.student;
 
 import com.example.backend.base.BaseApiController;
+import com.example.backend.base.EventLogMessage;
 import com.example.backend.base.RestResponse;
 import com.example.backend.config.property.SystemConfig;
+import com.example.backend.event.UserEvent;
 import com.example.backend.model.entity.ProgrammingAssess;
-import com.example.backend.model.entity.Question;
-import com.example.backend.model.entity.QuestionUserAnswer;
+import com.example.backend.model.entity.UserEventLog;
 import com.example.backend.model.entity.assess.programming.AssessProgramming;
 import com.example.backend.model.entity.judge.JudgeResult;
 import com.example.backend.model.entity.result.ProgrammingAssessResult;
-import com.example.backend.model.enums.QuestionTypeEnum;
 import com.example.backend.model.request.student.judge.JudgeRequest;
 import com.example.backend.model.request.student.judge.JudgeSubmitRequest;
+import com.example.backend.model.request.student.programmingassess.ProgrammingAssessSelectOneRequest;
 import com.example.backend.service.JudgeService;
 import com.example.backend.service.ProgrammingAssessService;
-import com.example.backend.service.QuestionUserAnswerService;
 import com.example.backend.service.WebSocketService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.util.StreamUtils;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
@@ -35,19 +32,19 @@ import java.util.concurrent.ExecutionException;
 @RestController("StudentJudgeController")
 public class JudgeController extends BaseApiController {
     private final JudgeService judgeService;
-    private final QuestionUserAnswerService questionUserAnswerService;
     private final ProgrammingAssessService programmingAssessService;
     private final WebSocketService webSocketService;
+    private final ApplicationEventPublisher eventPublisher;
     private final SystemConfig systemConfig;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private static final Gson gson = new Gson();
 
     @Autowired
-    public JudgeController(JudgeService judgeService, QuestionUserAnswerService questionUserAnswerService, ProgrammingAssessService programmingAssessService, WebSocketService webSocketService, SystemConfig systemConfig) {
+    public JudgeController(JudgeService judgeService, ProgrammingAssessService programmingAssessService, WebSocketService webSocketService, ApplicationEventPublisher eventPublisher, SystemConfig systemConfig) {
         this.judgeService = judgeService;
-        this.questionUserAnswerService = questionUserAnswerService;
         this.programmingAssessService = programmingAssessService;
         this.webSocketService = webSocketService;
+        this.eventPublisher = eventPublisher;
         this.systemConfig = systemConfig;
     }
 
@@ -90,27 +87,37 @@ public class JudgeController extends BaseApiController {
         }
 //
 //        ProgrammingAssess programmingAssess = modelMapper.map(programmingAssessResult,ProgrammingAssess.class);
+
         ProgrammingAssess programmingAssess = new ProgrammingAssess();
-        if(programmingAssessResult.getFeedback() != null)
+        if (programmingAssessResult.getFeedback() != null)
             programmingAssess.setFeedback(programmingAssessResult.getFeedback());
-        if(programmingAssessResult.getModified_code() != null)
+        if (programmingAssessResult.getModified_code() != null)
             programmingAssess.setModifiedCode(programmingAssessResult.getModified_code());
         if (programmingAssessResult.getError_analysis() != null)
             programmingAssess.setErrorAnalysis(programmingAssessResult.getError_analysis());
         if (programmingAssessResult.getOptimization_suggestions() != null)
             programmingAssess.setOptimizationSuggestions(programmingAssessResult.getOptimization_suggestions());
+        programmingAssess.setQuestionId(request.getQuestionId());
+        programmingAssess.setUserId(getCurrentUser().getId());
+        programmingAssess.setCode(result.getSource_code());
 
-        programmingAssessService.insertByFilter(programmingAssess);
+        ProgrammingAssessSelectOneRequest selectOneRequest = new ProgrammingAssessSelectOneRequest();
+        selectOneRequest.setQuestionId(request.getQuestionId());
+        selectOneRequest.setUserId(getCurrentUser().getId());
 
-        //插入学生用户答题
-        QuestionUserAnswer questionUserAnswer = new QuestionUserAnswer();
-        questionUserAnswer.setUserId(getCurrentUser().getId());
-        questionUserAnswer.setClassId(request.getClassId());
-        questionUserAnswer.setQuestionId(request.getQuestionId());
-//        questionUserAnswer.setScore(programmingAssess.getOverallScore());
-        questionUserAnswer.setDeleted(false);
+        if (programmingAssessService.select(selectOneRequest) != null) {
+            //Todo 更新
+            programmingAssessService.updateByQuestionAndUserIdFilter(selectOneRequest,programmingAssess);
+        } else {
+            programmingAssessService.insertByFilter(programmingAssess);
+        }
 
-        questionUserAnswerService.insertByFilter(questionUserAnswer);
+        UserEventLog userEventLog = new UserEventLog();
+        userEventLog.setUserId(getCurrentUser().getId());
+        userEventLog.setUserName(getCurrentUser().getUserName());
+        userEventLog.setCreateTime(new Date());
+        userEventLog.setContent(getCurrentUser().getUserName() + EventLogMessage.PROGRAMMING_ASSESS);
+        eventPublisher.publishEvent(new UserEvent(userEventLog));
 
         return RestResponse.ok(programmingAssessResult);
     }

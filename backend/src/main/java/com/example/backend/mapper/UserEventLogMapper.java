@@ -1,6 +1,6 @@
 package com.example.backend.mapper;
 
-import com.example.backend.model.entity.Project;
+import com.example.backend.model.entity.UserEventLog;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author feixia0g
- * @since 2024-07-17 09:35:01
+ * @since 2024-08-02 02:49:01
  */
-public interface ProjectMapper extends BaseMapper<Project> {
+public interface UserEventLogMapper extends BaseMapper<UserEventLog> {
 
 }

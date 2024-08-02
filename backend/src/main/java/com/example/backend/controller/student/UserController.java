@@ -1,8 +1,11 @@
 package com.example.backend.controller.student;
 
 import com.example.backend.base.BaseApiController;
+import com.example.backend.base.EventLogMessage;
 import com.example.backend.base.RestResponse;
+import com.example.backend.event.UserEvent;
 import com.example.backend.model.entity.User;
+import com.example.backend.model.entity.UserEventLog;
 import com.example.backend.model.enums.RoleEnum;
 import com.example.backend.model.enums.UserStatusEnum;
 import com.example.backend.model.request.user.UserEditRequest;
@@ -12,6 +15,7 @@ import com.example.backend.service.AuthenticationService;
 import com.example.backend.service.UserService;
 import com.example.backend.utils.DateTimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,12 +27,13 @@ import java.util.UUID;
 @RequestMapping(value = "/api/student/user")
 public class UserController extends BaseApiController {
     private final UserService userService;
-
+    private final ApplicationEventPublisher eventPublisher;
     private final AuthenticationService authenticationService;
 
     @Autowired
-    public UserController(UserService userService, AuthenticationService authenticationService){
+    public UserController(UserService userService, ApplicationEventPublisher eventPublisher, AuthenticationService authenticationService){
         this.userService = userService;
+        this.eventPublisher = eventPublisher;
         this.authenticationService = authenticationService;
     }
 
@@ -48,12 +53,23 @@ public class UserController extends BaseApiController {
         user.setCreateTime(new Date());
         user.setDeleted(false);
         userService.insertByFilter(user);
+
+        UserEventLog userEventLog = new UserEventLog();
+        userEventLog.setUserId(user.getId());
+        userEventLog.setUserName(user.getUserName());
+        userEventLog.setCreateTime(new Date());
+        userEventLog.setContent(EventLogMessage.WELCOME + user.getUserName() + EventLogMessage.REGISTER);
+        eventPublisher.publishEvent(new UserEvent(userEventLog));
+
         return RestResponse.ok();
     }
 
     @PutMapping("/edit")
     public RestResponse edit(@RequestBody @Valid UserEditRequest request){
         User user = modelMapper.map(request,User.class);
+        String encodePwd = authenticationService.pwdEncode(request.getPassword());
+        user.setPassword(encodePwd);
+        user.setModifyTime(new Date());
         user.setId(getCurrentUser().getId());
         userService.edit(user);
         return RestResponse.ok();

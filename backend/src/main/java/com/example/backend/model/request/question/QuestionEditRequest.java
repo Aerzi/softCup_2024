@@ -9,22 +9,23 @@ import java.util.Date;
 @Getter
 @Setter
 public class QuestionEditRequest {
-    @NotNull
     private Integer id;
 
     private String name;
 
-    private String type;
-
     private String description;
 
-    private String content;
+    private String format;
 
-    private Integer score;
+    private String example;
 
-    private Integer difficult;
+    private String difficult;
 
-    private String correct;
+    private String tips;
+
+    private Date createTime;
+
+    private Date modifyTime;
 
     private Integer status;
 

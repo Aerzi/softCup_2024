@@ -1,87 +1,45 @@
 package com.example.backend.controller.student;
 
 import com.example.backend.base.BaseApiController;
+import com.example.backend.base.EventLogMessage;
 import com.example.backend.base.RestResponse;
 import com.example.backend.config.property.SystemConfig;
-import com.example.backend.model.entity.Project;
+import com.example.backend.event.UserEvent;
+import com.example.backend.model.entity.UserEventLog;
 import com.example.backend.model.entity.message.ProjectSparkMessage;
 import com.example.backend.model.entity.result.ProjectSparkCommonResult;
-import com.example.backend.model.request.student.project.ProjectAddRequest;
-import com.example.backend.model.request.student.project.ProjectEditRequest;
-import com.example.backend.model.request.student.project.ProjectPageRequest;
-import com.example.backend.model.request.student.project.ProjectResponse;
-import com.example.backend.service.ProjectService;
 import com.example.backend.service.WebSocketService;
-import com.example.backend.utils.PageInfoHelper;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 @RequestMapping("/api/student/project")
 @RestController("StudentProjectController")
 public class ProjectController extends BaseApiController {
-    private final ProjectService projectService;
     private final WebSocketService webSocketService;
+    private final ApplicationEventPublisher eventPublisher;
     private final SystemConfig systemConfig;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private static final Gson gson = new Gson();
 
     @Autowired
-    public ProjectController(ProjectService projectService, WebSocketService webSocketService, SystemConfig systemConfig) {
-        this.projectService = projectService;
+    public ProjectController(WebSocketService webSocketService, ApplicationEventPublisher eventPublisher, SystemConfig systemConfig) {
         this.webSocketService = webSocketService;
+        this.eventPublisher = eventPublisher;
         this.systemConfig = systemConfig;
     }
 
-    @PostMapping("/add")
-    public RestResponse add(@RequestBody @Valid ProjectAddRequest request) {
-        Project project = modelMapper.map(request, Project.class);
-        projectService.insertByFilter(project);
-        return RestResponse.ok();
-    }
-
-    @GetMapping("/select/{id}")
-    public RestResponse<ProjectResponse> select(Integer id) {
-        Project project = projectService.select(id);
-        ProjectResponse response = modelMapper.map(project, ProjectResponse.class);
-        response.setFinishedCondition(project.getFinishedCondition() / 10.0);
-        return RestResponse.ok(response);
-    }
-
-    @PostMapping("/page")
-    public RestResponse<PageInfo<ProjectResponse>> page(@RequestBody @Valid ProjectPageRequest request) {
-        PageInfo<Project> pageInfo = projectService.page(request);
-        PageInfo<ProjectResponse> page = PageInfoHelper.copyMap(pageInfo, e -> {
-            ProjectResponse response = modelMapper.map(e, ProjectResponse.class);
-            response.setFinishedCondition(e.getFinishedCondition() / 10.0);
-            return response;
-        });
-        return RestResponse.ok(page);
-    }
-
-    @PutMapping("/edit")
-    public RestResponse edit(@RequestBody @Valid ProjectEditRequest request){
-        Project project = modelMapper.map(request,Project.class);
-        projectService.updateByIdFilter(project);
-        return RestResponse.ok();
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public RestResponse delete(@PathVariable Integer id){
-        projectService.deleteByIdFilter(id);
-        return RestResponse.ok();
-    }
-
     @PostMapping("/thought/chain/generate")
-    public RestResponse<ProjectSparkCommonResult> thoughtChainGenerate(@RequestBody @Valid ProjectSparkMessage message){
+    public RestResponse<ProjectSparkCommonResult> thoughtChainGenerate(@RequestBody @Valid ProjectSparkMessage message) {
         String receivedMessage = null;
         ProjectSparkCommonResult result = null;
         try {
@@ -89,7 +47,7 @@ public class ProjectController extends BaseApiController {
             webSocketService.sendMessage(gson.toJson(message));
 
             receivedMessage = webSocketService.getReceivedMessage();
-            result = objectMapper.readValue(receivedMessage,ProjectSparkCommonResult.class);
+            result = objectMapper.readValue(receivedMessage, ProjectSparkCommonResult.class);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } catch (ExecutionException e) {
@@ -101,9 +59,15 @@ public class ProjectController extends BaseApiController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        UserEventLog userEventLog = new UserEventLog();
+        userEventLog.setUserId(getCurrentUser().getId());
+        userEventLog.setUserName(getCurrentUser().getUserName());
+        userEventLog.setCreateTime(new Date());
+        userEventLog.setContent(getCurrentUser().getUserName() + EventLogMessage.THOUGHT_CHAIN + EventLogMessage.HELP + EventLogMessage.PROJECT);
+        eventPublisher.publishEvent(new UserEvent(userEventLog));
+
         return RestResponse.ok(result);
     }
-
-
 
 }
