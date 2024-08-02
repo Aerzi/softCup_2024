@@ -34,12 +34,4 @@ public class ProgrammingAssessController extends BaseApiController {
     public RestResponse<ProgrammingAssess> select(@RequestBody @Valid ProgrammingAssessSelectOneRequest request){
         return RestResponse.ok(programmingAssessService.select(request));
     }
-
-    @PutMapping("/edit")
-    public RestResponse edit(@RequestBody @Valid ProgrammingAssessEditRequest request){
-        ProgrammingAssess programmingAssess = modelMapper.map(request,ProgrammingAssess.class);
-        programmingAssessService.updateByIdFilter(programmingAssess);
-        return RestResponse.ok();
-    }
-
 }

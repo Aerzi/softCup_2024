@@ -9,6 +9,7 @@ import com.example.backend.model.entity.judge.JudgeResult;
 import com.example.backend.model.entity.result.ProgrammingAssessResult;
 import com.example.backend.model.request.student.judge.JudgeRequest;
 import com.example.backend.model.request.student.judge.JudgeSubmitRequest;
+import com.example.backend.model.request.student.programmingassess.ProgrammingAssessSelectOneRequest;
 import com.example.backend.service.JudgeService;
 import com.example.backend.service.ProgrammingAssessService;
 import com.example.backend.service.WebSocketService;
@@ -79,10 +80,11 @@ public class JudgeController extends BaseApiController {
         }
 //
 //        ProgrammingAssess programmingAssess = modelMapper.map(programmingAssessResult,ProgrammingAssess.class);
+
         ProgrammingAssess programmingAssess = new ProgrammingAssess();
-        if(programmingAssessResult.getFeedback() != null)
+        if (programmingAssessResult.getFeedback() != null)
             programmingAssess.setFeedback(programmingAssessResult.getFeedback());
-        if(programmingAssessResult.getModified_code() != null)
+        if (programmingAssessResult.getModified_code() != null)
             programmingAssess.setModifiedCode(programmingAssessResult.getModified_code());
         if (programmingAssessResult.getError_analysis() != null)
             programmingAssess.setErrorAnalysis(programmingAssessResult.getError_analysis());
@@ -92,7 +94,16 @@ public class JudgeController extends BaseApiController {
         programmingAssess.setUserId(getCurrentUser().getId());
         programmingAssess.setCode(result.getSource_code());
 
-        programmingAssessService.insertByFilter(programmingAssess);
+        ProgrammingAssessSelectOneRequest selectOneRequest = new ProgrammingAssessSelectOneRequest();
+        selectOneRequest.setQuestionId(request.getQuestionId());
+        selectOneRequest.setUserId(getCurrentUser().getId());
+
+        if (programmingAssessService.select(selectOneRequest) != null) {
+            //Todo 更新
+            programmingAssessService.updateByQuestionAndUserIdFilter(selectOneRequest,programmingAssess);
+        } else {
+            programmingAssessService.insertByFilter(programmingAssess);
+        }
 
         return RestResponse.ok(programmingAssessResult);
     }

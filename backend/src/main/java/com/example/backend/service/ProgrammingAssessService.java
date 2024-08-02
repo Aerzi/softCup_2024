@@ -16,4 +16,5 @@ public interface ProgrammingAssessService extends IService<ProgrammingAssess> {
     public void insertByFilter(ProgrammingAssess programmingAssess);
     public ProgrammingAssess select(ProgrammingAssessSelectOneRequest request);
     public void updateByIdFilter(ProgrammingAssess programmingAssess);
+    public void updateByQuestionAndUserIdFilter(ProgrammingAssessSelectOneRequest request,ProgrammingAssess programmingAssess);
 }

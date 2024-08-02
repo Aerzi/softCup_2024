@@ -2,6 +2,7 @@ package com.example.backend.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.example.backend.model.entity.ProgrammingAssess;
 import com.example.backend.mapper.ProgrammingAssessMapper;
 import com.example.backend.model.request.student.programmingassess.ProgrammingAssessSelectOneRequest;
@@ -43,5 +44,13 @@ public class ProgrammingAssessServiceImpl extends ServiceImpl<ProgrammingAssessM
     @Override
     public void updateByIdFilter(ProgrammingAssess programmingAssess) {
         programmingAssessMapper.updateById(programmingAssess);
+    }
+
+    @Override
+    public void updateByQuestionAndUserIdFilter(ProgrammingAssessSelectOneRequest request,ProgrammingAssess programmingAssess) {
+        LambdaUpdateWrapper<ProgrammingAssess> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper.eq(request.getQuestionId()!=null,ProgrammingAssess::getQuestionId,request.getQuestionId())
+                .eq(request.getUserId()!=null,ProgrammingAssess::getUserId,request.getUserId());
+        programmingAssessMapper.update(programmingAssess,lambdaUpdateWrapper);
     }
 }
