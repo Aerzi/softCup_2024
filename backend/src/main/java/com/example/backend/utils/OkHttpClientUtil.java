@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.util.Map;
 
 @Slf4j
@@ -184,6 +185,40 @@ public class OkHttpClientUtil {
         Request request = builder.url(url).post(requestBody).build();
         return execute(request);
     }
+
+    public static String doPostJson(String url, Map<String, String> urlParams, String json) {
+        String resultString = "";
+        try {
+            // 构建URL参数
+            HttpUrl.Builder urlBuilder = HttpUrl.parse(url).newBuilder();
+            if (urlParams != null) {
+                for (Map.Entry<String, String> entry : urlParams.entrySet()) {
+                    urlBuilder.addQueryParameter(entry.getKey(), entry.getValue());
+                }
+            }
+            String fullUrl = urlBuilder.build().toString();
+
+            // 创建请求体
+            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
+
+            // 构建请求
+            Request request = new Request.Builder()
+                    .url(fullUrl)
+                    .post(body)
+                    .build();
+
+            // 执行请求
+            try (Response response = okHttpClient.newCall(request).execute()) {
+                if (response.body() != null) {
+                    resultString = response.body().string();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return resultString;
+    }
+
     /**
      * post 请求, 请求数据为 xml 的字符串
      * @param url  请求url地址

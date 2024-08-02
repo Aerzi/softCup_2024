@@ -74,3 +74,11 @@ ok:
     max-idle-connections: 200
     # 连接空闲时间最多为 300 秒
     keep-alive-duration: 300
+
+spark:
+  ai-img:
+    host-url: https://spark-api.cn-huabei-1.xf-yun.com/v2.1/tti
+    app-id: 5e04969c
+    api-secret: Y2JiZThhYjI2ZmYzODI1MDMwZmQyZTgy
+    api-key: f318d6bf3b1b6051b787e1752ed17532
+

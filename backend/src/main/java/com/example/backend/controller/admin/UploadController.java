@@ -74,6 +74,7 @@ public class UploadController extends BaseApiController {
             file.setClassId(Integer.valueOf(request.getParameter("classId")));
             file.setDeleted(false);
             file.setUserId(getCurrentUser().getId());
+            file.setIsAiGen(false);
             fileService.insertByFilter(file);
             return RestResponse.ok(filePath);
         } catch (IOException e) {
