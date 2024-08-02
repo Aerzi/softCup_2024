@@ -1,11 +1,16 @@
 package com.example.backend.config.spring.security;
 
+import com.example.backend.base.EventLogMessage;
 import com.example.backend.base.SystemCode;
+import com.example.backend.model.entity.UserEventLog;
 import com.example.backend.model.request.user.UserLoginRequest;
+import com.example.backend.service.UserEventLogService;
 import com.example.backend.service.UserService;
 import com.example.backend.config.application.ApplicationContextProvider;
 import com.example.backend.utils.JsonUtil;
 import com.example.backend.utils.JwtUtil;
+import com.example.backend.utils.ModelMapperSingle;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,9 +24,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 
 public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
+
+    protected final static ModelMapper modelMapper = ModelMapperSingle.Instance();
 
     public TokenLoginFilter(AuthenticationManager authenticationManager){
         this.authenticationManager = authenticationManager;
@@ -30,6 +38,10 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private UserService userService(){
         return ApplicationContextProvider.getBean(UserService.class);
+    }
+
+    private UserEventLogService userEventLogService(){
+        return ApplicationContextProvider.getBean(UserEventLogService.class);
     }
 
     /**
@@ -82,11 +94,18 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
             User springUser = (User) object;
             com.example.backend.model.entity.User user = userService().getUserByUserName(springUser.getUsername());
             if (null != user) {
-                com.example.backend.model.entity.User newUser = new com.example.backend.model.entity.User();
-                newUser.setUserName(user.getUserName());
-                newUser.setImagePath(user.getImagePath());
+                com.example.backend.model.entity.User newUser = modelMapper.map(user,com.example.backend.model.entity.User.class);
+                newUser.setPassword(null);
                 RestUtil.response(response, SystemCode.OK.getCode(), SystemCode.OK.getMessage(), newUser);
                 response.setStatus(HttpServletResponse.SC_OK);
+
+                UserEventLog userEventLog = new UserEventLog();
+                userEventLog.setUserId(newUser.getId());
+                userEventLog.setUserName(newUser.getUserName());
+                userEventLog.setCreateTime(new Date());
+                userEventLog.setContent(newUser.getUserName() + EventLogMessage.LOGIN);
+                userEventLogService().insertByFilter(userEventLog);
+
             } else {
                 RestUtil.response(response, SystemCode.UNAUTHORIZED.getCode(), SystemCode.UNAUTHORIZED.getMessage());
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

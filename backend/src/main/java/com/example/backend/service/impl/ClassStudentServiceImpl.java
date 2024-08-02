@@ -8,13 +8,10 @@ import com.example.backend.model.entity.Class;
 import com.example.backend.model.entity.ClassStudent;
 import com.example.backend.mapper.ClassStudentMapper;
 import com.example.backend.model.entity.User;
-import com.example.backend.model.request.student.aclass.ClassStudentExitRequest;
 import com.example.backend.model.request.student.aclass.ClassStudentResponse;
 import com.example.backend.model.request.teacher.calssstudent.ClassStudentPageRequest;
-import com.example.backend.model.request.teacher.calssstudent.Student;
 import com.example.backend.service.ClassStudentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.backend.utils.PageInfoHelper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +56,7 @@ public class ClassStudentServiceImpl extends ServiceImpl<ClassStudentMapper, Cla
     }
 
     @Override
-    public PageInfo<Student> page(ClassStudentPageRequest request) {
+    public PageInfo<User> page(ClassStudentPageRequest request) {
         LambdaQueryWrapper<ClassStudent> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(request.getClassId() != null, ClassStudent::getClassId, request.getClassId());
 

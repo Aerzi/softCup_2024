@@ -10,6 +10,7 @@ import com.example.backend.model.request.user.UserRegisterRequest;
 import com.example.backend.model.request.user.UserResponse;
 import com.example.backend.service.AuthenticationService;
 import com.example.backend.service.UserService;
+import com.example.backend.utils.DateTimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +56,9 @@ public class UserController extends BaseApiController {
     public RestResponse edit(@RequestBody @Valid UserEditRequest request){
         User user = modelMapper.map(request,User.class);
         user.setId(getCurrentUser().getId());
+        String encodePwd = authenticationService.pwdEncode(request.getPassword());
+        user.setPassword(encodePwd);
+        user.setModifyTime(new Date());
         userService.edit(user);
         return RestResponse.ok();
     }
@@ -63,6 +67,9 @@ public class UserController extends BaseApiController {
     public RestResponse<UserResponse> getCurrentInfo(){
         User user = userService.getCurrentUserInfo(getCurrentUser().getId());
         UserResponse response = modelMapper.map(user,UserResponse.class);
+        response.setCreateTime(DateTimeUtil.dateFormat(user.getCreateTime()));
+        response.setModifyTime(DateTimeUtil.dateFormat(user.getModifyTime()));
+        response.setLastActiveTime(DateTimeUtil.dateFormat(user.getLastActiveTime()));
         return RestResponse.ok(response);
     }
 }

@@ -5,11 +5,13 @@ import com.example.backend.base.RestResponse;
 import com.example.backend.model.entity.User;
 import com.example.backend.model.enums.RoleEnum;
 import com.example.backend.model.enums.UserStatusEnum;
-import com.example.backend.model.request.user.UserEditRequest;
+import com.example.backend.model.request.admin.user.UserAddRequest;
+import com.example.backend.model.request.admin.user.UserEditRequest;
 import com.example.backend.model.request.user.UserRegisterRequest;
 import com.example.backend.model.request.user.UserResponse;
 import com.example.backend.service.AuthenticationService;
 import com.example.backend.service.UserService;
+import com.example.backend.utils.DateTimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +32,8 @@ public class UserController extends BaseApiController {
         this.authenticationService = authenticationService;
     }
 
-    @PostMapping("/register")
-    public RestResponse register(@RequestBody @Valid UserRegisterRequest request){
+    @PostMapping("/addUser")
+    public RestResponse addUser(@RequestBody @Valid UserAddRequest request){
         User existUser = userService.getUserByUserName(request.getUserName());
         if (null != existUser) {
             return new RestResponse<>(2, "用户已存在");
@@ -40,7 +42,7 @@ public class UserController extends BaseApiController {
         String encodePwd = authenticationService.pwdEncode(request.getPassword());
         user.setUserUuid(UUID.randomUUID().toString());
         user.setPassword(encodePwd);
-        user.setRole(RoleEnum.ADMIN.getCode());
+        user.setRole(request.getRole());
         user.setStatus(UserStatusEnum.Enable.getCode());
         user.setLastActiveTime(new Date());
         user.setCreateTime(new Date());
@@ -49,10 +51,12 @@ public class UserController extends BaseApiController {
         return RestResponse.ok();
     }
 
-    @PutMapping("/edit")
-    public RestResponse edit(@RequestBody @Valid UserEditRequest request){
+    @PutMapping("/editUser")
+    public RestResponse editUser(@RequestBody @Valid UserAddRequest request){
         User user = modelMapper.map(request,User.class);
-        user.setId(getCurrentUser().getId());
+        String encodePwd = authenticationService.pwdEncode(request.getPassword());
+        user.setPassword(encodePwd);
+        user.setModifyTime(new Date());
         userService.edit(user);
         return RestResponse.ok();
     }
@@ -61,6 +65,9 @@ public class UserController extends BaseApiController {
     public RestResponse<UserResponse> getCurrentInfo(){
         User user = userService.getCurrentUserInfo(getCurrentUser().getId());
         UserResponse response = modelMapper.map(user,UserResponse.class);
+        response.setCreateTime(DateTimeUtil.dateFormat(user.getCreateTime()));
+        response.setModifyTime(DateTimeUtil.dateFormat(user.getModifyTime()));
+        response.setLastActiveTime(DateTimeUtil.dateFormat(user.getLastActiveTime()));
         return RestResponse.ok(response);
     }
 }

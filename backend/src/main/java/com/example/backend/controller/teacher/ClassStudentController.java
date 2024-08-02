@@ -3,11 +3,11 @@ package com.example.backend.controller.teacher;
 import com.example.backend.base.BaseApiController;
 import com.example.backend.base.RestResponse;
 import com.example.backend.model.entity.ClassStudent;
-import com.example.backend.model.request.teacher.calssstudent.ClassStudentAddRequest;
-import com.example.backend.model.request.teacher.calssstudent.ClassStudentBatchAddRequest;
-import com.example.backend.model.request.teacher.calssstudent.ClassStudentPageRequest;
-import com.example.backend.model.request.teacher.calssstudent.ClassStudentResponse;
+import com.example.backend.model.entity.User;
+import com.example.backend.model.request.teacher.calssstudent.*;
 import com.example.backend.service.ClassStudentService;
+import com.example.backend.utils.PageInfoHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,7 +54,9 @@ public class ClassStudentController extends BaseApiController {
     @PostMapping("/page")
     public RestResponse<ClassStudentResponse> page(@RequestBody @Valid ClassStudentPageRequest request) {
         ClassStudentResponse response = new ClassStudentResponse();
-        response.setStudents(classStudentService.page(request));
+        PageInfo<User> pageInfo = classStudentService.page(request);
+        PageInfo<StudentResponse> page = PageInfoHelper.copyMap(pageInfo, e -> modelMapper.map(e, StudentResponse.class));
+        response.setStudents(page);
         response.setClassId(request.getClassId());
         return RestResponse.ok(response);
     }

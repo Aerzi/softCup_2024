@@ -3,7 +3,6 @@ package com.example.backend.controller.teacher;
 import com.example.backend.base.BaseApiController;
 import com.example.backend.base.RestResponse;
 import com.example.backend.model.entity.Question;
-import com.example.backend.model.enums.QuestionTypeEnum;
 import com.example.backend.model.request.question.QuestionAddRequest;
 import com.example.backend.model.request.question.QuestionEditRequest;
 import com.example.backend.model.request.question.QuestionPageRequest;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Objects;
 
 @RequestMapping("/api/teacher/question")
 @RestController("TeacherQuestionController")
@@ -34,11 +32,8 @@ public class QuestionController extends BaseApiController {
     @PostMapping("/add")
     public RestResponse objectiveAdd(@RequestBody @Valid QuestionAddRequest request){
         Question question = modelMapper.map(request,Question.class);
-        if (Objects.equals(request.getType(), QuestionTypeEnum.OBJECTIVE.getDescription())) {
-            question.setType(QuestionTypeEnum.OBJECTIVE.getDescription());
-        } else {
-            question.setType(QuestionTypeEnum.PROGRAMMING.getDescription());
-        }
+        question.setDeleted(false);
+        question.setStatus(1);
         questionService.insertByFilter(question);
         return RestResponse.ok();
     }
