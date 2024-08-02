@@ -1,15 +1,15 @@
 import React from "react";
 import "./index.less";
-import NavHeader from "../../components/NavHeader";
+import NavHeader from "../../../components/Public/NavHeader";
 import { ProCard } from "@ant-design/pro-components";
-import UserBox from "../../components/UserBox";
+import UserBox from "../../../components/UserBox";
 import { Button, message } from "antd";
-import { onLogout } from "../../services/userService";
+import { onLogout } from "../../../services/userService";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { updateUser } from "../../stores/slices/userSlice";
+import { updateUser } from "../../../stores/slices/userSlice";
 
-const UserProfile = () => {
+const UserPanel = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onUserLogout = () => {
@@ -64,4 +64,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default UserPanel;

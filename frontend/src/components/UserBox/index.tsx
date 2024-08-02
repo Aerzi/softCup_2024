@@ -110,7 +110,7 @@ const UserBox = () => {
     if (userData?.major !== null) {
       count += 10;
     }
-    if (userData?.grade_level !== null) {
+    if (userData?.gradeLevel !== null) {
       count += 10;
     }
     if (userData?.createTime !== null) {
@@ -258,16 +258,16 @@ const UserBox = () => {
               type="number"
               min="1"
               max="4"
-              defaultValue={userData.grade_level}
+              defaultValue={userData.gradeLevel}
               onChange={(e) => {
                 setUserData({
                   ...userData,
-                  grade_level: parseInt(e.target.value),
+                  gradeLevel: parseInt(e.target.value),
                 });
               }}
             />
           ) : (
-            userData?.grade_level || ""
+            userData?.gradeLevel || ""
           )}
         </Descriptions.Item>
         <Descriptions.Item key="10" label="当前状态">

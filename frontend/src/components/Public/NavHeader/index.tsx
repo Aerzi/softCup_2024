@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./index.less";
 import { NavLink } from "react-router-dom";
-import UserModal from "../UserModal";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../stores/redux/store";
-import { updateUser } from "../../stores/slices/userSlice";
-import { onLogin } from "../../services/userService";
+import UserModal from "../../UserModal";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../stores/redux/store";
 import { message } from "antd";
-import { setLocalData } from "../../utils/Storage";
 
 const NavHeader = () => {
   // 全局挂载messageApi
@@ -17,7 +14,7 @@ const NavHeader = () => {
   // 对于导航栏，需要设置两种状态，一种是已登录，一种是未登录
   // 引入user, 有student和teacher两种状态
   const user = useSelector((state: RootState) => state.user);
-  const [userRole, setUserRole] = useState<string>("student");
+  const [userRole, setUserRole] = useState<string>("");
 
   useEffect(() => {
     setUserRole(user.role);
@@ -43,33 +40,23 @@ const NavHeader = () => {
             <>
               <li className="xf-header__nav-item">
                 <NavLink
-                  to={"/studyplan"}
+                  to={"/room"}
                   className={({ isActive }) =>
                     `link ${isActive ? "xf-header__nav-item-link--active" : "xf-header__nav-item-link"}`
                   }
                 >
-                  学习规划
-                </NavLink>
-              </li>
-              <li className="xf-header__nav-item">
-                <NavLink
-                  to={"/teachingroom"}
-                  className={({ isActive }) =>
-                    `link ${isActive ? "xf-header__nav-item-link--active" : "xf-header__nav-item-link"}`
-                  }
-                >
-                  {/* 在个人课堂界面中，学生用户可以获取到推荐的视频与自己的当前资源清单，并且提示哪些内容告急 */}
+                  {/* 个人课堂: 编程开发，加入课堂 */}
                   个人课堂
                 </NavLink>
               </li>
               <li className="xf-header__nav-item">
                 <NavLink
-                  to={"/softwaredevelopment"}
+                  to={"/aid"}
                   className={({ isActive }) =>
                     `link ${isActive ? "xf-header__nav-item-link--active" : "xf-header__nav-item-link"}`
                   }
                 >
-                  编程开发
+                  开发辅助
                 </NavLink>
               </li>
             </>
@@ -77,12 +64,22 @@ const NavHeader = () => {
             <>
               <li className="xf-header__nav-item">
                 <NavLink
-                  to={"/classmanagement"}
+                  to={"/classControl"}
                   className={({ isActive }) =>
                     `link ${isActive ? "xf-header__nav-item-link--active" : "xf-header__nav-item-link"}`
                   }
                 >
-                  课程管理
+                  课堂管理
+                </NavLink>
+              </li>
+              <li className="xf-header__nav-item">
+                <NavLink
+                  to={"/schedule"}
+                  className={({ isActive }) =>
+                    `link ${isActive ? "xf-header__nav-item-link--active" : "xf-header__nav-item-link"}`
+                  }
+                >
+                  智能备课
                 </NavLink>
               </li>
             </>
@@ -92,7 +89,7 @@ const NavHeader = () => {
           {user.isLogin ? (
             <li className="xf-header__nav-item">
               <NavLink
-                to={"/userprofile"}
+                to={"/userPanel"}
                 className={({ isActive }) =>
                   `link ${isActive ? "xf-header__nav-item-link--active" : "xf-header__nav-item-link"}`
                 }

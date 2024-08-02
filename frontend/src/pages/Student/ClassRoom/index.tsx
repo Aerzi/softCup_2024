@@ -1,12 +1,10 @@
 import React from "react";
 import "./index.less";
-import NavHeader from "../../components/NavHeader";
+import NavHeader from "../../../components/Public/NavHeader";
 import { ProCard } from "@ant-design/pro-components";
-import WarnList from "../../components/WarnList";
-import ClassList from "../../components/ClassList";
-import DroppedCard from "../../components/DroppedCard";
+import DroppedCard from "../../../components/DroppedCard";
 
-const TeachingClassroom = () => {
+const Classroom = () => {
   return (
     <>
       <div className="xf-teaching__page">
@@ -60,4 +58,4 @@ const TeachingClassroom = () => {
   );
 };
 
-export default TeachingClassroom;
+export default Classroom;

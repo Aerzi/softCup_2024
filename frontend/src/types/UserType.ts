@@ -6,7 +6,7 @@ export interface UserState {
 }
 
 export interface UserInfo {
-  grade_level: number;
+  gradeLevel: number;
   major: string;
   id: number;
   userUuid: string;

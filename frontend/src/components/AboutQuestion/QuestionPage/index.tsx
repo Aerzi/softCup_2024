@@ -26,7 +26,11 @@ const QuestionPage = () => {
 
   const fetchQuestions = () => {
     setLoading(true);
-    getPageTeacherQuestion(pagination.pageIndex, pagination.pageSize, 1)
+    getPageTeacherQuestion({
+      pageIndex: pagination.pageIndex,
+      pageSize: pagination.pageSize,
+      classId: 1,
+    })
       .then((res: any) => {
         if (res.code === 200) {
           setQuestions(res.response.list);

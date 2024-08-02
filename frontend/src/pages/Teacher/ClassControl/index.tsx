@@ -13,19 +13,19 @@ import {
   ProjectOutlined,
   CodeOutlined,
 } from "@ant-design/icons";
-import NavHeader from "../../components/NavHeader";
+import NavHeader from "../../../components/Public/NavHeader";
 import "./index.less";
-import CreateClassForm from "../../components/AboutClass/CreateClass";
-import PageClass from "../../components/AboutClass/getPageClass";
-import QuestionModal from "../../components/AboutQuestion/QuestionModal";
-import QuestionPage from "../../components/AboutQuestion/QuestionPage";
-import ProjectPage from "../../components/AboutProject/ProjectTable";
-import ProjectModal from "../../components/AboutProject/ProjectModal";
+import CreateClassForm from "../../../components/AboutClass/CreateClass";
+import PageClass from "../../../components/AboutClass/getPageClass";
+import QuestionModal from "../../../components/AboutQuestion/QuestionModal";
+import QuestionPage from "../../../components/AboutQuestion/QuestionPage";
+import ProjectPage from "../../../components/AboutProject/ProjectTable";
+import ProjectModal from "../../../components/AboutProject/ProjectModal";
 
 const { SubMenu } = Menu;
 const { Title } = Typography;
 
-const ClassManagement = () => {
+const ClassControl = () => {
   const [current, setCurrent] = React.useState("1");
 
   const menu = (
@@ -113,4 +113,4 @@ const ClassManagement = () => {
   );
 };
 
-export default ClassManagement;
+export default ClassControl;

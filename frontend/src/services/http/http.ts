@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { getLocalData, setLocalData } from "../../utils/Storage";
 import { message } from "antd";
+import { status } from "nprogress";
 
 // 创建一个 axios 实例
 const instance = axios.create({
@@ -18,23 +19,14 @@ instance.interceptors.request.use((config) => {
 // 响应拦截器
 instance.interceptors.response.use(
   (response) => {
+    response?.headers?.authorization &&
+      setLocalData("token", response.headers.authorization);
     return response.data;
   },
   (error) => {
     if (error.response) {
       // 检查HTTP状态码
       const { status, data } = error.response;
-
-      // 如果状态码是403，但业务状态码是200，则视为成功响应
-      if (status === 403 && data.code === 200) {
-        console.log("特殊情况的成功响应");
-        // 保存响应标头中的token
-        console.log("response", error.response.headers.authorization);
-        error.response.headers.authorization &&
-          setLocalData("token", error.response.headers.authorization);
-        return data; // 直接返回数据
-      }
-
       // 其他状态码的错误处理
       message.error(`服务器错误 ${status}: ${data.message || "未知错误"}`);
     } else if (error.request) {
@@ -68,6 +60,43 @@ const request = (
     default:
       throw new Error("请求方法不被支持");
   }
+};
+
+export const get = (url: string, data?: any, config?: any) => {
+  if (data !== null) {
+    // 说明需要对url进行拼接
+  }
+  return request(
+    "get",
+    url,
+    {},
+    {
+      headers: {
+        Authorization:
+          getLocalData("token") !== null ? getLocalData("token") : "",
+      },
+    }
+  );
+};
+
+export const post = (url: string, data?: any, config?: any) => {
+  return request("post", url, data, {
+    ...config,
+    headers: {
+      Authorization:
+        getLocalData("token") !== null ? getLocalData("token") : "",
+    },
+  });
+};
+
+export const put = (url: string, data?: any, config?: any) => {
+  return request("put", url, data, {
+    ...config,
+    headers: {
+      Authorization:
+        getLocalData("token") !== null ? getLocalData("token") : "",
+    },
+  });
 };
 
 export default request;

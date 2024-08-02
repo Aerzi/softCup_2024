@@ -1,10 +1,10 @@
 import React from "react";
-import NavHeader from "../../components/NavHeader";
+import NavHeader from "../../../components/Public/NavHeader";
 import "./index.less";
 import { Carousel, Divider, Typography } from "antd";
-import TabsInstruction from "../../components/TabsInstruction";
-import ClassTools from "../../components/ClassTools";
-import ThoughtChain from "../../components/ThoughtChain";
+import TabsInstruction from "../../../components/TabsInstruction";
+import ClassTools from "../../../components/ClassTools";
+import ThoughtChain from "../../../components/ThoughtChain";
 import homeJpg from "../../assets/images/home.jpg";
 
 // 文本描述
