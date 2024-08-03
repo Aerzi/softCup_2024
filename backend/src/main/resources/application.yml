@@ -86,4 +86,11 @@ spark:
     app-id: 5e04969c
     api-secret: Y2JiZThhYjI2ZmYzODI1MDMwZmQyZTgy
     api-key: f318d6bf3b1b6051b787e1752ed17532
+  ai-chat-doc:
+    upload-url: https://chatdoc.xfyun.cn/openapi/v1/file/upload
+    chat-url: wss://chatdoc.xfyun.cn/openapi/chat
+    summary-start-url: https://chatdoc.xfyun.cn/openapi/v1/file/summary/start
+    summary-query-url: https://chatdoc.xfyun.cn/openapi/v1/file/summary/query
+    app-id: 5e04969c
+    secret: Y2JiZThhYjI2ZmYzODI1MDMwZmQyZTgy
 

@@ -64,7 +64,7 @@ public class UploadController extends BaseApiController {
 
             com.example.backend.model.entity.File file = new com.example.backend.model.entity.File();
             // Todo name和description可以为空
-            file.setName(request.getParameter("name"));
+            file.setName(fileName);
             file.setExtension(fileSuffix);
             file.setType(getTypeByExtension(fileSuffix).toString());
             file.setFilePath(filePath);
