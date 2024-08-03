@@ -1,7 +1,10 @@
 package com.example.backend.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.example.backend.config.property.SystemConfig;
+import com.example.backend.model.entity.aippt.AIPPTOutlineRequest;
+import com.example.backend.model.entity.aippt.AIPPTOutlineResponse;
 import com.example.backend.model.entity.aippt.AIPPTTemplate;
 import com.example.backend.service.AIPPTService;
 import com.example.backend.utils.spark.ApiAuthAlgorithm;
@@ -15,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class AIPPTServiceImpl implements AIPPTService {
     private static final String ERROR_MESSAGE = "Unexpected code: ";
+    private static final String MEDIA_TYPE_JSON = "application/json; charset=utf-8";
     private final SystemConfig systemConfig;
     private final static OkHttpClient client = new OkHttpClient().newBuilder()
             .connectionPool(new ConnectionPool(100, 5, TimeUnit.MINUTES))
@@ -71,6 +75,8 @@ public class AIPPTServiceImpl implements AIPPTService {
         ApiAuthAlgorithm auth = new ApiAuthAlgorithm();
         String signature = auth.getSignature(systemConfig.getAipptConfig().getAppId(), systemConfig.getAipptConfig().getSecret(), timestamp);
 
+        validateParameters(systemConfig.getAipptConfig().getAppId(), ts, signature);
+
         Request request = buildGetRequest(systemConfig.getAipptConfig().getBaseUrl() + "/api/aippt/themeList", ts, signature);
 
         String response = null;
@@ -81,6 +87,41 @@ public class AIPPTServiceImpl implements AIPPTService {
             throw new RuntimeException(e);
         }
         return JSON.parseObject(response,AIPPTTemplate.class);
+    }
+
+    @Override
+    public AIPPTOutlineResponse outline(AIPPTOutlineRequest request) {
+        long timestamp = System.currentTimeMillis() / 1000;
+        String ts = String.valueOf(timestamp);
+        ApiAuthAlgorithm auth = new ApiAuthAlgorithm();
+        String signature = auth.getSignature(systemConfig.getAipptConfig().getAppId(), systemConfig.getAipptConfig().getSecret(), timestamp);
+
+        validateParameters(systemConfig.getAipptConfig().getAppId(), ts, signature);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("query", request.getQuery());
+        jsonObject.put("create_model", request.getCreate_model() != null ? request.getCreate_model() : "auto");
+        jsonObject.put("theme", request.getTheme() != null ? request.getTheme() : "green");
+        jsonObject.put("business_id", request.getBusiness_id() != null ? request.getBusiness_id() : "my business_id");
+        jsonObject.put("author", request.getAuthor() != null ? request.getAuthor() : "智讯课堂");
+        jsonObject.put("is_card_note", request.getIs_card_note() != null ? request.getIs_card_note() : false); // boolean default value
+        jsonObject.put("is_cover_img", request.getIs_cover_img() != null ? request.getIs_cover_img() :true); // boolean default value
+        jsonObject.put("language", request.getLanguage() != null ? request.getLanguage() : "cn");
+        jsonObject.put("is_figure", request.getIs_figure() != null ? request.getIs_figure() : false); // boolean default value
+
+        RequestBody body = RequestBody.create(MediaType.get(MEDIA_TYPE_JSON), jsonObject.toString());
+
+        Request Secrequest = buildPostRequest(systemConfig.getAipptConfig().getBaseUrl() + "/api/aippt/createOutline", ts, signature, body);
+
+        String response = null;
+        try {
+            response =  executeRequest(Secrequest);
+            System.out.println(response);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return JSON.parseObject(response,AIPPTOutlineResponse.class);
     }
 
     public void validateParameters(String... params) {
