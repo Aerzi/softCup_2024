@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "antd";
-import { onStudentGetQuestionPage } from "../../../services/questionService";
+import { StudentGetQuestionPage } from "../../../services/questionService";
 
 interface IQuestion {
   id: number;
@@ -26,7 +26,7 @@ const StudentQuestion = ({ classId }: { classId: number }) => {
 
   const fetchQuestions = () => {
     setLoading(true);
-    onStudentGetQuestionPage({
+    StudentGetQuestionPage({
       pageIndex: pagination.pageIndex,
       pageSize: pagination.pageSize,
       classId,
