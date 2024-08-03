@@ -1,5 +1,5 @@
 import React from "react";
-import NavHeader from "../../components/Public/NavHeader";
+import NavHeader from "../../../components/Public/NavHeader";
 import "./index.less";
 
 const HomeworkManagement = () => {

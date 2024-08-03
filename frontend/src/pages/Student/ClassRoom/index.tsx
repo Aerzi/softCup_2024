@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./index.less";
 import NavHeader from "../../../components/Public/NavHeader";
 import { ProCard } from "@ant-design/pro-components";
 import DroppedCard from "../../../components/DroppedCard";
+import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../stores/redux/store";
 
+/* 个人课堂: 编程开发，加入课堂 */
 const Classroom = () => {
+  const navigate = useNavigate();
+  // 引入user, 有student和teacher两种状态
+  const user = useSelector((state: RootState) => state.user);
+  useEffect(() => {
+    user.isLogin === false && navigate("/404");
+  }, []);
   return (
     <>
       <div className="xf-teaching__page">

@@ -5,30 +5,30 @@ import type { TabsProps } from "antd";
 import { ProCard } from "@ant-design/pro-components";
 import student from "./student.svg";
 import teacher from "./teacher.svg";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../stores/redux/store";
+import { useDispatch } from "react-redux";
 import { updateUser } from "../../stores/slices/userSlice";
 import {
   onLogin,
-  onLogout,
   onStudentRegister,
   onTeacherRegister,
 } from "../../services/userService";
 import { setLocalData } from "../../utils/Storage";
 import { useNavigate } from "react-router";
 
-interface UserModalData {
-  isOpen: boolean;
-  setIsOpen: (arg0: boolean) => void;
-}
-
+// 定义登录表单类型
 type FieldType = {
   username?: string;
   password?: string;
   remember?: string;
 };
 
-const UserModal = ({ isOpen, setIsOpen }: UserModalData) => {
+const UserModal = ({
+  isOpen,
+  setIsOpen,
+}: {
+  isOpen: boolean;
+  setIsOpen: (arg0: boolean) => void;
+}) => {
   const navigate = useNavigate();
   // 全局挂载messageApi
   const [messageApi, contextHolder] = message.useMessage();
@@ -41,19 +41,15 @@ const UserModal = ({ isOpen, setIsOpen }: UserModalData) => {
 
   const [isStudent, setIsStudent] = useState(true);
 
-  // 引入user, 有student和teacher两种状态
-  const user = useSelector((state: RootState) => state.user);
-
   // 使用useDispatch钩子获取dispatch函数
   const dispatch = useDispatch();
 
+  // 用户登录
   const onUserLogin = (username: string, password: string) => {
     // 调用统一登录接口，不需要对角色做出判断
     onLogin(username, password)
       .then((res: any) => {
-        console.log("res为", res);
         if (res.code === 200) {
-          console.log("用户登录成功");
           // 说明成功，调用messageApi表示目前登录状态ok
           messageApi.open({ type: "success", content: res.message });
           // 保存用户信息
@@ -63,10 +59,12 @@ const UserModal = ({ isOpen, setIsOpen }: UserModalData) => {
           setLocalData("user", res.response);
           setLocalData("role", isStudent ? "student" : "teacher");
           setLocalData("isLogin", true);
-          // 需要跳转到用户信息页
-          navigate("/userprofile");
-          // 同时关闭登录框
+
           setIsOpen(false);
+
+          setTimeout(() => {
+            navigate("/");
+          }, 100);
         } else {
           messageApi.open({ type: "error", content: res.message });
         }
@@ -77,24 +75,24 @@ const UserModal = ({ isOpen, setIsOpen }: UserModalData) => {
       });
   };
 
+  // 用户注册
   const onUserRegister = (username: string, password: string) => {
     // 调用注册接口，需要对角色做出判断
     if (isStudent) {
       onStudentRegister(username, password)
         .then((res: any) => {
-          console.log("res.code为", res.code);
           if (res.code === 200) {
-            console.log("成功了");
             // 说明成功，调用messageApi表示目前注册状态ok
             messageApi.open({ type: "success", content: res.message });
             // 回到登录tabs
-            setActiveTabsKey("1");
+            setTimeout(() => {
+              setActiveTabsKey("1");
+            }, 100);
           } else {
             messageApi.open({ type: "error", content: res.message });
           }
         })
         .catch((err: any) => {
-          console.log("被拦截了");
           messageApi.open({ type: "error", content: err.message });
         });
     } else {
@@ -103,8 +101,10 @@ const UserModal = ({ isOpen, setIsOpen }: UserModalData) => {
           if (res.code === 200) {
             // 说明成功，调用messageApi表示目前登录状态ok
             messageApi.open({ type: "success", content: res.message });
-            // 回到登录tabs
-            setActiveTabsKey("1");
+            /// 回到登录tabs
+            setTimeout(() => {
+              setActiveTabsKey("1");
+            }, 100);
           } else {
             messageApi.open({ type: "error", content: res.message });
           }
