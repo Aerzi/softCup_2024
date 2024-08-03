@@ -1,5 +1,4 @@
-import request, { get, post, put } from "../http/http";
-import { getLocalData } from "../../utils/Storage";
+import { get, post, put } from "../config/config";
 import { UserInfo } from "../../types/UserType";
 
 // 统一接口

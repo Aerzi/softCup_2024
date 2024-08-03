@@ -1,4 +1,4 @@
-import { post } from "../http/http";
+import { post } from "../config/config";
 
 // 思维链
 export const thoughtChainGenerate = ({ question, method_choice }: any) => {

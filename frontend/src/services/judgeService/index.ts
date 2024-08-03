@@ -1,5 +1,5 @@
 import { getLocalData } from "../../utils/Storage";
-import request from "../http/http";
+import request from "../config/config";
 
 export const onSubmit = ({
   language_id,

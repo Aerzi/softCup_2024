@@ -1,5 +1,5 @@
 import { getLocalData } from "../../utils/Storage";
-import { get, post } from "../http/http";
+import { get, post } from "../config/config";
 
 export interface IQuestion {
   name: string;

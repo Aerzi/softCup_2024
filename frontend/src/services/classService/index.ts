@@ -1,6 +1,6 @@
 import { IClassStateType, IClassType } from "../../types/ClassType";
 import { getLocalData } from "../../utils/Storage";
-import request from "../http/http";
+import request from "../config/config";
 
 // 教师端
 /**

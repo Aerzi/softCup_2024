@@ -1,7 +1,12 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { getLocalData, setLocalData } from "../../utils/Storage";
 import { message } from "antd";
-import { status } from "nprogress";
+
+export interface IResponse {
+  code: number;
+  message: string;
+  response: any; // 根据实际返回的数据结构调整此处
+}
 
 // 创建一个 axios 实例
 const instance = axios.create({
@@ -21,6 +26,8 @@ instance.interceptors.response.use(
   (response) => {
     response?.headers?.authorization &&
       setLocalData("token", response.headers.authorization);
+    // 假设服务器返回的数据格式已经是 IResponse 格式
+
     return response.data;
   },
   (error) => {
