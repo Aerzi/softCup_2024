@@ -2,6 +2,7 @@ package com.example.backend.service;
 
 import com.example.backend.model.entity.Class;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.backend.model.request.student.aclass.ClassResponse;
 import com.example.backend.model.request.teacher.aclass.ClassPageRequest;
 import com.github.pagehelper.PageInfo;
 
@@ -20,7 +21,7 @@ public interface ClassService extends IService<Class> {
     public Class select(Integer id);
     public List<Class> list();
     public PageInfo<Class> page(ClassPageRequest request);
-    public PageInfo<Class> page(com.example.backend.model.request.student.aclass.ClassPageRequest request);
+    public PageInfo<ClassResponse> page(com.example.backend.model.request.student.aclass.ClassPageRequest request, Integer studentId);
     public void updateByIdFilter(Class request);
     public void deleteByIdFilter(Integer id);
 }
