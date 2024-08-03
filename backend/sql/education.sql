@@ -103,6 +103,7 @@ CREATE TABLE t_question (
 DROP TABLE IF EXISTS `t_programming_assess`;
 CREATE TABLE t_programming_assess (
   `id` int NOT NULL AUTO_INCREMENT,
+  `code_type` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `code` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `feedback` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `modified_code` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,

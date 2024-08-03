@@ -27,10 +27,9 @@ public class QuestionController extends BaseApiController {
         this.questionService = questionService;
     }
 
-    //Todo 增删改查 题目
-    //添加客观题
+    //添加编程题
     @PostMapping("/add")
-    public RestResponse objectiveAdd(@RequestBody @Valid QuestionAddRequest request){
+    public RestResponse add(@RequestBody @Valid QuestionAddRequest request){
         Question question = modelMapper.map(request,Question.class);
         question.setDeleted(false);
         question.setStatus(1);
