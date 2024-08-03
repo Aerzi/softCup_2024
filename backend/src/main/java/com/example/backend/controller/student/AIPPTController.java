@@ -33,10 +33,4 @@ public class AIPPTController extends BaseApiController {
         AIPPTOutlineResponse aipptOutlineResponse = aipptService.outline(request);
         return RestResponse.ok(aipptOutlineResponse);
     }
-
-
-
-
-
-
 }
