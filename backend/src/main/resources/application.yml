@@ -94,4 +94,9 @@ spark:
     summary-query-url: https://chatdoc.xfyun.cn/openapi/v1/file/summary/query
     app-id: 5e04969c
     secret: Y2JiZThhYjI2ZmYzODI1MDMwZmQyZTgy
+  ai-ppt:
+    base-url: https://zwapi.xfyun.cn
+    app-id: 5e04969c
+    secret: Y2JiZThhYjI2ZmYzODI1MDMwZmQyZTgy
+
 
