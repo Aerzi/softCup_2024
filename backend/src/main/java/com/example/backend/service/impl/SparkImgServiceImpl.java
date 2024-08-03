@@ -3,12 +3,18 @@ package com.example.backend.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.backend.config.property.SystemConfig;
+import com.example.backend.mapper.FileMapper;
+import com.example.backend.model.entity.File;
+import com.example.backend.model.request.student.spark.aiimg.AIImgPageRequest;
 import com.example.backend.model.request.student.spark.aiimg.AIImgRequest;
 import com.example.backend.service.FileService;
 import com.example.backend.service.FileUploadService;
 import com.example.backend.service.SparkImgService;
 import com.example.backend.utils.OkHttpClientUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,13 +33,13 @@ import static com.example.backend.utils.spark.sparkimg.AuthUrlUtil.getAuthUrl;
 @Service
 public class SparkImgServiceImpl implements SparkImgService {
     private final FileUploadService fileUploadService;
-    private final FileService fileService;
+    private final FileMapper fileMapper;
     private final SystemConfig systemConfig;
 
     @Autowired
-    public SparkImgServiceImpl(FileUploadService fileUploadService, FileService fileService, SystemConfig systemConfig) {
+    public SparkImgServiceImpl(FileUploadService fileUploadService, FileMapper fileMapper, SystemConfig systemConfig) {
         this.fileUploadService = fileUploadService;
-        this.fileService = fileService;
+        this.fileMapper = fileMapper;
         this.systemConfig = systemConfig;
     }
 
@@ -107,5 +113,19 @@ public class SparkImgServiceImpl implements SparkImgService {
         InputStream inputStream = new ByteArrayInputStream(imageBytes);
 
         return fileUploadService.uploadFile(inputStream, 0, null);
+    }
+
+    @Override
+    public PageInfo<File> page(AIImgPageRequest request) {
+        LambdaQueryWrapper<File> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(File::getUserId, request.getUserId())
+                .eq(File::getDeleted, false)
+                .eq(File::getExtension, "png")
+                .eq(File::getType, "IMG")
+                .eq(File::getIsAiGen, true);
+
+        return PageHelper.startPage(request.getPageIndex(), request.getPageSize(), "id desc").doSelectPageInfo(() ->
+                fileMapper.selectList(queryWrapper)
+        );
     }
 }
