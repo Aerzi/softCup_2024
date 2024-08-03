@@ -2,8 +2,10 @@ package com.example.backend.controller.student;
 
 import com.example.backend.base.BaseApiController;
 import com.example.backend.base.RestResponse;
+import com.example.backend.model.entity.chatdoc.ChatDocSummaryQueryResponse;
 import com.example.backend.model.request.student.spark.chatdoc.ChatDocApiResponse;
 import com.example.backend.model.request.student.spark.chatdoc.ChatDocChatRequest;
+import com.example.backend.model.request.student.spark.chatdoc.ChatDocSummaryQueryRequest;
 import com.example.backend.service.AIChatDocService;
 import com.example.backend.service.FileService;
 import com.example.backend.service.FileUploadService;
@@ -74,5 +76,11 @@ public class AIChatDocController extends BaseApiController {
     public RestResponse chat(@RequestBody @Valid ChatDocChatRequest request){
         aiChatDocService.chat(request);
         return RestResponse.ok();
+    }
+
+    @PostMapping("/summary")
+    public RestResponse summary(@RequestBody @Valid ChatDocSummaryQueryRequest request){
+        ChatDocSummaryQueryResponse response = aiChatDocService.query(request);
+        return RestResponse.ok(response);
     }
 }
