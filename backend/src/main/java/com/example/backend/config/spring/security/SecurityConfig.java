@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -69,6 +70,15 @@ public class SecurityConfig {
                     .and().userDetailsService(restDetailsService)
                     .logout().logoutUrl("/api/user/logout").logoutSuccessHandler(restLogoutSuccessHandler).invalidateHttpSession(true).deleteCookies("JSESSIONID");
         }
+
+        //忽略websocket拦截
+        @Override
+        public void configure(WebSecurity webSecurity) {
+            webSecurity.ignoring().antMatchers(
+                    "/api/chat/doc"
+            );
+        }
+
 
         /**
          * Cors configuration source cors configuration source.

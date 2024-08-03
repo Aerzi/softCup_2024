@@ -3,24 +3,21 @@ package com.example.backend.controller.student;
 import com.example.backend.base.BaseApiController;
 import com.example.backend.base.RestResponse;
 import com.example.backend.model.request.student.spark.chatdoc.ChatDocApiResponse;
+import com.example.backend.model.request.student.spark.chatdoc.ChatDocChatRequest;
 import com.example.backend.service.AIChatDocService;
 import com.example.backend.service.FileService;
 import com.example.backend.service.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 
 import static com.example.backend.model.enums.FileTypeEnum.getTypeByExtension;
-import static com.example.backend.utils.spark.chatdoc.MultipartFileToFile.deleteTempFile;
-import static com.example.backend.utils.spark.chatdoc.MultipartFileToFile.multipartFileToFile;
 
 @RequestMapping("/api/student/spark/chat/doc")
 @RestController("StudentSparkChatDocController")
@@ -73,6 +70,9 @@ public class AIChatDocController extends BaseApiController {
         return RestResponse.ok(chatDocApiResponse);
     }
 
-
-
+    @PostMapping("/chat")
+    public RestResponse chat(@RequestBody @Valid ChatDocChatRequest request){
+        aiChatDocService.chat(request);
+        return RestResponse.ok();
+    }
 }
