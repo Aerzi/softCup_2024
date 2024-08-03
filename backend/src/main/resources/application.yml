@@ -81,4 +81,9 @@ spark:
     app-id: 5e04969c
     api-secret: Y2JiZThhYjI2ZmYzODI1MDMwZmQyZTgy
     api-key: f318d6bf3b1b6051b787e1752ed17532
+  ai-rewrite:
+    request-url: https://api.xf-yun.com/v1/private/se3acbe7f
+    app-id: 5e04969c
+    api-secret: Y2JiZThhYjI2ZmYzODI1MDMwZmQyZTgy
+    api-key: f318d6bf3b1b6051b787e1752ed17532
 

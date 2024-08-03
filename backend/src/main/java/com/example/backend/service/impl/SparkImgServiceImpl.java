@@ -9,7 +9,6 @@ import com.example.backend.mapper.FileMapper;
 import com.example.backend.model.entity.File;
 import com.example.backend.model.request.student.spark.aiimg.AIImgPageRequest;
 import com.example.backend.model.request.student.spark.aiimg.AIImgRequest;
-import com.example.backend.service.FileService;
 import com.example.backend.service.FileUploadService;
 import com.example.backend.service.SparkImgService;
 import com.example.backend.utils.OkHttpClientUtil;
@@ -19,13 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URI;
-import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import java.util.Map;
 import java.util.UUID;
 
 import static com.example.backend.utils.spark.sparkimg.AuthUrlUtil.getAuthUrl;

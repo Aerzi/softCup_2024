@@ -4,6 +4,7 @@ import com.example.backend.config.property.judge0.Judge0CreateConfig;
 import com.example.backend.config.property.judge0.Judge0GetConfig;
 import com.example.backend.config.property.judge0.Judge0LangConfig;
 import com.example.backend.config.property.judge0.Judge0StatusConfig;
+import com.example.backend.config.property.spark.AIRewriteConfig;
 import com.example.backend.config.property.spark.SparkImgConfig;
 import lombok.Getter;
 import lombok.Setter;
@@ -56,4 +57,7 @@ public class SystemConfig {
 
     @Autowired
     private SparkImgConfig sparkImgConfig;
+
+    @Autowired
+    private AIRewriteConfig aiRewriteConfig;
 }
