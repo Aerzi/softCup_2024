@@ -33,3 +33,15 @@ export const deleteClass = (id: number) => {
 export const getClassList = () => {
   return get("teacher/class/list");
 };
+
+// 学生端
+export const getStudentClassList = () => {
+  return get("student/class/list");
+};
+
+// 加入课堂
+export const joinClass = (id: number) => {
+  return post(`student/class/join`, {
+    classId: id,
+  });
+};

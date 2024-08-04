@@ -1,30 +1,22 @@
-import { getLocalData } from "../../utils/Storage";
-import request from "../config/config";
+import { ICode } from "../../components/Code/type";
+import { post } from "../config/config";
 
-export const onSubmit = ({
+export const submitAnswer = ({
   language_id,
   source_code,
   stdin,
   questionId,
   classId,
-}: any) => {
-  return request(
-    "post",
-    "student/judge/submit",
-    {
-      request: {
-        stdin: stdin,
-        language_id: language_id,
-        source_code: source_code,
-      },
-      questionId: questionId,
-      classId: classId,
+  codeType,
+}: ICode) => {
+  return post("student/judge/submit", {
+    request: {
+      stdin: stdin,
+      language_id: language_id,
+      source_code: source_code,
     },
-    {
-      headers: {
-        Authorization:
-          getLocalData("token") !== null ? getLocalData("token") : "",
-      },
-    }
-  );
+    questionId: questionId,
+    classId: classId,
+    codeType: codeType,
+  });
 };

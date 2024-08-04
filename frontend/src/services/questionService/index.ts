@@ -39,7 +39,7 @@ export const onGetClassList = () => {
 };
 
 // 学生端
-export const StudentGetQuestionPage = ({
+export const getStudentQuestionPage = ({
   pageIndex,
   pageSize,
   classId,
