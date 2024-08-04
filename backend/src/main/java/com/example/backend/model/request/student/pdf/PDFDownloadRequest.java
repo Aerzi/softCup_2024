@@ -9,6 +9,4 @@ import java.util.List;
 @Setter
 public class PDFDownloadRequest {
     private List<String> result;
-
-    private String fileName;
 }
