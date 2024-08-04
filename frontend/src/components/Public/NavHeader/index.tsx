@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./index.less";
 import { NavLink } from "react-router-dom";
-import UserModal from "../../UserModal";
+import UserModal from "../UserModal";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../stores/redux/store";
 import { message } from "antd";
 
 const NavHeader = () => {
-  // 全局挂载messageApi
-  const [messageApi, contextHolder] = message.useMessage();
-
   const [isUserOpen, setIsUserOpen] = useState(false);
   // 对于导航栏，需要设置两种状态，一种是已登录，一种是未登录
   // 引入user, 有student和teacher两种状态
@@ -22,7 +19,6 @@ const NavHeader = () => {
 
   return (
     <>
-      {contextHolder}
       <nav className="xf-header__nav">
         <ul className="xf-header__nav-list">
           <li className="xf-header__nav-item">
@@ -35,7 +31,6 @@ const NavHeader = () => {
               系统首页
             </NavLink>
           </li>
-
           {userRole === "student" ? (
             <>
               <li className="xf-header__nav-item">
@@ -87,7 +82,7 @@ const NavHeader = () => {
         </ul>
         <div className="xf-header__user">
           {user.isLogin ? (
-            <li className="xf-header__nav-item">
+            <li className="xf-header__nav-item xf-header__nav-item-user">
               <NavLink
                 to={"/userPanel"}
                 className={({ isActive }) =>

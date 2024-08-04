@@ -21,6 +21,7 @@ import {
   onGetTeacherInfo,
 } from "../../services/userService";
 import moment from "moment";
+import { obfuscateName, obfuscatePhone } from "./hooks";
 
 const UserBox = () => {
   const [userProcess, setUserProcess] = useState(0);
@@ -90,43 +91,23 @@ const UserBox = () => {
     }
   };
 
-  const changeUserProcessItem = () => {
+  const changeUserProcess = () => {
     let count = 0;
-    if (userData?.userName !== null) {
-      count += 10;
-    }
-    if (userData?.age !== null) {
-      count += 10;
-    }
-    if (userData?.sex !== null) {
-      count += 10;
-    }
-    if (userData?.birthDay !== null) {
-      count += 10;
-    }
-    if (userData?.phone !== null) {
-      count += 10;
-    }
-    if (userData?.major !== null) {
-      count += 10;
-    }
-    if (userData?.gradeLevel !== null) {
-      count += 10;
-    }
-    if (userData?.createTime !== null) {
-      count += 10;
-    }
-    if (userData?.status !== null) {
-      count += 10;
-    }
-    if (userData?.realName !== null) {
-      count += 10;
-    }
-    setUserProcess(count);
+    console.log("changeUserProcessItem", userData);
+    userData?.userName && (count += 10);
+    userData?.age && (count += 10);
+    userData?.createTime && (count += 10);
+    userData?.realName && (count += 10);
+    userData?.sex && (count += 10);
+    userData?.birthDay && (count += 10);
+    userData?.phone && (count += 10);
+    userData?.major && (count += 10);
+    userData?.gradeLevel && (count += 10);
+    setUserProcess(count + 10);
   };
 
   useEffect(() => {
-    changeUserProcessItem();
+    changeUserProcess();
   }, [userData]);
 
   return (
@@ -194,7 +175,7 @@ const UserBox = () => {
               }}
             />
           ) : (
-            userData?.realName || ""
+            obfuscateName(userData?.realName) || ""
           )}
         </Descriptions.Item>
         <Descriptions.Item key="5" label="性别">
@@ -208,8 +189,10 @@ const UserBox = () => {
               <Radio value={1}>男</Radio>
               <Radio value={2}>女</Radio>
             </Radio.Group>
+          ) : userData?.sex === 1 ? (
+            "男"
           ) : (
-            (userData?.sex === 1 ? "男" : "女") || ""
+            "女"
           )}
         </Descriptions.Item>
         <Descriptions.Item key="6" label="生日">
@@ -236,7 +219,7 @@ const UserBox = () => {
               }}
             />
           ) : (
-            userData?.phone || ""
+            obfuscatePhone(userData?.phone) || ""
           )}
         </Descriptions.Item>
         <Descriptions.Item key="8" label="专业">

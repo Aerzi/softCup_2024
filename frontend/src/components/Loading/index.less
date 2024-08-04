@@ -1,0 +1,22 @@
+.full-screen-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.8); // 根据需要调整透明度
+  z-index: 1000; // 确保在页面最上层
+  display: none; // 默认不显示
+
+  &.ant-spin-nested-loading {
+    position: absolute; // 相对于父元素定位
+    display: block;
+  }
+
+  .ant-spin {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
