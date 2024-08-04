@@ -100,6 +100,7 @@ public class JudgeController extends BaseApiController {
         programmingAssess.setQuestionId(request.getQuestionId());
         programmingAssess.setUserId(getCurrentUser().getId());
         programmingAssess.setCode(result.getSource_code());
+        programmingAssess.setCodeType(request.getCodeType());
 
         ProgrammingAssessSelectOneRequest selectOneRequest = new ProgrammingAssessSelectOneRequest();
         selectOneRequest.setQuestionId(request.getQuestionId());

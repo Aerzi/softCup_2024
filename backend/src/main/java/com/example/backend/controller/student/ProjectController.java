@@ -8,11 +8,14 @@ import com.example.backend.event.UserEvent;
 import com.example.backend.model.entity.UserEventLog;
 import com.example.backend.model.entity.message.ProjectSparkMessage;
 import com.example.backend.model.entity.result.ProjectSparkCommonResult;
+import com.example.backend.model.request.student.pdf.PDFDownloadRequest;
+import com.example.backend.service.PDFSaveService;
 import com.example.backend.service.WebSocketService;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.itextpdf.layout.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
@@ -28,14 +31,16 @@ public class ProjectController extends BaseApiController {
     private final WebSocketService webSocketService;
     private final ApplicationEventPublisher eventPublisher;
     private final SystemConfig systemConfig;
+    private final PDFSaveService pdfSaveService;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private static final Gson gson = new Gson();
 
     @Autowired
-    public ProjectController(WebSocketService webSocketService, ApplicationEventPublisher eventPublisher, SystemConfig systemConfig) {
+    public ProjectController(WebSocketService webSocketService, ApplicationEventPublisher eventPublisher, SystemConfig systemConfig, PDFSaveService pdfSaveService) {
         this.webSocketService = webSocketService;
         this.eventPublisher = eventPublisher;
         this.systemConfig = systemConfig;
+        this.pdfSaveService = pdfSaveService;
     }
 
     @PostMapping("/thought/chain/generate")
@@ -68,6 +73,12 @@ public class ProjectController extends BaseApiController {
         eventPublisher.publishEvent(new UserEvent(userEventLog));
 
         return RestResponse.ok(result);
+    }
+
+    @PostMapping("/pdf/save")
+    public RestResponse<String> downloadPDF(@RequestBody @Valid PDFDownloadRequest request) {
+        String fileName = pdfSaveService.pdfGenerate(request);
+        return RestResponse.ok(fileName);
     }
 
 }

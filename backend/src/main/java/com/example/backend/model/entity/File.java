@@ -39,8 +39,6 @@ public class File implements Serializable {
 
     private Date modifyTime;
 
-    private Integer size;
-
     private Integer status;
 
     private String description;
@@ -50,4 +48,6 @@ public class File implements Serializable {
     private Integer classId;
 
     private Integer userId;
+
+    private Boolean isAiGen;
 }

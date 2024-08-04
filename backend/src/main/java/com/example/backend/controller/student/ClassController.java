@@ -54,14 +54,8 @@ public class ClassController extends BaseApiController {
 
     @PostMapping("/page")
     public RestResponse<PageInfo<ClassResponse>> page(@RequestBody ClassPageRequest request){
-        PageInfo<Class> pageInfo = classService.page(request);
-        PageInfo<ClassResponse> page = PageInfoHelper.copyMap(pageInfo, e -> {
-            ClassResponse response =  modelMapper.map(e, ClassResponse.class);
-            response.setCreateTime(DateTimeUtil.dateFormat(e.getCreateTime()));
-            response.setModifyTime(DateTimeUtil.dateFormat(e.getModifyTime()));
-            return response;
-        });
-        return RestResponse.ok(page);
+        PageInfo<ClassResponse> pageInfo = classService.page(request,getCurrentUser().getId());
+        return RestResponse.ok(pageInfo);
     }
 
     //查询
