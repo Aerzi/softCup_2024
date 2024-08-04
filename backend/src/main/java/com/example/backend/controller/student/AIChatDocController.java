@@ -4,6 +4,7 @@ import com.example.backend.base.BaseApiController;
 import com.example.backend.base.RestResponse;
 import com.example.backend.model.entity.chatdoc.ChatDocSummaryQueryResponse;
 import com.example.backend.model.request.student.spark.chatdoc.ChatDocApiResponse;
+import com.example.backend.model.request.student.spark.chatdoc.ChatDocApiUrlResponse;
 import com.example.backend.model.request.student.spark.chatdoc.ChatDocChatRequest;
 import com.example.backend.model.request.student.spark.chatdoc.ChatDocSummaryQueryRequest;
 import com.example.backend.service.AIChatDocService;
@@ -36,7 +37,7 @@ public class AIChatDocController extends BaseApiController {
     }
 
     @PostMapping("/upload")
-    public RestResponse<ChatDocApiResponse> upload(@RequestParam("file") MultipartFile multipartFile) {
+    public RestResponse<ChatDocApiUrlResponse> upload(@RequestParam("file") MultipartFile multipartFile) {
         long attachSize = multipartFile.getSize();
         String fileName = multipartFile.getOriginalFilename();
         String url = null;
@@ -69,7 +70,17 @@ public class AIChatDocController extends BaseApiController {
         System.out.println(chatDocApiResponse.getSid());
         System.out.println(chatDocApiResponse.getData().getFileId());
 
-        return RestResponse.ok(chatDocApiResponse);
+        ChatDocApiUrlResponse urlResponse = new ChatDocApiUrlResponse();
+        urlResponse.setResponse(chatDocApiResponse);
+        urlResponse.setUrl(url);
+        // 查找最后一个点的位置
+        int dotIndex = fileName.lastIndexOf('.');
+
+        // 获取扩展名
+        String extension = fileName.substring(dotIndex + 1);
+        urlResponse.setType(extension);
+
+        return RestResponse.ok(urlResponse);
     }
 
     @PostMapping("/chat")

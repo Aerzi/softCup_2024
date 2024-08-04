@@ -16,10 +16,7 @@ import com.itextpdf.layout.element.Paragraph;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 @Service
 public class PDFSaveServiceImpl implements PDFSaveService {
@@ -42,7 +39,38 @@ public class PDFSaveServiceImpl implements PDFSaveService {
         document = new Document(pdfDoc);
 
         // 加载支持中文的字体
-        String fontPath = "src/main/resources/fonts/simsun.ttc,1"; // 替换为系统中存在的字体路径
+//        String fontPath = "src/main/resources/fonts/simsun.ttc,1"; // 替换为系统中存在的字体路径
+
+        // 加载支持中文的字体
+        InputStream fontStream = getClass().getClassLoader().getResourceAsStream("fonts/simsun.ttc");
+        if (fontStream == null) {
+            throw new RuntimeException("Font not found in classpath");
+        }
+
+        // 创建临时文件存储字体
+        File tempFontFile = null;
+        try {
+            tempFontFile = File.createTempFile("simsun", ".ttc");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try (FileOutputStream tempOutputStream = new FileOutputStream(tempFontFile)) {
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = fontStream.read(buffer)) != -1) {
+                tempOutputStream.write(buffer, 0, length);
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // 使用临时文件的路径来创建字体
+        String fontPath = tempFontFile.getAbsolutePath() + ",1";
+
+        System.out.println(fontPath);
+
         PdfFont font = null;
         try {
             font = PdfFontFactory.createFont(fontPath, PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED);

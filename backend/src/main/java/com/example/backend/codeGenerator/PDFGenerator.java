@@ -56,16 +56,4 @@ public class PDFGenerator {
             e.printStackTrace();
         }
     }
-
-    // 递归添加树形结构内容
-    private static void addTreeStructure(Document document, JSONObject node, int level) {
-        String indentation = "  ".repeat(level);  // 根据层级增加缩进
-        document.add(new Paragraph(indentation + node.getString("name")));
-
-        JSONArray children = node.getJSONArray("children");
-        for (int i = 0; i < children.size(); i++) {
-            JSONObject child = children.getJSONObject(i);
-            addTreeStructure(document, child, level + 1);
-        }
-    }
 }
