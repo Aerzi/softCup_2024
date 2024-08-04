@@ -1,33 +1,30 @@
-import { getLocalData } from "../../utils/Storage";
-import { get, post } from "../config/config";
-
-export interface IQuestion {
-  name: string;
-  type: string;
-  description?: string;
-  content: string;
-  score?: number;
-  difficult?: number;
-  correct: string;
-  createTime?: string;
-  modifyTime?: string;
-  classId?: number;
-}
+import { IQuestion } from "../../components/Question/type";
+import { del, get, post, put } from "../config/config";
 
 // 教师端
 // 创建题目
-export const addTeacherQuestion = (data: IQuestion) => {
+export const addQuestion = (data: IQuestion) => {
   return post("teacher/question/add", data);
 };
 
+// 编辑题目
+export const editQuestion = (data: IQuestion) => {
+  return put("teacher/question/edit", data);
+};
+
+// 删除题目
+export const deleteQuestion = (id: number) => {
+  return del(`teacher/question/delete/${id}`);
+};
+
 // 教师端获取题目列表
-export const getPageTeacherQuestion = ({
+export const getQuestionPage = ({
   pageIndex,
   pageSize,
   classId,
 }: {
   pageIndex: number;
-  pageSize: number;
+  pageSize?: number;
   classId: number;
 }) => {
   return post("teacher/question/page", {
@@ -37,11 +34,12 @@ export const getPageTeacherQuestion = ({
   });
 };
 
-export const onGetTeacherClassList = () => {
+export const onGetClassList = () => {
   return get("teacher/question/list");
 };
 
-export const onStudentGetQuestionPage = ({
+// 学生端
+export const StudentGetQuestionPage = ({
   pageIndex,
   pageSize,
   classId,

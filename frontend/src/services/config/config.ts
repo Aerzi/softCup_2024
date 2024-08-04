@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { getLocalData, setLocalData } from "../../utils/Storage";
 import { message } from "antd";
 
@@ -98,6 +98,16 @@ export const post = (url: string, data?: any, config?: any) => {
 
 export const put = (url: string, data?: any, config?: any) => {
   return request("put", url, data, {
+    ...config,
+    headers: {
+      Authorization:
+        getLocalData("token") !== null ? getLocalData("token") : "",
+    },
+  });
+};
+
+export const del = (url: string, data?: any, config?: any) => {
+  return request("delete", url, data, {
     ...config,
     headers: {
       Authorization:
