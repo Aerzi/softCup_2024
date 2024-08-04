@@ -1,36 +1,88 @@
 package com.example.backend.controller.student;
 
+import com.alibaba.fastjson.JSON;
 import com.example.backend.base.BaseApiController;
 import com.example.backend.base.RestResponse;
-import com.example.backend.model.entity.aippt.AIPPTOutlineRequest;
-import com.example.backend.model.entity.aippt.AIPPTOutlineResponse;
-import com.example.backend.model.entity.aippt.AIPPTTemplate;
+import com.example.backend.model.entity.aippt.*;
 import com.example.backend.service.AIPPTService;
+import com.example.backend.service.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.io.InputStream;
 
 @RequestMapping("/api/student/spark/ppt")
 @RestController("StudentSparkPPTController")
 public class AIPPTController extends BaseApiController {
     private final AIPPTService aipptService;
+    private final FileUploadService fileUploadService;
 
     @Autowired
-    public AIPPTController(AIPPTService aipptService) {
+    public AIPPTController(AIPPTService aipptService, FileUploadService fileUploadService) {
         this.aipptService = aipptService;
+        this.fileUploadService = fileUploadService;
     }
 
     @GetMapping("/themeList")
-    public RestResponse<AIPPTTemplate> themeList(){
+    public RestResponse<AIPPTTemplate> themeList() {
         AIPPTTemplate aipptTemplate = aipptService.getTemplateList();
 
         return RestResponse.ok(aipptTemplate);
     }
 
     @PostMapping("/outline")
-    public RestResponse<AIPPTOutlineResponse> outline(@RequestBody @Valid AIPPTOutlineRequest request){
+    public RestResponse<AIPPTOutlineResponse> outline(@RequestBody @Valid AIPPTOutlineRequest request) {
         AIPPTOutlineResponse aipptOutlineResponse = aipptService.outline(request);
         return RestResponse.ok(aipptOutlineResponse);
     }
+
+    @PostMapping("/doc/outline")
+    public RestResponse<AIPPTOutlineResponse> outlineByDoc(@RequestParam("file") MultipartFile multipartFile, @RequestParam("data") String jsonString) {
+        AIPPTOutlineByDocRequest request = new AIPPTOutlineByDocRequest();
+        if (jsonString == null) {
+            request = JSON.parseObject(JSON.parse(jsonString).toString(), AIPPTOutlineByDocRequest.class);
+        }
+
+        long attachSize = multipartFile.getSize();
+        String fileName = multipartFile.getOriginalFilename();
+        String url = null;
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            String filePath = fileUploadService.uploadFile(inputStream, attachSize, fileName);
+            url = filePath;
+            System.out.println(url);
+            System.out.println(fileName);
+        } catch (IOException e) {
+            return RestResponse.fail(2, e.getMessage());
+        }
+
+        AIPPTOutlineResponse aipptOutlineResponse = aipptService.outlineByDoc(request, url, fileName);
+        return RestResponse.ok(aipptOutlineResponse);
+    }
+
+    @PostMapping("/doc/ppt")
+    public RestResponse<AIPPTResponse> pptByDoc(@RequestParam("file") MultipartFile multipartFile, @RequestParam("data") String jsonString) {
+        AIPPTByDocRequest request = new AIPPTByDocRequest();
+        if (jsonString == null) {
+            request = JSON.parseObject(JSON.parse(jsonString).toString(), AIPPTByDocRequest.class);
+        }
+
+        long attachSize = multipartFile.getSize();
+        String fileName = multipartFile.getOriginalFilename();
+        String url = null;
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            String filePath = fileUploadService.uploadFile(inputStream, attachSize, fileName);
+            url = filePath;
+            System.out.println(url);
+            System.out.println(fileName);
+        } catch (IOException e) {
+            return RestResponse.fail(2, e.getMessage());
+        }
+        AIPPTResponse aipptResponse = aipptService.pptByDoc(request, url, fileName);
+
+        return RestResponse.ok(aipptResponse);
+    }
+
 }

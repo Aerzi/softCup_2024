@@ -3,9 +3,7 @@ package com.example.backend.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.example.backend.config.property.SystemConfig;
-import com.example.backend.model.entity.aippt.AIPPTOutlineRequest;
-import com.example.backend.model.entity.aippt.AIPPTOutlineResponse;
-import com.example.backend.model.entity.aippt.AIPPTTemplate;
+import com.example.backend.model.entity.aippt.*;
 import com.example.backend.service.AIPPTService;
 import com.example.backend.utils.spark.ApiAuthAlgorithm;
 import okhttp3.*;
@@ -81,12 +79,12 @@ public class AIPPTServiceImpl implements AIPPTService {
 
         String response = null;
         try {
-            response =  executeRequest(request);
+            response = executeRequest(request);
             System.out.println(response);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return JSON.parseObject(response,AIPPTTemplate.class);
+        return JSON.parseObject(response, AIPPTTemplate.class);
     }
 
     @Override
@@ -101,11 +99,11 @@ public class AIPPTServiceImpl implements AIPPTService {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("query", request.getQuery());
         jsonObject.put("create_model", request.getCreate_model() != null ? request.getCreate_model() : "auto");
-        jsonObject.put("theme", request.getTheme() != null ? request.getTheme() : "green");
+        jsonObject.put("theme", request.getTheme() != null ? request.getTheme() : "auto");
         jsonObject.put("business_id", request.getBusiness_id() != null ? request.getBusiness_id() : "my business_id");
         jsonObject.put("author", request.getAuthor() != null ? request.getAuthor() : "智讯课堂");
         jsonObject.put("is_card_note", request.getIs_card_note() != null ? request.getIs_card_note() : false); // boolean default value
-        jsonObject.put("is_cover_img", request.getIs_cover_img() != null ? request.getIs_cover_img() :true); // boolean default value
+        jsonObject.put("is_cover_img", request.getIs_cover_img() != null ? request.getIs_cover_img() : true); // boolean default value
         jsonObject.put("language", request.getLanguage() != null ? request.getLanguage() : "cn");
         jsonObject.put("is_figure", request.getIs_figure() != null ? request.getIs_figure() : false); // boolean default value
 
@@ -115,13 +113,90 @@ public class AIPPTServiceImpl implements AIPPTService {
 
         String response = null;
         try {
-            response =  executeRequest(Secrequest);
+            response = executeRequest(Secrequest);
             System.out.println(response);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        return JSON.parseObject(response,AIPPTOutlineResponse.class);
+        return JSON.parseObject(response, AIPPTOutlineResponse.class);
+    }
+
+    @Override
+    public AIPPTOutlineResponse outlineByDoc(AIPPTOutlineByDocRequest request, String file_url, String file_name) {
+        long timestamp = System.currentTimeMillis() / 1000;
+        String ts = String.valueOf(timestamp);
+        ApiAuthAlgorithm auth = new ApiAuthAlgorithm();
+        String signature = auth.getSignature(systemConfig.getAipptConfig().getAppId(), systemConfig.getAipptConfig().getSecret(), timestamp);
+
+        validateParameters(systemConfig.getAipptConfig().getAppId(), ts, signature);
+
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM);
+
+        builder.addFormDataPart("query", request.getQuery() != null ? request.getQuery()  : "");
+        builder.addFormDataPart("file_url", file_url);
+        builder.addFormDataPart("file_name", file_name);
+        builder.addFormDataPart("theme", request.getTheme() != null ? request.getTheme() : "auto");
+        builder.addFormDataPart("business_id", request.getBusiness_id() != null ? request.getBusiness_id() : "my business_id");
+        builder.addFormDataPart("author", request.getAuthor() != null ? request.getAuthor() : "智讯课堂");
+        builder.addFormDataPart("is_card_note", String.valueOf(request.getIs_card_note() != null ? request.getIs_card_note() : false));
+        builder.addFormDataPart("is_cover_img", String.valueOf(request.getIs_cover_img() != null ? request.getIs_cover_img() : true));
+        builder.addFormDataPart("language", request.getLanguage() != null ? request.getLanguage() : "cn");
+        builder.addFormDataPart("is_figure", String.valueOf(request.getIs_figure() != null ? request.getIs_figure() : false));
+
+        MultipartBody body = builder.build();
+
+        Request Secrequest = buildPostRequest(systemConfig.getAipptConfig().getBaseUrl() + "/api/aippt/createOutlineByDoc", ts, signature, body);
+
+        String response = null;
+        try {
+            response = executeRequest(Secrequest);
+            System.out.println(response);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return JSON.parseObject(response, AIPPTOutlineResponse.class);
+    }
+
+    @Override
+    public AIPPTResponse pptByDoc(AIPPTByDocRequest request, String file_url, String file_name) {
+        long timestamp = System.currentTimeMillis() / 1000;
+        String ts = String.valueOf(timestamp);
+        ApiAuthAlgorithm auth = new ApiAuthAlgorithm();
+        String signature = auth.getSignature(systemConfig.getAipptConfig().getAppId(), systemConfig.getAipptConfig().getSecret(), timestamp);
+
+        validateParameters(systemConfig.getAipptConfig().getAppId(), ts, signature);
+
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM);
+
+        builder.addFormDataPart("query", request.getQuery() != null ? request.getQuery()  : "");
+        builder.addFormDataPart("file_url", file_url);
+        builder.addFormDataPart("file_name", file_name);
+        builder.addFormDataPart("theme", request.getTheme() != null ? request.getTheme() : "auto");
+        builder.addFormDataPart("business_id", request.getBusiness_id() != null ? request.getBusiness_id() : "my business_id");
+        builder.addFormDataPart("author", request.getAuthor() != null ? request.getAuthor() : "智讯课堂");
+        builder.addFormDataPart("is_card_note", String.valueOf(request.getIs_card_note() != null ? request.getIs_card_note() : false));
+        builder.addFormDataPart("is_cover_img", String.valueOf(request.getIs_cover_img() != null ? request.getIs_cover_img() : true));
+        builder.addFormDataPart("language", request.getLanguage() != null ? request.getLanguage() : "cn");
+        builder.addFormDataPart("is_figure", String.valueOf(request.getIs_figure() != null ? request.getIs_figure() : false));
+
+        MultipartBody body = builder.build();
+
+        Request Secrequest = buildPostRequest(systemConfig.getAipptConfig().getBaseUrl() + "/api/aippt/createByDoc", ts, signature, body);
+
+        String response = null;
+        try {
+            response = executeRequest(Secrequest);
+            System.out.println(response);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return JSON.parseObject(response, AIPPTResponse.class);
+
     }
 
     public void validateParameters(String... params) {
