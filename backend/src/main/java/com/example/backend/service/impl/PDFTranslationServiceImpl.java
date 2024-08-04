@@ -1,14 +1,25 @@
 package com.example.backend.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.example.backend.config.property.SystemConfig;
+import com.example.backend.model.entity.aitranslation.AITranslationDocResponse;
 import com.example.backend.model.entity.aitranslation.AITranslationResponse;
 import com.example.backend.model.entity.aitranslation.AITranslationText;
+import com.example.backend.model.entity.pdftranslate.CustomTextExtractionStrategy;
+import com.example.backend.model.entity.pdftranslate.TextSplitter;
+import com.example.backend.model.request.student.pdf.PDFDownloadRequest;
+import com.example.backend.service.PDFSaveService;
 import com.example.backend.service.PDFTranslationService;
 import com.google.gson.Gson;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfReader;
+import com.itextpdf.kernel.pdf.canvas.parser.PdfTextExtractor;
+import com.itextpdf.kernel.pdf.canvas.parser.data.TextRenderInfo;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -22,19 +33,20 @@ import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.Base64;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.*;
+
+import com.itextpdf.kernel.geom.Vector;
 
 @Service
 public class PDFTranslationServiceImpl implements PDFTranslationService {
     private final SystemConfig systemConfig;
     private static final Gson gson = new Gson();
+    private final PDFSaveService pdfSaveService;
 
     @Autowired
-    public PDFTranslationServiceImpl(SystemConfig systemConfig) {
+    public PDFTranslationServiceImpl(SystemConfig systemConfig, PDFSaveService pdfSaveService) {
         this.systemConfig = systemConfig;
+        this.pdfSaveService = pdfSaveService;
     }
 
     // 处理请求URL，包含鉴权
@@ -147,7 +159,7 @@ public class PDFTranslationServiceImpl implements PDFTranslationService {
             AITranslationResponse aiTranslationResponse = gson.fromJson(resp, AITranslationResponse.class);
             String textBase64Decode = new String(Base64.getDecoder().decode(aiTranslationResponse.getPayload().getResult().getText()), "UTF-8");
             aiTranslationText = gson.fromJson(textBase64Decode, AITranslationText.class);
-            System.out.println("text字段Base64解码后=>" + aiTranslationText);
+            System.out.println("text字段Base64解码后=>" + aiTranslationText.getTrans_result().getDst());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -156,4 +168,76 @@ public class PDFTranslationServiceImpl implements PDFTranslationService {
 
         return aiTranslationText;
     }
+
+    private static List<String> splitTextByFontSize(List<TextRenderInfo> textRenderInfos) {
+        List<String> paragraphs = new ArrayList<>();
+        StringBuilder currentParagraph = new StringBuilder();
+        Float lastFontSize = null;
+
+        for (TextRenderInfo renderInfo : textRenderInfos) {
+            Vector ascent = renderInfo.getAscentLine().getStartPoint();
+            Vector descent = renderInfo.getDescentLine().getEndPoint();
+            Float currentFontSize = ascent.get(1) - descent.get(1);
+
+            // 如果字体大小变化，认为是新段落
+            if (lastFontSize != null && !lastFontSize.equals(currentFontSize)) {
+                paragraphs.add(currentParagraph.toString());
+                currentParagraph = new StringBuilder();
+            }
+
+            currentParagraph.append(renderInfo.getText());
+            lastFontSize = currentFontSize;
+        }
+
+        // 添加最后一个段落
+        if (currentParagraph.length() > 0) {
+            paragraphs.add(currentParagraph.toString());
+        }
+
+        return paragraphs;
+    }
+
+    @Override
+    public AITranslationDocResponse translateDoc(MultipartFile file, int maxBytes, Charset charset) {
+        PdfDocument pdfDoc = null;
+        try {
+            pdfDoc = new PdfDocument(new PdfReader(file.getInputStream()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        List<String> translatedParagraphs = new ArrayList<>();
+
+        for (int i = 1; i <= pdfDoc.getNumberOfPages(); i++) {
+            CustomTextExtractionStrategy strategy = new CustomTextExtractionStrategy();
+            PdfTextExtractor.getTextFromPage(pdfDoc.getPage(i), strategy);
+
+            List<TextRenderInfo> textRenderInfos = strategy.getTextRenderInfos();
+            List<String> paragraphs = splitTextByFontSize(textRenderInfos);
+
+            for (String paragraph : paragraphs) {
+                if (paragraph.trim().isEmpty()) continue;
+
+                List<String> parts = TextSplitter.splitTextByBytes(paragraph, maxBytes, charset);
+                StringBuilder translatedParagraph = new StringBuilder();
+                for (String part : parts) {
+                    translatedParagraph.append(translate(part).getTrans_result().getDst());
+                }
+
+                translatedParagraphs.add(translatedParagraph.toString());
+            }
+        }
+        pdfDoc.close();
+
+        AITranslationDocResponse response = new AITranslationDocResponse();
+        response.setTexts(translatedParagraphs);
+
+        PDFDownloadRequest request = new PDFDownloadRequest();
+        request.setResult(response.getTexts());
+
+        String url = pdfSaveService.pdfGenerate(request);
+        response.setUrl(url);
+
+        return response;
+    }
+
 }
