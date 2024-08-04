@@ -60,8 +60,8 @@ public class ClassController extends BaseApiController {
 
     //查询
     @GetMapping("/list")
-    public RestResponse<List<Class>> list(){
-        List<Class> classes = classService.list();
+    public RestResponse<List<ClassResponse>> list(){
+        List<ClassResponse> classes = classService.listClass(getCurrentUser().getId());
         return RestResponse.ok(classes);
     }
 

@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -56,10 +57,34 @@ public class ClassServiceImpl extends ServiceImpl<ClassMapper, Class> implements
     }
 
     @Override
-    public List<Class> list() {
-        QueryWrapper<Class> classQueryWrapper = new QueryWrapper<>();
-        classQueryWrapper.eq("deleted", 0);
-        return classMapper.selectList(classQueryWrapper);
+    public List<ClassResponse> listClass(Integer studentId) {
+        LambdaQueryWrapper<Class> classQueryWrapper = new LambdaQueryWrapper<>();
+        classQueryWrapper.eq(Class::getDeleted, 0);
+        List<Class> classes =  classMapper.selectList(classQueryWrapper);
+
+        List<ClassResponse> classResponses = classes.stream().map(e->{
+            ClassResponse classResponse = modelMapper.map(e,ClassResponse.class);
+            classResponse.setCreateTime(DateTimeUtil.dateFormat(e.getCreateTime()));
+            classResponse.setModifyTime(DateTimeUtil.dateFormat(e.getModifyTime()));
+            return classResponse;
+        }).collect(Collectors.toList());
+
+        LambdaQueryWrapper<ClassStudent> classStudentLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        classStudentLambdaQueryWrapper.eq(ClassStudent::getUserId, studentId);
+
+        List<ClassStudent> classStudents = classStudentMapper.selectList(classStudentLambdaQueryWrapper);
+
+        for (ClassStudent student : classStudents) {
+            int studentClassId = student.getClassId();
+            for (ClassResponse clazz : classResponses) {
+                if (clazz.getId() == studentClassId) {
+                    clazz.setIsAdded(true);
+                }else{
+                    clazz.setIsAdded(false);
+                }
+            }
+        }
+        return classResponses;
     }
 
     @Override
@@ -118,7 +143,6 @@ public class ClassServiceImpl extends ServiceImpl<ClassMapper, Class> implements
                 }
             }
         }
-
 
         return page;
     }
