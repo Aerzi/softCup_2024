@@ -60,7 +60,7 @@ public class AIChatDocController extends BaseApiController {
             file.setClassId(null);
             file.setDeleted(false);
             file.setUserId(getCurrentUser().getId());
-            file.setIsAiGen(true);
+            file.setIsAiGen(false);
             fileService.insertByFilter(file);
         } catch (IOException e) {
             return RestResponse.fail(2, e.getMessage());
