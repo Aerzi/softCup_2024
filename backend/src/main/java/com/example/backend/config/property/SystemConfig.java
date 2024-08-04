@@ -4,10 +4,7 @@ import com.example.backend.config.property.judge0.Judge0CreateConfig;
 import com.example.backend.config.property.judge0.Judge0GetConfig;
 import com.example.backend.config.property.judge0.Judge0LangConfig;
 import com.example.backend.config.property.judge0.Judge0StatusConfig;
-import com.example.backend.config.property.spark.AIChatDocConfig;
-import com.example.backend.config.property.spark.AIPPTConfig;
-import com.example.backend.config.property.spark.AIRewriteConfig;
-import com.example.backend.config.property.spark.SparkImgConfig;
+import com.example.backend.config.property.spark.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,4 +65,7 @@ public class SystemConfig {
 
     @Autowired
     private AIPPTConfig aipptConfig;
+
+    @Autowired
+    private AITranslationConfig aiTranslationConfig;
 }
