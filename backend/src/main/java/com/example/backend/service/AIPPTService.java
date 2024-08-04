@@ -7,5 +7,6 @@ public interface AIPPTService {
     public AIPPTOutlineResponse outline(AIPPTOutlineRequest request);
     public AIPPTOutlineResponse outlineByDoc(AIPPTOutlineByDocRequest request,String file_url,String file_name);
     public AIPPTResponse pptByDoc(AIPPTByDocRequest request,String file_url,String file_name);
+    public AIPPTProgressResult checkProgress(String sid);
     public void validateParameters(String... params);
 }

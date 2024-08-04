@@ -75,7 +75,7 @@ public class SecurityConfig {
         @Override
         public void configure(WebSecurity webSecurity) {
             webSecurity.ignoring().antMatchers(
-                    "/api/chat/doc"
+                    "/api/chat/doc", "/api/ppt/progress"
             );
         }
 

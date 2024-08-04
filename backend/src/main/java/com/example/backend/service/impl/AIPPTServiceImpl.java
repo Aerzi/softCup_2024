@@ -134,7 +134,7 @@ public class AIPPTServiceImpl implements AIPPTService {
         MultipartBody.Builder builder = new MultipartBody.Builder();
         builder.setType(MultipartBody.FORM);
 
-        builder.addFormDataPart("query", request.getQuery() != null ? request.getQuery()  : "");
+        builder.addFormDataPart("query", request.getQuery() != null ? request.getQuery() : "");
         builder.addFormDataPart("file_url", file_url);
         builder.addFormDataPart("file_name", file_name);
         builder.addFormDataPart("theme", request.getTheme() != null ? request.getTheme() : "auto");
@@ -172,7 +172,7 @@ public class AIPPTServiceImpl implements AIPPTService {
         MultipartBody.Builder builder = new MultipartBody.Builder();
         builder.setType(MultipartBody.FORM);
 
-        builder.addFormDataPart("query", request.getQuery() != null ? request.getQuery()  : "");
+        builder.addFormDataPart("query", request.getQuery() != null ? request.getQuery() : "");
         builder.addFormDataPart("file_url", file_url);
         builder.addFormDataPart("file_name", file_name);
         builder.addFormDataPart("theme", request.getTheme() != null ? request.getTheme() : "auto");
@@ -197,6 +197,36 @@ public class AIPPTServiceImpl implements AIPPTService {
 
         return JSON.parseObject(response, AIPPTResponse.class);
 
+    }
+
+    @Override
+    public AIPPTProgressResult checkProgress(String sid) {
+        long timestamp = System.currentTimeMillis() / 1000;
+        String ts = String.valueOf(timestamp);
+        ApiAuthAlgorithm auth = new ApiAuthAlgorithm();
+        String signature = auth.getSignature(systemConfig.getAipptConfig().getAppId(), systemConfig.getAipptConfig().getSecret(), timestamp);
+
+
+        validateParameters(systemConfig.getAipptConfig().getAppId(), ts, signature, sid);
+
+        HttpUrl url = HttpUrl.parse(systemConfig.getAipptConfig().getBaseUrl()).newBuilder()
+                .addPathSegment("api")
+                .addPathSegment("aippt")
+                .addPathSegment("progress")
+                .addQueryParameter("sid", sid)
+                .build();
+
+        Request request = buildGetRequest(url.toString(), ts, signature);
+
+        String response = null;
+        try {
+            response = executeRequest(request);
+            System.out.println(response);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return JSON.parseObject(response, AIPPTProgressResult.class);
     }
 
     public void validateParameters(String... params) {
