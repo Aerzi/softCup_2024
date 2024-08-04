@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form, Input, Button, message } from "antd";
-import { createClass } from "../../../services/classService";
-import { IClassRoom } from "../type";
+import { createClass } from "../../../../services/classService";
+import { IClassRoom } from "../../type";
 
 const CreateClass = () => {
   const [form] = Form.useForm();

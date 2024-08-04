@@ -1,8 +1,7 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { message, Select } from "antd";
-import moment from "moment"; // 用于时间格式化
-import { IClassRoom } from "../type";
-import { getClassList } from "../../../services/classService";
+import { IClassRoom } from "../../type";
+import { getClassList } from "../../../../services/classService";
 
 const { Option } = Select;
 

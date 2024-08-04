@@ -134,3 +134,11 @@ export const languageIdMap = {
   pythonMl37: 10,
   vbnet: 20,
 } as any;
+
+export const options: any = {
+  selectOnLineNumbers: true,
+  roundedSelection: false,
+  readOnly: false, // 是否只读  取值 true | false
+  cursorStyle: "line",
+  automaticLayout: true, // 自动布局
+};

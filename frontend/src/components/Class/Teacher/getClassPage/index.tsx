@@ -4,8 +4,8 @@ import {
   getClassPage,
   editClass,
   deleteClass,
-} from "../../../services/classService";
-import { IClassRoom } from "../type";
+} from "../../../../services/classService";
+import { IClassRoom } from "../../type";
 
 interface IPage {
   pageIndex: number;

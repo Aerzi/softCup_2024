@@ -1,7 +1,6 @@
 import React from "react";
 import "./index.less";
 import { Button } from "antd";
-import StudentQuestion from "../AboutQuestion/StudentQuestion";
 
 const LinkLoader = ({
   isLinkLoading,
@@ -17,7 +16,6 @@ const LinkLoader = ({
           {isLinkLoading ? "返回项目开发" : "启用思维链"}
         </Button>
       </div>
-      {!isLinkLoading && <StudentQuestion classId={1} />}
     </div>
   );
 };

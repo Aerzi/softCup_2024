@@ -6,4 +6,5 @@ export interface IClassRoom {
   modifyTime?: string;
   status?: number;
   userId?: number;
+  is_add?: boolean;
 }

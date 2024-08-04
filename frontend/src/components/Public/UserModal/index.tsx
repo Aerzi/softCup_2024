@@ -14,7 +14,7 @@ import {
 } from "../../../services/userService";
 import { setLocalData } from "../../../utils/Storage";
 import { useNavigate } from "react-router";
-import FullScreenLoading from "../../Loading";
+import FullScreenLoading from "../../Other/Loading";
 
 // 定义登录表单类型
 type FieldType = {
