@@ -1,6 +1,7 @@
 import React from "react";
 import { InboxOutlined } from "@ant-design/icons";
-import { message, Upload, Button, UploadProps } from "antd";
+import { message, Upload, UploadProps } from "antd";
+import { getLocalData } from "../../../utils/Storage";
 import { createFile } from "../../../services/fileService";
 
 const { Dragger } = Upload;
@@ -10,25 +11,29 @@ const uploadFile = ({ classId }: { classId: number }) => {
   const props: UploadProps = {
     name: "file",
     multiple: true,
-    action: "http://localhost:8080/api/teacher/upload/file", // 替换成你的上传API地址
+    accept:
+      ".txt,.pdf,.doc,.docx,.jpg,.jpeg,.png,.gif,.mp4,.avi,.c,.cpp,.java,.py,.js,.ts",
+    action: "http://localhost:8080/api/teacher/upload/file",
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization:
+        getLocalData("token") !== null ? getLocalData("token") : "",
+    },
     onChange(info) {
       const { status } = info.file;
       if (status !== "uploading") {
         console.log(info.file, info.fileList);
       }
       if (status === "done") {
-        // 调用你的createFile函数
         const { file } = info;
         const formData = new FormData();
-        formData.append("file", file.originFileObj); // 将文件添加到FormData中
-        createFile({
-          file: formData,
-          description: "description",
-          classId: classId,
-        })
+        formData.append("file", file.originFileObj);
+        formData.append("description", file.name);
+        formData.append("classId", classId.toString());
+        createFile(formData)
           .then((res: any) => {
             if (res.code === 200) {
-              message.success(`${file.name} file uploaded successfully.`);
+              message.success("文件处理成功");
             } else {
               message.error(res.message);
             }
@@ -44,26 +49,15 @@ const uploadFile = ({ classId }: { classId: number }) => {
       console.log("Dropped files", e.dataTransfer.files);
     },
   };
-  const handleUpload = () => {
-    // 这里可以添加上传逻辑，例如触发文件选择或者直接上传
-  };
   return (
     <div>
       <Dragger {...props}>
         <p className="ant-upload-drag-icon">
           <InboxOutlined />
         </p>
-        <p className="ant-upload-text">
-          Click or drag file to this area to upload
-        </p>
-        <p className="ant-upload-hint">
-          Support for a single or bulk upload. Strictly prohibited from
-          uploading company data or other banned files.
-        </p>
+        <p className="ant-upload-text">点击或者拖拽文件到此区域</p>
+        <p className="ant-upload-hint">支持单个或批量上传</p>
       </Dragger>
-      <Button type="primary" onClick={handleUpload} style={{ marginTop: 16 }}>
-        Upload Files
-      </Button>
     </div>
   );
 };

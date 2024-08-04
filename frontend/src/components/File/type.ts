@@ -1,6 +1,6 @@
 export interface IFile {
   id?: number;
-  file?: FormData;
+  file?: File;
   description?: string;
   classId?: number;
   userId?: number;
