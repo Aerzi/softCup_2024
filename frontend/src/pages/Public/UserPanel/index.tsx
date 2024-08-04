@@ -13,11 +13,11 @@ const UserPanel = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onUserLogout = () => {
+    // 清除本地的数据
+    localStorage.clear();
     onLogout()
       .then((res: any) => {
         if (res.code === 200) {
-          // 清除本地的数据
-          localStorage.clear();
           dispatch(updateUser({ isLogin: false, data: null, role: "student" }));
           // 跳转到登录页
           navigate("/");

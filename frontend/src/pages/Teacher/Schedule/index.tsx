@@ -1,7 +1,9 @@
 import React from "react";
 import NavHeader from "../../../components/Public/NavHeader";
 import "./index.less";
-
+{
+  /* 智能备课: 生成备课ppt，文档翻译 */
+}
 const Schedule = () => {
   return (
     <>

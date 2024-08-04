@@ -7,12 +7,13 @@ import {
 } from "@ant-design/icons";
 import NavHeader from "../../../components/Public/NavHeader";
 import "./index.less";
-import PageClass from "../../../components/Class/getClassPage";
-import QuestionModal from "../../../components/Question/CreateQuestion";
+import CreateClass from "../../../components/Class/Teacher/CreateClass";
+import PageClass from "../../../components/Class/Teacher/getClassPage";
+import ClassSelect from "../../../components/Class/Teacher/getClassList";
+import CreateQuestion from "../../../components/Question/CreateQuestion";
 import QuestionPage from "../../../components/Question/QuestionPage";
-import CreateClass from "../../../components/Class/CreateClass";
-import ClassSelect from "../../../components/Class/getClassList";
 import CreateFile from "../../../components/File/CreateFile";
+import FilePage from "../../../components/File/FilePage";
 
 const { SubMenu } = Menu;
 const { Title } = Typography;
@@ -123,7 +124,7 @@ const ClassControl = () => {
                     />
                   }
                 >
-                  <QuestionModal classId={selectId} />
+                  <CreateQuestion classId={selectId} />
                 </Card>
               )}
               {current === "4" && (
@@ -152,6 +153,20 @@ const ClassControl = () => {
                   }
                 >
                   <CreateFile classId={selectId} />
+                </Card>
+              )}
+              {current === "6" && (
+                <Card
+                  title="查看资源目录"
+                  className="xf-Class__card"
+                  extra={
+                    <ClassSelect
+                      id={selectId}
+                      onChange={(id: number) => setSelectId(id)}
+                    />
+                  }
+                >
+                  <FilePage classId={selectId} />
                 </Card>
               )}
             </Space>
