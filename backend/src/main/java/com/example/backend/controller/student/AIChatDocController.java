@@ -73,6 +73,12 @@ public class AIChatDocController extends BaseApiController {
         ChatDocApiUrlResponse urlResponse = new ChatDocApiUrlResponse();
         urlResponse.setResponse(chatDocApiResponse);
         urlResponse.setUrl(url);
+        // 查找最后一个点的位置
+        int dotIndex = fileName.lastIndexOf('.');
+
+        // 获取扩展名
+        String extension = fileName.substring(dotIndex + 1);
+        urlResponse.setType(extension);
 
         return RestResponse.ok(urlResponse);
     }

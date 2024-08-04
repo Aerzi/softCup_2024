@@ -8,4 +8,5 @@ import lombok.Setter;
 public class ChatDocApiUrlResponse {
     ChatDocApiResponse response;
     String url;
+    String type;
 }
