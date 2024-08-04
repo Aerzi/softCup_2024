@@ -7,6 +7,7 @@ import Classroom from "./pages/Student/ClassRoom";
 import DevAid from "./pages/Student/DevAid";
 import ClassControl from "./pages/Teacher/ClassControl";
 import ErrorPage from "./pages/Public/ErrorPage";
+import CodePen from "./pages/Student/CodePen";
 
 function App() {
   return (
@@ -28,6 +29,8 @@ function App() {
           <Route path="/classControl" element={<ClassControl />} />
           {/* 智能备课: 生成备课ppt，文档翻译 */}
           <Route path="/schedule" element={<ScheduleManagement />} />
+          {/* 在线编译平台 */}
+          <Route path="/codePen" element={<CodePen />} />
           {/* 日志管理, 用户管理 */}
         </Routes>
       </HashRouter>
