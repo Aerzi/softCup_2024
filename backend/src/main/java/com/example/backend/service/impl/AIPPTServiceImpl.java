@@ -161,6 +161,33 @@ public class AIPPTServiceImpl implements AIPPTService {
     }
 
     @Override
+    public AIPPTResponse ppt(AIPPTRequest request) {
+        long timestamp = System.currentTimeMillis() / 1000;
+        String ts = String.valueOf(timestamp);
+        ApiAuthAlgorithm auth = new ApiAuthAlgorithm();
+        String signature = auth.getSignature(systemConfig.getAipptConfig().getAppId(), systemConfig.getAipptConfig().getSecret(), timestamp);
+
+        validateParameters(systemConfig.getAipptConfig().getAppId(), ts, signature, request.getSid());
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("sid", request.getSid());
+
+        RequestBody body = RequestBody.create(MediaType.get(MEDIA_TYPE_JSON), jsonObject.toString());
+
+        Request Secrequest = buildPostRequest(systemConfig.getAipptConfig().getBaseUrl() + "/api/aippt/createBySid", ts, signature, body);
+
+        String response = null;
+        try {
+            response = executeRequest(Secrequest);
+            System.out.println(response);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return JSON.parseObject(response, AIPPTResponse.class);
+    }
+
+    @Override
     public AIPPTResponse pptByDoc(AIPPTByDocRequest request, String file_url, String file_name) {
         long timestamp = System.currentTimeMillis() / 1000;
         String ts = String.valueOf(timestamp);
