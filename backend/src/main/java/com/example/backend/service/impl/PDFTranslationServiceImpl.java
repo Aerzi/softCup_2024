@@ -175,6 +175,7 @@ public class PDFTranslationServiceImpl implements PDFTranslationService {
         Float lastFontSize = null;
 
         for (TextRenderInfo renderInfo : textRenderInfos) {
+            renderInfo.preserveGraphicsState(); // 保留图形状态
             Vector ascent = renderInfo.getAscentLine().getStartPoint();
             Vector descent = renderInfo.getDescentLine().getEndPoint();
             Float currentFontSize = ascent.get(1) - descent.get(1);
@@ -197,6 +198,21 @@ public class PDFTranslationServiceImpl implements PDFTranslationService {
         return paragraphs;
     }
 
+    private static List<String> splitByContentRules(String text) {
+        List<String> subParagraphs = new ArrayList<>();
+        String[] initialSplits = text.split("\\n\\n|\\r\\r|\\r\\n\\r\\n"); // 按两个换行符拆分
+
+        for (String splitText : initialSplits) {
+            // 使用正则表达式按句号+空格或句号+换行符拆分
+            String[] sentences = splitText.split("(?<=\\\\.|。)[ \\\\t]*\\\\r?\\\\n|(?<=\\\\.|。)[ \\\\t]+");
+            for (String sentence : sentences) {
+                subParagraphs.add(sentence.trim());
+            }
+        }
+
+        return subParagraphs;
+    }
+
     @Override
     public AITranslationDocResponse translateDoc(MultipartFile file, int maxBytes, Charset charset) {
         PdfDocument pdfDoc = null;
@@ -217,13 +233,15 @@ public class PDFTranslationServiceImpl implements PDFTranslationService {
             for (String paragraph : paragraphs) {
                 if (paragraph.trim().isEmpty()) continue;
 
-                List<String> parts = TextSplitter.splitTextByBytes(paragraph, maxBytes, charset);
-                StringBuilder translatedParagraph = new StringBuilder();
-                for (String part : parts) {
-                    translatedParagraph.append(translate(part).getTrans_result().getDst());
+                List<String> subParagraphs = splitByContentRules(paragraph);
+                for (String subParagraph : subParagraphs) {
+                    List<String> parts = TextSplitter.splitTextByBytes(subParagraph, maxBytes, charset);
+                    StringBuilder translatedParagraph = new StringBuilder();
+                    for (String part : parts) {
+                        translatedParagraph.append(translate(part).getTrans_result().getDst());
+                    }
+                    translatedParagraphs.add(translatedParagraph.toString());
                 }
-
-                translatedParagraphs.add(translatedParagraph.toString());
             }
         }
         pdfDoc.close();
