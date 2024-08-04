@@ -19,7 +19,7 @@ import java.util.List;
 public interface ClassService extends IService<Class> {
     public void insertByFilter(Class aclass);
     public Class select(Integer id);
-    public List<Class> list();
+    public List<ClassResponse> listClass(Integer studentId);
     public PageInfo<Class> page(ClassPageRequest request);
     public PageInfo<ClassResponse> page(com.example.backend.model.request.student.aclass.ClassPageRequest request, Integer studentId);
     public void updateByIdFilter(Class request);
