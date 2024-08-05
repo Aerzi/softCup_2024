@@ -45,3 +45,31 @@ export const getThemeList = () => {
 export const getProcess = (sid: string) => {
   return get(`/student/spark/ppt/ppt/progress/${sid}`);
 };
+
+// 教师端
+// 获取主题列表
+export const getTeacherThemeList = () => {
+  return get("teacher/spark/ppt/themeList");
+};
+
+// 生成备课大纲
+export const generateOutline = (data: IDocs) => {
+  return post("teacher/spark/ppt/outline", data);
+};
+
+// 生成PPT
+export const generatePPTByTeacher = (sid: string) => {
+  return post("teacher/spark/ppt/ppt", {
+    sid: sid,
+  });
+};
+
+// 教师端获取进度
+export const getTeacherProcess = (sid: string) => {
+  return get(`/teacher/spark/ppt/ppt/progress/${sid}`);
+};
+
+// 教师端文档翻译
+export const translateDocs = (formData: FormData) => {
+  return post("teacher/spark/translation/doc/translate", formData);
+};
