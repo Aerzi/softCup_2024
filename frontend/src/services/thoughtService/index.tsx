@@ -7,3 +7,9 @@ export const thoughtChainGenerate = ({ question, method_choice }: any) => {
     method_choice: method_choice,
   });
 };
+
+export const downloadPDF = (result: string) => {
+  return post("student/project/pdf/save", {
+    result: result,
+  });
+};

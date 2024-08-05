@@ -54,6 +54,16 @@ const NavHeader = () => {
                   开发辅助
                 </NavLink>
               </li>
+              <li className="xf-header__nav-item">
+                <NavLink
+                  to={"/chat"}
+                  className={({ isActive }) =>
+                    `link ${isActive ? "xf-header__nav-item-link--active" : "xf-header__nav-item-link"}`
+                  }
+                >
+                  智链启航
+                </NavLink>
+              </li>
             </>
           ) : (
             <>
