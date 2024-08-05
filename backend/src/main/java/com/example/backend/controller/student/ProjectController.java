@@ -66,6 +66,7 @@ public class ProjectController extends BaseApiController {
         }
 
         UserEventLog userEventLog = new UserEventLog();
+        userEventLog.setDeleted(false);
         userEventLog.setUserId(getCurrentUser().getId());
         userEventLog.setUserName(getCurrentUser().getUserName());
         userEventLog.setCreateTime(new Date());

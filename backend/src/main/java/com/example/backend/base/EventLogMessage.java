@@ -23,5 +23,6 @@ public class EventLogMessage {
     public static String PPT_PROGRESS = "查询了ppt生成进度";
     public static String REWRITE = "进行了文档改写";
     public static String AI_IMG = "生成项目logo";
+    public static String PDF_TRANSLATION = "进行了文档翻译";
 
 }
