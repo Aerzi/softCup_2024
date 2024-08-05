@@ -7,6 +7,10 @@ import {
 } from "@ant-design/icons";
 import NavHeader from "../../../components/Public/NavHeader";
 import "./index.less";
+import ImageGenerator from "../../../components/Image";
+import DocumentQAPanel from "../../../components/Docs/chatDocs/indes";
+import DocumentWriter from "../../../components/Docs/DocsWrite";
+import PPTCreater from "../../../components/Docs/PPTCreater";
 
 const { SubMenu } = Menu;
 const { Title } = Typography;
@@ -15,6 +19,12 @@ const { Title } = Typography;
 }
 const ClassControl = () => {
   const [current, setCurrent] = useState("1");
+  const [collapsed, setCollapsed] = useState(false);
+
+  // 切换折叠状态的函数
+  const toggleCollapsed = () => {
+    setCollapsed(!collapsed);
+  };
 
   const menu = (
     <Menu
@@ -24,17 +34,13 @@ const ClassControl = () => {
       mode="inline"
       theme="light"
     >
-      <SubMenu key="sub1" icon={<AppstoreOutlined />} title="课堂管理">
-        <Menu.Item key="1">创建课堂</Menu.Item>
-        <Menu.Item key="2">查看课堂信息</Menu.Item>
+      <SubMenu key="sub1" icon={<AppstoreOutlined />} title="智能文档">
+        <Menu.Item key="1">文档问答</Menu.Item>
+        <Menu.Item key="2">文档扩写</Menu.Item>
       </SubMenu>
-      <SubMenu key="sub2" icon={<ProjectOutlined />} title="题目管理">
-        <Menu.Item key="3">发布习题任务</Menu.Item>
-        <Menu.Item key="4">查看习题任务信息</Menu.Item>
-      </SubMenu>
-      <SubMenu key={"sub3"} icon={<FileOutlined />} title={"资源管理"}>
-        <Menu.Item key="5">添加资源文件</Menu.Item>
-        <Menu.Item key="6">查看资源目录</Menu.Item>
+      <Menu.Item key="3">智能PPT</Menu.Item>
+      <SubMenu key={"sub3"} icon={<FileOutlined />} title={"智能图片"}>
+        <Menu.Item key="4">图片生成</Menu.Item>
       </SubMenu>
     </Menu>
   );
@@ -45,31 +51,38 @@ const ClassControl = () => {
         <NavHeader />
       </header>
       <Layout style={{ minHeight: "calc(100vh - 64px)" }}>
-        <Layout.Sider width={200} className="site-layout-background">
-          {menu}
+        <Layout.Sider
+          width={200}
+          className="site-layout-background"
+          style={{ backgroundColor: "#fff" }}
+          collapsible
+          collapsed={collapsed}
+          onCollapse={(value) => setCollapsed(value)}
+        >
+          <div
+            style={{ width: "100%", height: "100%", backgroundColor: "#fff" }}
+          >
+            {menu}
+          </div>
         </Layout.Sider>
         <Layout style={{ padding: "0 24px 24px" }}>
           <Breadcrumb style={{ margin: "16px 0" }}>
-            <Breadcrumb.Item>首页</Breadcrumb.Item>
+            <Breadcrumb.Item>智能辅助</Breadcrumb.Item>
             {current === "1" || current === "2" ? (
-              <Breadcrumb.Item>课堂管理</Breadcrumb.Item>
-            ) : current === "3" || current === "4" ? (
-              <Breadcrumb.Item>题目管理</Breadcrumb.Item>
-            ) : current === "5" || current === "6" ? (
-              <Breadcrumb.Item>资源管理</Breadcrumb.Item>
+              <Breadcrumb.Item>智能文档</Breadcrumb.Item>
+            ) : current === "3" ? (
+              <Breadcrumb.Item>智能PPT</Breadcrumb.Item>
+            ) : current === "4" ? (
+              <Breadcrumb.Item>智能图片</Breadcrumb.Item>
             ) : null}
             {current === "1" ? (
-              <Breadcrumb.Item>创建课堂</Breadcrumb.Item>
+              <Breadcrumb.Item>文档问答</Breadcrumb.Item>
             ) : current === "2" ? (
-              <Breadcrumb.Item>查看课堂信息</Breadcrumb.Item>
+              <Breadcrumb.Item>文档扩写</Breadcrumb.Item>
             ) : current === "3" ? (
-              <Breadcrumb.Item>发布习题任务</Breadcrumb.Item>
+              <Breadcrumb.Item>PPT生成</Breadcrumb.Item>
             ) : current === "4" ? (
-              <Breadcrumb.Item>查看习题任务信息</Breadcrumb.Item>
-            ) : current === "5" ? (
-              <Breadcrumb.Item>添加资源文件</Breadcrumb.Item>
-            ) : current === "6" ? (
-              <Breadcrumb.Item>查看资源目录</Breadcrumb.Item>
+              <Breadcrumb.Item>图片生成</Breadcrumb.Item>
             ) : null}
           </Breadcrumb>
           <Layout.Content
@@ -80,38 +93,11 @@ const ClassControl = () => {
               minHeight: 280,
             }}
           >
-            <Title
-              level={2}
-              style={{ textAlign: "center", fontFamily: "阿里妈妈数黑体 Bold" }}
-            >
-              当前操作：
-              {current === "1"
-                ? "创建课堂"
-                : current === "2"
-                  ? "查看课堂信息"
-                  : current === "3"
-                    ? "发布项目开发任务"
-                    : "发布编程习题任务"}
-            </Title>
             <Space direction="vertical" style={{ width: "100%" }}>
-              {current === "1" && (
-                <Card title="创建课堂" className="xf-Class__card"></Card>
-              )}
-              {current === "2" && (
-                <Card title="查看课堂信息" className="xf-Class__card"></Card>
-              )}
-              {current === "3" && (
-                <Card title="创建习题" className="xf-Class__card"></Card>
-              )}
-              {current === "4" && (
-                <Card title="查看习题信息" className="xf-Class__card"></Card>
-              )}
-              {current === "5" && (
-                <Card title="添加资源文件" className="xf-Class__card"></Card>
-              )}
-              {current === "6" && (
-                <Card title="查看资源目录" className="xf-Class__card"></Card>
-              )}
+              {current === "1" && <DocumentQAPanel />}
+              {current === "2" && <DocumentWriter />}
+              {current === "3" && <PPTCreater />}
+              {current === "4" && <ImageGenerator />}
             </Space>
           </Layout.Content>
         </Layout>
