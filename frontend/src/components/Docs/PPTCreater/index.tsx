@@ -121,7 +121,7 @@ const PPTCreater = () => {
       const jsonData = JSON.parse(event?.data) ? JSON.parse(event?.data) : null;
       console.log("收到消息：", jsonData);
       if (jsonData?.data?.process !== 100) {
-        setLoading(true);
+        // setLoading(true);
       } else {
         setLoading(false);
       }

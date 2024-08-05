@@ -8,6 +8,8 @@ import { useNavigate } from "react-router";
 import QuestionPanel from "../../../components/Code/QuestionPanel";
 import CodeSphere from "../../../components/Code/CodeSphere";
 import { IAnswer } from "../../../components/Code/type";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../stores/redux/store";
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
@@ -18,6 +20,12 @@ const CodePen = () => {
   const [question, setQuestion] = useState<IQuestion>(null);
 
   const [resData, setResData] = useState<IAnswer>(null);
+
+  // 引入user, 有student和teacher两种状态
+  const user = useSelector((state: RootState) => state.user);
+  useEffect(() => {
+    user.isLogin === false && navigate("/404");
+  }, []);
 
   useEffect(() => {
     setQuestion(getLocalData("questionData") as IQuestion);

@@ -8,6 +8,7 @@ import DevAid from "./pages/Student/DevAid";
 import ClassControl from "./pages/Teacher/ClassControl";
 import ErrorPage from "./pages/Public/ErrorPage";
 import CodePen from "./pages/Student/CodePen";
+import AdminPanel from "./pages/Admin/Log";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           {/* 在线编译平台 */}
           <Route path="/codePen" element={<CodePen />} />
           {/* 日志管理, 用户管理 */}
+          <Route path="/admin" element={<AdminPanel />} />
         </Routes>
       </HashRouter>
     </div>

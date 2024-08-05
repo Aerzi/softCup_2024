@@ -1,10 +1,10 @@
 @import "@/styles/styles.less";
 
-.xf-Homework__page {
+.xf-log__page {
   width: 100%;
   height: 100%;
 
-  .xf-Homework__header {
+  .xf-log__header {
     width: 100%;
     top: 0;
     height: 64px;
@@ -14,17 +14,17 @@
   }
 
   // 这个地方的触发逻辑由于和mask、nav的交互有关，所以最好使用函数进行控制
-  .xf-Homework__header--hover {
+  .xf-log__header--hover {
     height: 300px;
   }
 
-  .xf-Homework__main {
+  .xf-log__main {
     width: 100%;
     height: calc(100% - 64px);
     position: relative;
     background-color: @soft-color-default;
 
-    .xf-Homework__main-content {
+    .xf-log__main-content {
       width: 100%;
       height: 100%;
       position: relative;
@@ -32,7 +32,7 @@
   }
 }
 
-.xf-Homework__mask {
+.xf-log__mask {
   width: 100%;
   height: 100%;
   position: fixed;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout, Menu, Breadcrumb, Typography, Card, Space } from "antd";
 import {
   AppstoreOutlined,
@@ -14,6 +14,9 @@ import CreateQuestion from "../../../components/Question/CreateQuestion";
 import QuestionPage from "../../../components/Question/QuestionPage";
 import CreateFile from "../../../components/File/CreateFile";
 import FilePage from "../../../components/File/FilePage";
+import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../stores/redux/store";
 
 const { SubMenu } = Menu;
 const { Title } = Typography;
@@ -24,6 +27,13 @@ const ClassControl = () => {
   const [current, setCurrent] = useState("1");
   // 创建state用于传递当前选中的课堂ID
   const [selectId, setSelectId] = useState(0);
+
+  const navigate = useNavigate();
+  // 引入user, 有student和teacher两种状态
+  const user = useSelector((state: RootState) => state.user);
+  useEffect(() => {
+    user.isLogin === false && navigate("/404");
+  }, []);
 
   const menu = (
     <Menu

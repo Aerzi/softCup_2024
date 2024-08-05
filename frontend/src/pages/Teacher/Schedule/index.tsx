@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout, Menu, Breadcrumb, Typography, Card, Space } from "antd";
 import { AppstoreOutlined, FileOutlined } from "@ant-design/icons";
 import NavHeader from "../../../components/Public/NavHeader";
@@ -7,6 +7,9 @@ import ImageGenerator from "../../../components/Image";
 import DocumentWriter from "../../../components/Docs/DocsWrite";
 import TeacherPPTCreater from "../../../components/Docs/Teacher/PPTCreater";
 import DocsTranslater from "../../../components/Docs/Teacher/TranslateDocs";
+import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../stores/redux/store";
 
 {
   /* 智能备课: 生成备课ppt，文档翻译 */
@@ -14,6 +17,13 @@ import DocsTranslater from "../../../components/Docs/Teacher/TranslateDocs";
 const Schedule = () => {
   const [current, setCurrent] = useState("1");
   const [collapsed, setCollapsed] = useState(false);
+
+  const navigate = useNavigate();
+  // 引入user, 有student和teacher两种状态
+  const user = useSelector((state: RootState) => state.user);
+  useEffect(() => {
+    user.isLogin === false && navigate("/404");
+  }, []);
 
   const menu = (
     <Menu

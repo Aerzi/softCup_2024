@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout, Menu, Breadcrumb, Typography, Card, Space } from "antd";
 import {
   AppstoreOutlined,
@@ -11,6 +11,9 @@ import ImageGenerator from "../../../components/Image";
 import DocumentQAPanel from "../../../components/Docs/chatDocs/indes";
 import DocumentWriter from "../../../components/Docs/DocsWrite";
 import PPTCreater from "../../../components/Docs/PPTCreater";
+import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../stores/redux/store";
 
 const { SubMenu } = Menu;
 const { Title } = Typography;
@@ -21,10 +24,12 @@ const ClassControl = () => {
   const [current, setCurrent] = useState("1");
   const [collapsed, setCollapsed] = useState(false);
 
-  // 切换折叠状态的函数
-  const toggleCollapsed = () => {
-    setCollapsed(!collapsed);
-  };
+  const navigate = useNavigate();
+  // 引入user, 有student和teacher两种状态
+  const user = useSelector((state: RootState) => state.user);
+  useEffect(() => {
+    user.isLogin === false && navigate("/404");
+  }, []);
 
   const menu = (
     <Menu
