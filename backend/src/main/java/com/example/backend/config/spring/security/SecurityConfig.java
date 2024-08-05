@@ -56,7 +56,7 @@ public class SecurityConfig {
             List<String> securityIgnoreUrls = systemConfig.getSecurityIgnoreUrls();
             String[] ignores = new String[securityIgnoreUrls.size()];
             http.csrf().disable().httpBasic()
-                    .and().addFilterAt(new TokenLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+                    .and().addFilterAt(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                     .addFilterBefore(new TokenVerifyFilter(), TokenLoginFilter.class)
                     .exceptionHandling().authenticationEntryPoint(loginAuthenticationEntryPoint)
                     .and().authenticationProvider(restAuthenticationProvider)
@@ -96,6 +96,19 @@ public class SecurityConfig {
             final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
             source.registerCorsConfiguration("/api/**", configuration);
             return source;
+        }
+
+        /**
+         * Authentication filter rest login authentication filter.
+         *
+         * @return the rest login authentication filter
+         * @throws Exception the exception
+         */
+        @Bean
+        public TokenLoginFilter authenticationFilter() throws Exception {
+            TokenLoginFilter authenticationFilter = new TokenLoginFilter();
+            authenticationFilter.setAuthenticationManager(authenticationManagerBean());
+            return authenticationFilter;
         }
     }
 }

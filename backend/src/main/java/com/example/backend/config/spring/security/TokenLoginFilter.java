@@ -1,5 +1,6 @@
 package com.example.backend.config.spring.security;
 
+import com.alibaba.fastjson.JSON;
 import com.example.backend.base.EventLogMessage;
 import com.example.backend.base.SystemCode;
 import com.example.backend.model.entity.UserEventLog;
@@ -27,12 +28,10 @@ import java.io.InputStream;
 import java.util.Date;
 
 public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
-    private final AuthenticationManager authenticationManager;
 
     protected final static ModelMapper modelMapper = ModelMapperSingle.Instance();
 
-    public TokenLoginFilter(AuthenticationManager authenticationManager){
-        this.authenticationManager = authenticationManager;
+    public TokenLoginFilter(){
         super.setFilterProcessesUrl("/api/user/login");
     }
 
@@ -58,8 +57,18 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
 
         UsernamePasswordAuthenticationToken authRequest;
         try (InputStream is = request.getInputStream()) {
+            StringBuilder jsonBuffer = new StringBuilder();
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = is.read(buffer)) != -1) {
+                jsonBuffer.append(new String(buffer, 0, bytesRead));
+            }
+            String jsonString = jsonBuffer.toString();
+            logger.info(jsonString);
+
             UserLoginRequest user = null;
-            user = JsonUtil.toJsonObject(is, UserLoginRequest.class);
+            user = JSON.parseObject(jsonString,UserLoginRequest.class);
+            logger.info(user.getUserName().toString());
             authRequest = new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword());
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
@@ -67,7 +76,7 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
         }
 
         this.setDetails(request, authRequest);
-        return authenticationManager.authenticate(authRequest);
+        return this.getAuthenticationManager().authenticate(authRequest);
     }
 
     /**

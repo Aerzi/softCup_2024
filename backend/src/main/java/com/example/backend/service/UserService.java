@@ -2,6 +2,8 @@ package com.example.backend.service;
 
 import com.example.backend.model.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.backend.model.request.user.UserPageRequest;
+import com.github.pagehelper.PageInfo;
 
 /**
  * <p>
@@ -23,4 +25,5 @@ public interface UserService extends IService<User> {
     public void insertByFilter(User user);
     public void edit(User request);
     public User getCurrentUserInfo(Integer id);
+    public PageInfo<User> page(UserPageRequest request);
 }

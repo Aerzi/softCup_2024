@@ -2,34 +2,49 @@ package com.example.backend.controller.student;
 
 import com.alibaba.fastjson.JSON;
 import com.example.backend.base.BaseApiController;
+import com.example.backend.base.EventLogMessage;
 import com.example.backend.base.RestResponse;
+import com.example.backend.event.UserEvent;
+import com.example.backend.model.entity.UserEventLog;
 import com.example.backend.model.entity.aippt.*;
 import com.example.backend.service.AIPPTService;
 import com.example.backend.service.FileUploadService;
 import com.example.backend.websocket.AIPPTProgressWebSocketServer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 
 @RequestMapping("/api/student/spark/ppt")
 @RestController("StudentSparkPPTController")
 public class AIPPTController extends BaseApiController {
     private final AIPPTService aipptService;
     private final FileUploadService fileUploadService;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Autowired
-    public AIPPTController(AIPPTService aipptService, FileUploadService fileUploadService) {
+    public AIPPTController(AIPPTService aipptService, FileUploadService fileUploadService, ApplicationEventPublisher eventPublisher) {
         this.aipptService = aipptService;
         this.fileUploadService = fileUploadService;
+        this.eventPublisher = eventPublisher;
     }
 
     @GetMapping("/themeList")
     public RestResponse<AIPPTTemplate> themeList() {
         AIPPTTemplate aipptTemplate = aipptService.getTemplateList();
+
+        //ppt模板 日志记录
+        UserEventLog userEventLog = new UserEventLog();
+        userEventLog.setUserId(getCurrentUser().getId());
+        userEventLog.setUserName(getCurrentUser().getUserName());
+        userEventLog.setCreateTime(new Date());
+        userEventLog.setContent(getCurrentUser().getUserName() + EventLogMessage.PPT_THEME);
+        eventPublisher.publishEvent(new UserEvent(userEventLog));
 
         return RestResponse.ok(aipptTemplate);
     }
@@ -37,6 +52,15 @@ public class AIPPTController extends BaseApiController {
     @PostMapping("/outline")
     public RestResponse<AIPPTOutlineResponse> outline(@RequestBody @Valid AIPPTOutlineRequest request) {
         AIPPTOutlineResponse aipptOutlineResponse = aipptService.outline(request);
+
+        //大纲生成 日志记录
+        UserEventLog userEventLog = new UserEventLog();
+        userEventLog.setUserId(getCurrentUser().getId());
+        userEventLog.setUserName(getCurrentUser().getUserName());
+        userEventLog.setCreateTime(new Date());
+        userEventLog.setContent(getCurrentUser().getUserName() + EventLogMessage.PPT_OUTLINE);
+        eventPublisher.publishEvent(new UserEvent(userEventLog));
+
         return RestResponse.ok(aipptOutlineResponse);
     }
 
@@ -60,6 +84,15 @@ public class AIPPTController extends BaseApiController {
         }
 
         AIPPTOutlineResponse aipptOutlineResponse = aipptService.outlineByDoc(request, url, fileName);
+
+        //根据文档生成大纲 日志记录
+        UserEventLog userEventLog = new UserEventLog();
+        userEventLog.setUserId(getCurrentUser().getId());
+        userEventLog.setUserName(getCurrentUser().getUserName());
+        userEventLog.setCreateTime(new Date());
+        userEventLog.setContent(getCurrentUser().getUserName() + EventLogMessage.PPT_OUTLINE_DOC);
+        eventPublisher.publishEvent(new UserEvent(userEventLog));
+
         return RestResponse.ok(aipptOutlineResponse);
     }
 
@@ -82,6 +115,14 @@ public class AIPPTController extends BaseApiController {
             return RestResponse.fail(2, e.getMessage());
         }
         AIPPTResponse aipptResponse = aipptService.pptByDoc(request, url, fileName);
+
+        //根据文档生成大纲 日志记录
+        UserEventLog userEventLog = new UserEventLog();
+        userEventLog.setUserId(getCurrentUser().getId());
+        userEventLog.setUserName(getCurrentUser().getUserName());
+        userEventLog.setCreateTime(new Date());
+        userEventLog.setContent(getCurrentUser().getUserName() + EventLogMessage.PPT_DOC);
+        eventPublisher.publishEvent(new UserEvent(userEventLog));
 
         return RestResponse.ok(aipptResponse);
     }
@@ -109,6 +150,15 @@ public class AIPPTController extends BaseApiController {
                 }
             }
         }
+
+        //查询ppt生成进度 日志记录
+        UserEventLog userEventLog = new UserEventLog();
+        userEventLog.setUserId(getCurrentUser().getId());
+        userEventLog.setUserName(getCurrentUser().getUserName());
+        userEventLog.setCreateTime(new Date());
+        userEventLog.setContent(getCurrentUser().getUserName() + EventLogMessage.PPT_PROGRESS);
+        eventPublisher.publishEvent(new UserEvent(userEventLog));
+
 
         return RestResponse.ok();
     }

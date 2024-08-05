@@ -1,11 +1,15 @@
 package com.example.backend.controller.teacher;
 
 import com.example.backend.base.BaseApiController;
+import com.example.backend.base.EventLogMessage;
 import com.example.backend.base.RestResponse;
+import com.example.backend.event.UserEvent;
+import com.example.backend.model.entity.UserEventLog;
 import com.example.backend.service.FileService;
 import com.example.backend.service.FileUploadService;
 import com.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,12 +29,14 @@ public class UploadController extends BaseApiController {
     private final FileService fileService;
     private final FileUploadService fileUpload;
     private final UserService userService;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Autowired
-    public UploadController(FileService fileService, FileUploadService fileUpload, UserService userService) {
+    public UploadController(FileService fileService, FileUploadService fileUpload, UserService userService, ApplicationEventPublisher eventPublisher) {
         this.fileService = fileService;
         this.fileUpload = fileUpload;
         this.userService = userService;
+        this.eventPublisher = eventPublisher;
     }
 
     @RequestMapping("/avatar/image")
@@ -43,6 +49,15 @@ public class UploadController extends BaseApiController {
         try (InputStream inputStream = multipartFile.getInputStream()) {
             String filePath = fileUpload.uploadFile(inputStream, attachSize, imgName);
             userService.changePicture(getCurrentUser(), filePath);
+
+            //头像更新 日志记录
+            UserEventLog userEventLog = new UserEventLog();
+            userEventLog.setUserId(getCurrentUser().getId());
+            userEventLog.setUserName(getCurrentUser().getUserName());
+            userEventLog.setCreateTime(new Date());
+            userEventLog.setContent(getCurrentUser().getUserName() + EventLogMessage.AVATAR_UPLOAD);
+            eventPublisher.publishEvent(new UserEvent(userEventLog));
+
             return RestResponse.ok(filePath);
         } catch (IOException e) {
             return RestResponse.fail(2, e.getMessage());
@@ -76,6 +91,14 @@ public class UploadController extends BaseApiController {
             file.setUserId(getCurrentUser().getId());
             file.setIsAiGen(false);
             fileService.insertByFilter(file);
+
+            //文件上传 日志记录
+            UserEventLog userEventLog = new UserEventLog();
+            userEventLog.setUserId(getCurrentUser().getId());
+            userEventLog.setUserName(getCurrentUser().getUserName());
+            userEventLog.setCreateTime(new Date());
+            userEventLog.setContent(getCurrentUser().getUserName() + EventLogMessage.CLASS_FILE_UPLOAD + request.getParameter("classId"));
+            eventPublisher.publishEvent(new UserEvent(userEventLog));
 
             return RestResponse.ok(filePath);
         } catch (IOException e) {

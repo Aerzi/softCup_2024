@@ -1,7 +1,10 @@
 package com.example.backend.controller.student;
 
 import com.example.backend.base.BaseApiController;
+import com.example.backend.base.EventLogMessage;
 import com.example.backend.base.RestResponse;
+import com.example.backend.event.UserEvent;
+import com.example.backend.model.entity.UserEventLog;
 import com.example.backend.model.entity.chatdoc.ChatDocSummaryQueryResponse;
 import com.example.backend.model.request.student.spark.chatdoc.ChatDocApiResponse;
 import com.example.backend.model.request.student.spark.chatdoc.ChatDocApiUrlResponse;
@@ -11,6 +14,7 @@ import com.example.backend.service.AIChatDocService;
 import com.example.backend.service.FileService;
 import com.example.backend.service.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,12 +31,14 @@ import static com.example.backend.model.enums.FileTypeEnum.getTypeByExtension;
 public class AIChatDocController extends BaseApiController {
     private final AIChatDocService aiChatDocService;
     private final FileUploadService fileUploadService;
+    private final ApplicationEventPublisher eventPublisher;
     private final FileService fileService;
 
     @Autowired
-    public AIChatDocController(AIChatDocService aiChatDocService, FileUploadService fileUploadService, FileService fileService) {
+    public AIChatDocController(AIChatDocService aiChatDocService, FileUploadService fileUploadService, ApplicationEventPublisher eventPublisher, FileService fileService) {
         this.aiChatDocService = aiChatDocService;
         this.fileUploadService = fileUploadService;
+        this.eventPublisher = eventPublisher;
         this.fileService = fileService;
     }
 
@@ -63,6 +69,15 @@ public class AIChatDocController extends BaseApiController {
             file.setUserId(getCurrentUser().getId());
             file.setIsAiGen(false);
             fileService.insertByFilter(file);
+
+            //上传问答文档 日志记录
+            UserEventLog userEventLog = new UserEventLog();
+            userEventLog.setUserId(getCurrentUser().getId());
+            userEventLog.setUserName(getCurrentUser().getUserName());
+            userEventLog.setCreateTime(new Date());
+            userEventLog.setContent(getCurrentUser().getUserName() + EventLogMessage.CHAT_DOC_UPLOAD);
+            eventPublisher.publishEvent(new UserEvent(userEventLog));
+
         } catch (IOException e) {
             return RestResponse.fail(2, e.getMessage());
         }
@@ -86,12 +101,30 @@ public class AIChatDocController extends BaseApiController {
     @PostMapping("/chat")
     public RestResponse chat(@RequestBody @Valid ChatDocChatRequest request){
         aiChatDocService.chat(request);
+
+        //文档问答 日志记录
+        UserEventLog userEventLog = new UserEventLog();
+        userEventLog.setUserId(getCurrentUser().getId());
+        userEventLog.setUserName(getCurrentUser().getUserName());
+        userEventLog.setCreateTime(new Date());
+        userEventLog.setContent(getCurrentUser().getUserName() + EventLogMessage.CHAT_DOC_CHAT);
+        eventPublisher.publishEvent(new UserEvent(userEventLog));
+
         return RestResponse.ok();
     }
 
     @PostMapping("/summary")
     public RestResponse summary(@RequestBody @Valid ChatDocSummaryQueryRequest request){
         ChatDocSummaryQueryResponse response = aiChatDocService.query(request);
+
+        //文档总结 日志记录
+        UserEventLog userEventLog = new UserEventLog();
+        userEventLog.setUserId(getCurrentUser().getId());
+        userEventLog.setUserName(getCurrentUser().getUserName());
+        userEventLog.setCreateTime(new Date());
+        userEventLog.setContent(getCurrentUser().getUserName() + EventLogMessage.CHAT_DOC_SUMMARY);
+        eventPublisher.publishEvent(new UserEvent(userEventLog));
+
         return RestResponse.ok(response);
     }
 }
