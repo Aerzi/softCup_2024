@@ -1,28 +1,27 @@
 import React, { useState } from "react";
-import { Typography, Space, Button, message, Modal, UploadProps } from "antd";
+import { Typography, Space, Button, message, UploadProps } from "antd";
 import { IFile } from "../../File/type";
 import { ProCard } from "@ant-design/pro-components";
 import Dragger from "antd/es/upload/Dragger";
 import { InboxOutlined } from "@ant-design/icons";
 import { getLocalData } from "../../../utils/Storage";
 import { uploadDocs } from "../../../services/docsService";
-import DocViewer from "@cyntler/react-doc-viewer";
+import FullScreenLoading from "../../Other/Loading";
 const { Text } = Typography;
 
-const DocsPreviewer = () => {
+const DocsPreviewer = ({ setFileId }: { setFileId: any }) => {
   const [file, setFile] = useState<IFile | null>(null);
   const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const preview = () => {
     switch (file?.type) {
-      case "DOC":
-        return <DocViewer documents={[{ uri: file?.filePath }]} />;
-      case "PDF":
+      case "pdf":
         return (
           <embed
             src={file?.filePath}
             type="application/pdf"
-            width="1200px"
+            width="100%"
             height="600px"
             style={{ margin: "0 auto" }}
           />
@@ -59,18 +58,26 @@ const DocsPreviewer = () => {
         const { file } = info;
         const formData = new FormData();
         formData.append("file", file.originFileObj);
+        setLoading(true);
         uploadDocs(formData)
           .then((res: any) => {
             if (res.code === 200) {
               message.success("文件处理成功");
               setVisible(true);
-              setFile(res.data);
+              setFile({
+                type: res.response?.type,
+                filePath: res.response?.url,
+              });
+              setFileId(res.response?.response?.data?.fileId);
             } else {
               message.error(res.message);
             }
           })
           .catch((err) => {
             message.error(err.message);
+          })
+          .finally(() => {
+            setLoading(false);
           });
       } else if (status === "error") {
         message.error(`${info.file.name} file upload failed.`);
@@ -83,18 +90,28 @@ const DocsPreviewer = () => {
 
   return (
     <>
+      {loading && <FullScreenLoading spinning={loading} tip={"加载中..."} />}
       {!visible && (
         <Dragger {...props}>
           <p className="ant-upload-drag-icon">
             <InboxOutlined />
           </p>
           <p className="ant-upload-text">点击或者拖拽文件到此区域</p>
-          <p className="ant-upload-hint">支持单个或批量上传</p>
         </Dragger>
       )}
       {visible && (
         <ProCard style={{ width: "100%", height: "100%", margin: "0 auto" }}>
-          <Space direction="vertical">{preview()}</Space>
+          <Space
+            direction="vertical"
+            style={{
+              width: "100%",
+              height: "100%",
+              minHeight: "630px",
+              overflow: "auto",
+            }}
+          >
+            {preview()}
+          </Space>
         </ProCard>
       )}
     </>
