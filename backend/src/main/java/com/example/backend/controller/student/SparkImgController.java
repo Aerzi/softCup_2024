@@ -1,8 +1,11 @@
 package com.example.backend.controller.student;
 
 import com.example.backend.base.BaseApiController;
+import com.example.backend.base.EventLogMessage;
 import com.example.backend.base.RestResponse;
+import com.example.backend.event.UserEvent;
 import com.example.backend.model.entity.File;
+import com.example.backend.model.entity.UserEventLog;
 import com.example.backend.model.request.student.spark.aiimg.AIImgPageRequest;
 import com.example.backend.model.request.student.spark.aiimg.AIImgRequest;
 import com.example.backend.model.request.student.spark.aiimg.AIImgResponse;
@@ -12,6 +15,7 @@ import com.example.backend.service.SparkImgService;
 import com.example.backend.utils.PageInfoHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,16 +31,26 @@ import static com.example.backend.model.enums.FileTypeEnum.getTypeByExtension;
 public class SparkImgController extends BaseApiController {
     private final SparkImgService sparkImgService;
     private final FileService fileService;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Autowired
-    public SparkImgController(SparkImgService sparkImgService, FileService fileService) {
+    public SparkImgController(SparkImgService sparkImgService, FileService fileService, ApplicationEventPublisher eventPublisher) {
         this.sparkImgService = sparkImgService;
         this.fileService = fileService;
+        this.eventPublisher = eventPublisher;
     }
 
     @PostMapping("/generate")
     public RestResponse<String> generate(@RequestBody @Valid AIImgRequest request) {
         String imgUrl = sparkImgService.sparkImgGenerate(request);
+
+        //根据文档生成大纲 日志记录
+        UserEventLog userEventLog = new UserEventLog();
+        userEventLog.setUserId(getCurrentUser().getId());
+        userEventLog.setUserName(getCurrentUser().getUserName());
+        userEventLog.setCreateTime(new Date());
+        userEventLog.setContent(getCurrentUser().getUserName() + EventLogMessage.AI_IMG);
+        eventPublisher.publishEvent(new UserEvent(userEventLog));
 
         return RestResponse.ok(imgUrl);
     }
