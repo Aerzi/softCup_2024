@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Menu, Breadcrumb, Space } from "antd";
+import { Layout, Menu, Breadcrumb, Space, Typography } from "antd";
 import { AppstoreOutlined, FileOutlined } from "@ant-design/icons";
 import "./index.less";
 import TeacherPPTCreater from "../../../components/Docs/Teacher/PPTCreater";
@@ -7,7 +7,9 @@ import DocsTranslater from "../../../components/Docs/Teacher/TranslateDocs";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../stores/redux/store";
+import LogControl from "../../../components/Admin/LogControl";
 
+const { Title } = Typography;
 {
   /* 智能备课: 生成备课ppt，文档翻译 */
 }
@@ -41,7 +43,14 @@ const AdminPanel = () => {
 
   return (
     <div className="xf-log__page">
-      <header className="xf-log__header">后台管理系统</header>
+      <header className="xf-log__header">
+        <Title
+          level={2}
+          style={{ color: "#fff", lineHeight: "64px", marginLeft: "20px" }}
+        >
+          后台管理系统
+        </Title>
+      </header>
       <Layout style={{ minHeight: "calc(100vh - 64px)" }}>
         <Layout.Sider
           width={200}
@@ -75,8 +84,8 @@ const AdminPanel = () => {
             }}
           >
             <Space direction="vertical" style={{ width: "100%" }}>
-              {current === "1" && <TeacherPPTCreater />}
-              {current === "2" && <DocsTranslater />}
+              {current === "1" && <LogControl />}
+              {current === "2" && <UserControl />}
             </Space>
           </Layout.Content>
         </Layout>
