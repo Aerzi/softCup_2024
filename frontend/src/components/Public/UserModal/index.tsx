@@ -64,16 +64,24 @@ const UserModal = ({
           messageApi.open({ type: "success", content: res.message });
           // 保存用户信息
           dispatch(updateUser({ isLogin: true, data: res.response }));
+          if (username === "admin123") {
+            // 说明是管理员
+            setLocalData("role", "admin");
+          } else {
+            setLocalData("role", isStudent ? "student" : "teacher");
+          }
 
-          // 存储本地，持久化
           setLocalData("user", res.response);
-          setLocalData("role", isStudent ? "student" : "teacher");
           setLocalData("isLogin", true);
 
           setIsOpen(false);
 
           setTimeout(() => {
-            navigate("/");
+            if (username === "admin123") {
+              navigate("/admin");
+            } else {
+              navigate("/");
+            }
             setLoading(false);
             messageApi.destroy();
           }, 100);
