@@ -42,5 +42,20 @@ services:
     networks:
       - app-network
 
+  python-thought:
+    image: thought
+    container_name: python-thought
+    ports:
+      - "8890:8890"
+
+  python-assess:
+    image: assess
+    container_name: python-assess
+    ports:
+      - "8891:8891"
+
 volumes:
   mysql_data:
+
+networks:
+  app-network:
