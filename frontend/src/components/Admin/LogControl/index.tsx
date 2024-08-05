@@ -88,7 +88,7 @@ const LogControl = () => {
 
   const columns = [
     {
-      title: "用户ID",
+      title: "日志ID",
       dataIndex: "id",
       key: "id",
     },

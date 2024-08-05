@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, message, Modal, Select, Space, Table } from "antd";
+import { IUser } from "../type";
+import {
+  addUser,
+  editUser,
+  getUserPage,
+} from "../../../services/userControlService";
 
 interface IPage {
   pageIndex: number;
@@ -8,14 +14,14 @@ interface IPage {
   current?: number;
 }
 
-const QuestionPage = ({ classId }: { classId: number }) => {
-  const [questions, setQuestions] = useState<IQuestion[]>([]);
+const UserControl = () => {
+  const [users, setUsers] = useState<IUser[]>([]);
 
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
   // 创建待编辑数据
-  const [editData, setEditData] = useState<IQuestion | null>(null);
+  const [editData, setEditData] = useState<IUser | null>(null);
 
   const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState<IPage>({
@@ -23,19 +29,18 @@ const QuestionPage = ({ classId }: { classId: number }) => {
     pageSize: 10,
   });
 
-  const onGetQuestionPage = () => {
+  const onGetUserPage = () => {
     setLoading(true);
-    getQuestionPage({
+    getUserPage({
       pageIndex: pagination.pageIndex,
       pageSize: pagination.pageSize,
-      classId: classId,
     })
       .then((res: any) => {
         if (res.code === 200) {
-          setQuestions(res.response.list);
+          setUsers(res.response?.list);
           setPagination({
             ...pagination,
-            total: res.response.total,
+            total: res.response?.total,
           });
         } else {
           // 这里可以根据实际的错误处理逻辑来调整
@@ -50,14 +55,14 @@ const QuestionPage = ({ classId }: { classId: number }) => {
   };
 
   // 添加编辑板块
-  const onEditQuestion = (data: IQuestion) => {
+  const onEditUser = (data: IUser) => {
     setLoading(true);
-    editQuestion(data)
+    editUser(data)
       .then((res: any) => {
         if (res.code === 200) {
           message.success(res.message);
           setOpen(false);
-          onGetQuestionPage();
+          onGetUserPage();
         } else {
           message.error(res.message);
         }
@@ -67,14 +72,14 @@ const QuestionPage = ({ classId }: { classId: number }) => {
       });
   };
 
-  // 添加删除模块
-  const onDeleteQuestion = (id: number) => {
+  const onNewUser = (data: IUser) => {
     setLoading(true);
-    deleteQuestion(id)
+    addUser(data)
       .then((res: any) => {
         if (res.code === 200) {
           message.success(res.message);
-          onGetQuestionPage();
+          setOpen(false);
+          onGetUserPage();
         } else {
           message.error(res.message);
         }
@@ -84,31 +89,31 @@ const QuestionPage = ({ classId }: { classId: number }) => {
       });
   };
 
-  const handleDeleteQuestion = (id: number) => {
-    Modal.confirm({
-      title: "确认删除课程?",
-      content: "你确定要删除这个课程吗?",
-      okText: "确认",
-      cancelText: "取消",
-      onOk: () => onDeleteQuestion(id),
-    });
-  };
-
-  const handleShowModal = (record: IQuestion) => {
+  const handleShowModal = (record: IUser, type: string) => {
     form.resetFields();
-    setEditData(record);
-    setOpen(true);
-    form.setFieldsValue({
-      ...record,
-    });
+    if (type === "edit") {
+      setEditData(record);
+      setOpen(true);
+      form.setFieldsValue({
+        ...record,
+      });
+    } else {
+      const id = editData?.id;
+      setEditData(null);
+      setOpen(true);
+    }
   };
 
   const handleOk = () => {
     form
       .validateFields()
       .then((values) => {
+        if (editData === null) {
+          onNewUser(values);
+          return;
+        }
         const data = { ...values, id: editData?.id };
-        onEditQuestion(data);
+        onEditUser(data);
       })
       .catch((info) => {
         console.log("Validate Failed:", info);
@@ -122,7 +127,7 @@ const QuestionPage = ({ classId }: { classId: number }) => {
   };
 
   useEffect(() => {
-    onGetQuestionPage();
+    onGetUserPage();
   }, [pagination.pageIndex, pagination.pageSize]);
 
   const handleTableChange = (pagination: any, filters?: any, sorter?: any) => {
@@ -131,42 +136,38 @@ const QuestionPage = ({ classId }: { classId: number }) => {
       pageIndex: pagination.current,
       pageSize: pagination.pageSize,
     });
-    onGetQuestionPage();
+    onGetUserPage();
   };
 
   const columns = [
     {
-      title: "题目标题",
-      dataIndex: "name",
-      key: "name",
+      title: "用户名",
+      dataIndex: "userName",
+      key: "userName",
     },
     {
-      title: "详细描述",
-      dataIndex: "description",
-      key: "description",
+      title: "电话",
+      dataIndex: "phone",
+      key: "phone",
     },
     {
-      title: "难度",
-      dataIndex: "difficult",
-      key: "difficult",
+      title: "年龄",
+      dataIndex: "age",
+      key: "age",
     },
     {
-      title: "输入输出格式",
-      dataIndex: "format",
-      key: "format",
-    },
-    {
-      title: "提示",
-      dataIndex: "tips",
-      key: "tips",
+      title: "状态",
+      dataIndex: "status",
+      key: "status",
+      render: (text: any) => (text === 1 ? "启用" : "禁用"),
     },
     {
       title: "操作",
       key: "action",
-      render: (text: any, record: IQuestion) => (
+      render: (record: IUser) => (
         <Space>
-          <a onClick={() => handleShowModal(record)}>编辑</a>
-          <a onClick={() => handleDeleteQuestion(record.id)}>删除</a>
+          <a onClick={() => handleShowModal(record, "add")}>新增</a>
+          <a onClick={() => handleShowModal(record, "edit")}>编辑</a>
         </Space>
       ),
     },
@@ -176,73 +177,51 @@ const QuestionPage = ({ classId }: { classId: number }) => {
     <>
       <Table
         columns={columns}
-        dataSource={questions}
+        dataSource={users}
         pagination={pagination}
         loading={loading}
         onChange={handleTableChange}
       />
-      <Modal
-        open={open}
-        title="编辑题目"
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
+      <Modal open={open} onOk={handleOk} onCancel={handleCancel}>
         <Form
           form={form}
           initialValues={{
-            name: editData?.name,
-            description: editData?.description,
-            format: editData?.format,
-            tips: editData?.tips,
-            difficult: editData?.difficult,
-            example: editData?.example,
+            name: editData?.userName,
+            phone: editData?.phone,
+            age: editData?.age,
+            status: editData?.status,
           }}
         >
           <Form.Item
             name="name"
-            label="题目名称"
-            rules={[{ required: true, message: "请输入题目名称!" }]}
+            label="用户名"
+            rules={[{ required: true, message: "请输入用户名" }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            name="description"
-            label="题目描述"
-            rules={[{ required: true, message: "请输入题目描述!" }]}
+            name="phone"
+            label="电话"
+            rules={[{ required: true, message: "请输入电话" }]}
           >
-            <Input.TextArea />
+            <Input />
           </Form.Item>
           <Form.Item
-            name="difficult"
-            label="难度"
-            rules={[{ required: true, message: "请选择难度!" }]}
+            name="age"
+            label="年龄"
+            rules={[{ required: true, message: "请输入年龄" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="status"
+            label="状态"
+            rules={[{ required: true, message: "请选择状态" }]}
           >
             <Select>
-              <Select.Option value={1}>简单</Select.Option>
-              <Select.Option value={2}>中等</Select.Option>
-              <Select.Option value={3}>困难</Select.Option>
+              <Select.Option value={1}>启用</Select.Option>
+              <Select.Option value={0}>禁用</Select.Option>
             </Select>
-          </Form.Item>
-          <Form.Item
-            name="format"
-            label="输入输出格式"
-            rules={[{ required: true, message: "请输入输入输出格式!" }]}
-          >
-            <Input.TextArea />
-          </Form.Item>
-          <Form.Item
-            name="tips"
-            label="提示"
-            rules={[{ required: true, message: "请输入提示!" }]}
-          >
-            <Input.TextArea />
-          </Form.Item>
-          <Form.Item
-            name="example"
-            label="示例"
-            rules={[{ required: true, message: "请输入示例!" }]}
-          >
-            <Input.TextArea />
           </Form.Item>
         </Form>
       </Modal>
@@ -250,4 +229,4 @@ const QuestionPage = ({ classId }: { classId: number }) => {
   );
 };
 
-export default QuestionPage;
+export default UserControl;

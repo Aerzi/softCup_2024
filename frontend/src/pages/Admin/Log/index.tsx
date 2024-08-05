@@ -8,6 +8,7 @@ import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../stores/redux/store";
 import LogControl from "../../../components/Admin/LogControl";
+import UserControl from "../../../components/Admin/UserControl";
 
 const { Title } = Typography;
 {
