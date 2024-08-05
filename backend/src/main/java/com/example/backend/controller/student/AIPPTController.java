@@ -41,6 +41,7 @@ public class AIPPTController extends BaseApiController {
         //ppt模板 日志记录
         UserEventLog userEventLog = new UserEventLog();
         userEventLog.setDeleted(false);
+        userEventLog.setCreateTime(new Date());
         userEventLog.setUserId(getCurrentUser().getId());
         userEventLog.setUserName(getCurrentUser().getUserName());
         userEventLog.setCreateTime(new Date());
@@ -57,6 +58,7 @@ public class AIPPTController extends BaseApiController {
         //大纲生成 日志记录
         UserEventLog userEventLog = new UserEventLog();
         userEventLog.setDeleted(false);
+        userEventLog.setCreateTime(new Date());
         userEventLog.setUserId(getCurrentUser().getId());
         userEventLog.setUserName(getCurrentUser().getUserName());
         userEventLog.setCreateTime(new Date());
@@ -90,6 +92,7 @@ public class AIPPTController extends BaseApiController {
         //根据文档生成大纲 日志记录
         UserEventLog userEventLog = new UserEventLog();
         userEventLog.setDeleted(false);
+        userEventLog.setCreateTime(new Date());
         userEventLog.setUserId(getCurrentUser().getId());
         userEventLog.setUserName(getCurrentUser().getUserName());
         userEventLog.setCreateTime(new Date());
@@ -122,6 +125,7 @@ public class AIPPTController extends BaseApiController {
         //根据文档生成大纲 日志记录
         UserEventLog userEventLog = new UserEventLog();
         userEventLog.setDeleted(false);
+        userEventLog.setCreateTime(new Date());
         userEventLog.setUserId(getCurrentUser().getId());
         userEventLog.setUserName(getCurrentUser().getUserName());
         userEventLog.setCreateTime(new Date());
@@ -158,6 +162,7 @@ public class AIPPTController extends BaseApiController {
         //查询ppt生成进度 日志记录
         UserEventLog userEventLog = new UserEventLog();
         userEventLog.setDeleted(false);
+        userEventLog.setCreateTime(new Date());
         userEventLog.setUserId(getCurrentUser().getId());
         userEventLog.setUserName(getCurrentUser().getUserName());
         userEventLog.setCreateTime(new Date());

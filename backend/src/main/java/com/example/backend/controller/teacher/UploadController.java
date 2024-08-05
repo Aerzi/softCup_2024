@@ -53,6 +53,7 @@ public class UploadController extends BaseApiController {
             //头像更新 日志记录
             UserEventLog userEventLog = new UserEventLog();
             userEventLog.setDeleted(false);
+            userEventLog.setCreateTime(new Date());
             userEventLog.setUserId(getCurrentUser().getId());
             userEventLog.setUserName(getCurrentUser().getUserName());
             userEventLog.setCreateTime(new Date());
@@ -96,6 +97,7 @@ public class UploadController extends BaseApiController {
             //文件上传 日志记录
             UserEventLog userEventLog = new UserEventLog();
             userEventLog.setDeleted(false);
+            userEventLog.setCreateTime(new Date());
             userEventLog.setUserId(getCurrentUser().getId());
             userEventLog.setUserName(getCurrentUser().getUserName());
             userEventLog.setCreateTime(new Date());

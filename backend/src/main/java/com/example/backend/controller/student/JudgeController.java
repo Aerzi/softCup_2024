@@ -115,6 +115,7 @@ public class JudgeController extends BaseApiController {
 
         UserEventLog userEventLog = new UserEventLog();
         userEventLog.setDeleted(false);
+        userEventLog.setCreateTime(new Date());
         userEventLog.setUserId(getCurrentUser().getId());
         userEventLog.setUserName(getCurrentUser().getUserName());
         userEventLog.setCreateTime(new Date());
