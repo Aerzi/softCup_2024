@@ -11,7 +11,7 @@ const ChapterItem = ({
   fatherIndex: string;
 }) => {
   return (
-    <List.Item>
+    <List.Item style={{ width: "50%" }}>
       <Divider>子标题 - {chapter?.chapterTitle}</Divider>
       {chapter?.chapterContents && (
         <ChapterList
@@ -31,7 +31,7 @@ const ChapterList = ({
   fatherIndex: string;
 }) => {
   return (
-    <List>
+    <List style={{ width: "50%" }}>
       {chapters.map((chapter, index) => (
         <>
           <Divider>

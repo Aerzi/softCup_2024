@@ -3,6 +3,8 @@ export interface IDocs {
   query: string;
   // ppt生成主题
   theme?: string;
+  // ppt生成模型
+  create_model?: string;
   // 业务id
   business_id?: string;
   // 作者名

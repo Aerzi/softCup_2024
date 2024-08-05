@@ -139,6 +139,9 @@ const PPTCreater = () => {
     socket.onerror = function (error) {
       console.error("WebSocket 发生错误：", error);
     };
+    return () => {
+      socket.close();
+    };
   }, []);
 
   const onFinish = (values: IDocs) => {
