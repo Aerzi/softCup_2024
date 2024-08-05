@@ -9,6 +9,7 @@ import ClassControl from "./pages/Teacher/ClassControl";
 import ErrorPage from "./pages/Public/ErrorPage";
 import CodePen from "./pages/Student/CodePen";
 import AdminPanel from "./pages/Admin/Log";
+import ChatBox from "./components/ChatBox";
 
 function App() {
   return (
@@ -26,6 +27,8 @@ function App() {
           <Route path="/room" element={<Classroom />} />
           {/* 开发辅助: 文档速读，文档扩写，图片生成，文档翻译 */}
           <Route path="/aid" element={<DevAid />} />
+          {/* 智链启航：思维链 */}
+          <Route path="/chat" element={<ChatBox />} />
           {/* 课堂管理: 创建课堂、编程题，上传文件资源到对应课堂 */}
           <Route path="/classControl" element={<ClassControl />} />
           {/* 智能备课: 生成备课ppt，文档翻译 */}
