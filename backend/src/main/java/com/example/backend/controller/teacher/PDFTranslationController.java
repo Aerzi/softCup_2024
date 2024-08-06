@@ -2,12 +2,17 @@ package com.example.backend.controller.teacher;
 
 import com.example.backend.base.BaseApiController;
 import com.example.backend.base.RestResponse;
+import com.example.backend.base.EventLogMessage;
+import com.example.backend.base.RestResponse;
+import com.example.backend.event.UserEvent;
+import com.example.backend.model.entity.UserEventLog;
 import com.example.backend.model.entity.aitranslation.AITranslationDocResponse;
 import com.example.backend.model.entity.aitranslation.AITranslationRequest;
 import com.example.backend.model.entity.aitranslation.AITranslationText;
 import com.example.backend.service.FileUploadService;
 import com.example.backend.service.PDFTranslationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 @RequestMapping("/api/teacher/spark/translation")
 @RestController("TeacherSparkTranslationController")
@@ -27,6 +33,13 @@ public class PDFTranslationController extends BaseApiController {
     public PDFTranslationController(PDFTranslationService pdfTranslationService, FileUploadService fileUploadService) {
         this.pdfTranslationService = pdfTranslationService;
         this.fileUploadService = fileUploadService;
+    private final ApplicationEventPublisher eventPublisher;
+
+    @Autowired
+    public PDFTranslationController(PDFTranslationService pdfTranslationService, FileUploadService fileUploadService, ApplicationEventPublisher eventPublisher) {
+        this.pdfTranslationService = pdfTranslationService;
+        this.fileUploadService = fileUploadService;
+        this.eventPublisher = eventPublisher;
     }
 
     @PostMapping("/translate")
@@ -54,6 +67,17 @@ public class PDFTranslationController extends BaseApiController {
         int maxBytes = 5000; // 中文字符限制
 
         AITranslationDocResponse text = pdfTranslationService.translateDoc(multipartFile, maxBytes, charset);
+
+        //文件上传 日志记录
+        UserEventLog userEventLog = new UserEventLog();
+        userEventLog.setDeleted(false);
+        userEventLog.setCreateTime(new Date());
+        userEventLog.setUserId(getCurrentUser().getId());
+        userEventLog.setUserName(getCurrentUser().getUserName());
+        userEventLog.setCreateTime(new Date());
+        userEventLog.setContent(getCurrentUser().getUserName() + EventLogMessage.PDF_TRANSLATION);
+        eventPublisher.publishEvent(new UserEvent(userEventLog));
+
         return RestResponse.ok(text);
     }
 }

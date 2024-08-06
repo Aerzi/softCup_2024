@@ -37,6 +37,8 @@ public class AIRewriteController extends BaseApiController {
 
         //文本改写 日志记录
         UserEventLog userEventLog = new UserEventLog();
+        userEventLog.setDeleted(false);
+        userEventLog.setCreateTime(new Date());
         userEventLog.setUserId(getCurrentUser().getId());
         userEventLog.setUserName(getCurrentUser().getUserName());
         userEventLog.setCreateTime(new Date());

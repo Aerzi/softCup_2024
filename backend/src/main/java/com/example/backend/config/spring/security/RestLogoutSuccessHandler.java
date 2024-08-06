@@ -38,6 +38,8 @@ public class RestLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
             User user = userService.getUserByUserName(springUser.getUsername());
 
             UserEventLog userEventLog = new UserEventLog();
+            userEventLog.setDeleted(false);
+            userEventLog.setCreateTime(new Date());
             userEventLog.setUserId(user.getId());
             userEventLog.setUserName(user.getUserName());
             userEventLog.setCreateTime(new Date());

@@ -109,6 +109,8 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
                 response.setStatus(HttpServletResponse.SC_OK);
 
                 UserEventLog userEventLog = new UserEventLog();
+                userEventLog.setDeleted(false);
+                userEventLog.setCreateTime(new Date());
                 userEventLog.setUserId(newUser.getId());
                 userEventLog.setUserName(newUser.getUserName());
                 userEventLog.setCreateTime(new Date());
