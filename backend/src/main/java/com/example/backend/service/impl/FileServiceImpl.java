@@ -60,7 +60,8 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
                 .eq(request.getDescription()!=null,File::getDescription,request.getDescription())
                 .eq(request.getClassId()!=null,File::getClassId,request.getClassId())
                 .eq(request.getUserId()!=null,File::getUserId,request.getUserId())
-                .eq(File::getDeleted,0);
+                .eq(File::getDeleted,0)
+                .eq(File::getIsAiGen,false);
 
         return PageHelper.startPage(request.getPageIndex(), request.getPageSize(), "id desc").doSelectPageInfo(() ->
                 fileMapper.selectList(fileQueryWrapper)

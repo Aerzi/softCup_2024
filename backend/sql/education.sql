@@ -41,12 +41,12 @@ CREATE TABLE t_file (
     `file_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL, -- 文件在 CDN 上的 URL
     `create_time` datetime NULL DEFAULT NULL,
     `modify_time` datetime NULL DEFAULT NULL,
-    `size` int NULL DEFAULT NULL, -- 文件大小（字节）
     `status` int NULL DEFAULT NULL,
     `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, -- 文件描述，可选
     `deleted` bit(1) NULL DEFAULT NULL,
     `class_id` int NULL DEFAULT NULL, -- 文件所在班级的ID
     `user_id` int NULL DEFAULT NULL, -- 上传文件的用户 ID
+    `is_ai_gen` bit(1) NULL DEFAULT NULL, -- 是否是AI生成的图片
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB  CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = COMPACT;
 
@@ -103,6 +103,7 @@ CREATE TABLE t_question (
 DROP TABLE IF EXISTS `t_programming_assess`;
 CREATE TABLE t_programming_assess (
   `id` int NOT NULL AUTO_INCREMENT,
+  `code_type` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `code` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `feedback` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `modified_code` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,

@@ -1,8 +1,11 @@
 package com.example.backend.controller.teacher;
 
 import com.example.backend.base.BaseApiController;
+import com.example.backend.base.EventLogMessage;
 import com.example.backend.base.RestResponse;
+import com.example.backend.event.UserEvent;
 import com.example.backend.model.entity.User;
+import com.example.backend.model.entity.UserEventLog;
 import com.example.backend.model.enums.RoleEnum;
 import com.example.backend.model.enums.UserStatusEnum;
 import com.example.backend.model.request.user.UserEditRequest;
@@ -12,6 +15,7 @@ import com.example.backend.service.AuthenticationService;
 import com.example.backend.service.UserService;
 import com.example.backend.utils.DateTimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,12 +28,13 @@ import java.util.UUID;
 public class UserController extends BaseApiController {
 
     private final UserService userService;
-
+    private final ApplicationEventPublisher eventPublisher;
     private final AuthenticationService authenticationService;
 
     @Autowired
-    public UserController(UserService userService, AuthenticationService authenticationService) {
+    public UserController(UserService userService, ApplicationEventPublisher eventPublisher, AuthenticationService authenticationService) {
         this.userService = userService;
+        this.eventPublisher = eventPublisher;
         this.authenticationService = authenticationService;
     }
 
@@ -48,6 +53,16 @@ public class UserController extends BaseApiController {
         user.setLastActiveTime(new Date());
         user.setCreateTime(new Date());
         user.setDeleted(false);
+
+        UserEventLog userEventLog = new UserEventLog();
+        userEventLog.setCreateTime(new Date());
+        user.setDeleted(false);
+        userEventLog.setUserId(user.getId());
+        userEventLog.setUserName(user.getUserName());
+        userEventLog.setCreateTime(new Date());
+        userEventLog.setContent(EventLogMessage.WELCOME + user.getUserName() + EventLogMessage.REGISTER);
+        eventPublisher.publishEvent(new UserEvent(userEventLog));
+
         userService.insertByFilter(user);
         return RestResponse.ok();
     }

@@ -100,6 +100,7 @@ public class JudgeController extends BaseApiController {
         programmingAssess.setQuestionId(request.getQuestionId());
         programmingAssess.setUserId(getCurrentUser().getId());
         programmingAssess.setCode(result.getSource_code());
+        programmingAssess.setCodeType(request.getCodeType());
 
         ProgrammingAssessSelectOneRequest selectOneRequest = new ProgrammingAssessSelectOneRequest();
         selectOneRequest.setQuestionId(request.getQuestionId());
@@ -113,6 +114,8 @@ public class JudgeController extends BaseApiController {
         }
 
         UserEventLog userEventLog = new UserEventLog();
+        userEventLog.setDeleted(false);
+        userEventLog.setCreateTime(new Date());
         userEventLog.setUserId(getCurrentUser().getId());
         userEventLog.setUserName(getCurrentUser().getUserName());
         userEventLog.setCreateTime(new Date());

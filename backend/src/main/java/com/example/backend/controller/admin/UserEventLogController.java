@@ -7,6 +7,7 @@ import com.example.backend.model.request.admin.eventlog.UserEventLogEditRequest;
 import com.example.backend.model.request.admin.eventlog.UserEventLogPageRequest;
 import com.example.backend.model.request.admin.eventlog.UserEventLogResponse;
 import com.example.backend.service.UserEventLogService;
+import com.example.backend.utils.DateTimeUtil;
 import com.example.backend.utils.PageInfoHelper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -37,19 +38,23 @@ public class UserEventLogController extends BaseApiController {
     @PostMapping("/page")
     public RestResponse<PageInfo<UserEventLogResponse>> page(@RequestBody UserEventLogPageRequest request) {
         PageInfo<UserEventLog> pageInfo = userEventLogService.page(request);
-        PageInfo<UserEventLogResponse> page = PageInfoHelper.copyMap(pageInfo, e -> modelMapper.map(e, UserEventLogResponse.class));
+        PageInfo<UserEventLogResponse> page = PageInfoHelper.copyMap(pageInfo, e -> {
+            UserEventLogResponse  response=  modelMapper.map(e, UserEventLogResponse.class);
+            response.setCreateTime(DateTimeUtil.dateFormat(e.getCreateTime()));
+            return response;
+        });
         return RestResponse.ok(page);
     }
 
     @PutMapping("/edit")
-    public RestResponse edit(@RequestBody UserEventLogEditRequest request){
-        UserEventLog userEventLog = modelMapper.map(request,UserEventLog.class);
+    public RestResponse edit(@RequestBody UserEventLogEditRequest request) {
+        UserEventLog userEventLog = modelMapper.map(request, UserEventLog.class);
         userEventLogService.updateByIdFilter(userEventLog);
         return RestResponse.ok();
     }
 
     @DeleteMapping("/delete/{id}")
-    public RestResponse delete(@PathVariable Integer id){
+    public RestResponse delete(@PathVariable Integer id) {
         userEventLogService.deleteByFilterId(id);
         return RestResponse.ok();
     }

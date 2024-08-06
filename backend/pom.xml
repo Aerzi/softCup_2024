@@ -29,6 +29,7 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<spring.boot.version>2.1.6.RELEASE</spring.boot.version>
+		<hutool.version>5.7.22</hutool.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -40,6 +41,13 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<!-- 移除嵌入式tomcat插件 -->
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -51,6 +59,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+
+		<!-- 添加外置的tomcat依赖 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
 		</dependency>
 
 		<!-- hot debug -->
@@ -170,10 +184,29 @@
 			<version>2.0.7</version>
 		</dependency>
 
+		<!-- hutool工具 -->
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-all</artifactId>
+			<version>${hutool.version}</version>
+		</dependency>
+
+		<!--推荐使用itext处理pdf文档-->
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>kernel</artifactId>
+			<version>7.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>layout</artifactId>
+			<version>7.2.1</version>
+		</dependency>
 
 	</dependencies>
 
 	<build>
+		<finalName>cs_education_platform</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
