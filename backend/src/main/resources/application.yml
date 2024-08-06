@@ -22,8 +22,8 @@ system:
     secret-key: V3Sdiyqdwmm9mGSU9akX2UYLNzeeCzUbbsam7/Ot+sQ=
     expiration: 7
   qn:
-    url: http://sg8dboiyc.hd-bkt.clouddn.com
-    bucket: cs-education-platform
+    url: http://shrsp0xi2.hd-bkt.clouddn.com
+    bucket: cs--education--platform
     access-key: oJOFdOBRRkkYi7ssuvB17PpRXrXzZjU46-eOsnbd
     secret-key: 5pp0Y1WoB1118fiQWDpnh6MJGYtKoNyd6M_zIGPI
   judge0:
