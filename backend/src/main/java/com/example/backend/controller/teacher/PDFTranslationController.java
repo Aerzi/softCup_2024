@@ -33,6 +33,7 @@ public class PDFTranslationController extends BaseApiController {
     public PDFTranslationController(PDFTranslationService pdfTranslationService, FileUploadService fileUploadService) {
         this.pdfTranslationService = pdfTranslationService;
         this.fileUploadService = fileUploadService;
+
     private final ApplicationEventPublisher eventPublisher;
 
     @Autowired

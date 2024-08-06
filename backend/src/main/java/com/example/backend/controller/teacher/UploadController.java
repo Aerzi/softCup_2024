@@ -101,6 +101,8 @@ public class UploadController extends BaseApiController {
             userEventLog.setDeleted(false);
             userEventLog.setCreateTime(new Date());
 
+            userEventLog.setDeleted(false);
+            userEventLog.setCreateTime(new Date());
             userEventLog.setUserId(getCurrentUser().getId());
             userEventLog.setUserName(getCurrentUser().getUserName());
             userEventLog.setCreateTime(new Date());
