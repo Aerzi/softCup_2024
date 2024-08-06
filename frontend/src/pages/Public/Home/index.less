@@ -1,0 +1,123 @@
+@import "@/styles/styles.less";
+
+.xf-home__page {
+  width: 100%;
+  height: auto;
+  background-image: linear-gradient(to right, #a8edea 0%, #fed6e3 100%);
+
+  .xf-home__header {
+    width: 100%;
+    top: 0;
+    height: 64px;
+    background: @header-color-default;
+    transition: 0.5s ease-in-out;
+    z-index: 10;
+    position: fixed;
+  }
+
+  // 这个地方的触发逻辑由于和mask、nav的交互有关，所以最好使用函数进行控制
+  .xf-home__header--hover {
+    height: 300px;
+  }
+
+  .xf-home__main {
+    position: relative;
+    width: 100%;
+    margin: 20px auto;
+    height: 2200px;
+    padding-top: 64px;
+    .xf-home__main-content--first {
+      width: 100%;
+      height: 800px;
+      width: 1200px;
+      margin: 0 auto;
+      position: relative;
+
+      .xf-home__main-content--first-carousel {
+        height: 350px;
+        text-align: center;
+        background-image: linear-gradient(-225deg, #e3fdf5 0%, #ffe6fa 100%);
+        margin-bottom: 20px;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: row;
+
+        .xf-home__main-content--first-carousel-text {
+          position: relative;
+          margin: 10px 10px 20px 20px;
+          width: 500px;
+          height: 330px;
+          border-radius: 5px;
+          background-color: #fff;
+        }
+      }
+
+      .xf-home__main-content--first-show {
+        width: 100%;
+        margin: 30px 0;
+        height: 400px;
+        position: relative;
+        .xf-home__main-content--first-show-title {
+          width: 100%;
+          text-align: center;
+          font-size: 2rem;
+          height: 60px;
+          line-height: 60px;
+          font-family: "阿里妈妈数黑体 Bold";
+        }
+
+        .xf-home__main-content--first-show-subtitle {
+          width: 100%;
+          text-align: center;
+          font-size: 1.3rem;
+          font-family: "思源黑体 Normal";
+          font-weight: 200;
+          height: 20px;
+          line-height: 20px;
+        }
+      }
+    }
+
+    .xf-home__main-content-text {
+      margin: 10px auto;
+    }
+
+    .xf-home__main-content-text--bold {
+      font-family: "阿里妈妈数黑体 Bold";
+    }
+
+    .xf-home__main-content-text--light {
+      font-family: "思源黑体 Normal";
+    }
+
+    .xf-home__main-content--second {
+      width: 100%;
+      height: 600px;
+      position: relative;
+      background-color: #fff;
+    }
+
+    .xf-home__main-content--third {
+      width: 100%;
+      height: 600px;
+      position: relative;
+    }
+  }
+
+  .xf-home__footer {
+    width: 100%;
+    height: 400px;
+    background-color: @header-color-default;
+  }
+}
+
+.xf-home__mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9;
+  display: none;
+}

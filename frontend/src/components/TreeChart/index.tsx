@@ -29,7 +29,7 @@ const TreeChart = ({ data }: any) => {
           data: [data],
           left: "2%",
           right: "2%",
-          top: "20%",
+          top: "2%",
           bottom: "8%",
           symbol: "emptyCircle",
           orient: "horizontal",
@@ -83,7 +83,7 @@ const TreeChart = ({ data }: any) => {
   }, [chartRef]); // 当chartRef变化时，重新调整图表大小
 
   return (
-    <div style={{ width: "90%", height: "90%", position: "relative" }}>
+    <div style={{ width: "1000px", height: "680px", position: "relative" }}>
       <div ref={chartRef} style={{ width: "100%", height: "100%" }}></div>
     </div>
   );

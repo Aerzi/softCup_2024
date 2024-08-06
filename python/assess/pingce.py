@@ -72,16 +72,6 @@ def parse_response(response_content):
                 result[current_section] = "\n".join(current_content).strip()
             current_section = "feedback"
             current_content = [line.replace("反馈：", "").strip()]
-        elif line.startswith("可读性评分："):
-            if current_section:
-                result[current_section] = "\n".join(current_content).strip()
-            current_section = "readability_score"
-            current_content = [line.replace("可读性评分：", "").strip().split("\n")[0]]
-        elif line.startswith("效率评分："):
-            if current_section:
-                result[current_section] = "\n".join(current_content).strip()
-            current_section = "efficiency_score"
-            current_content = [line.replace("效率评分：", "").strip().split("\n")[0]]
         elif line.startswith("修改后的代码示例："):
             if current_section:
                 result[current_section] = "\n".join(current_content).strip()

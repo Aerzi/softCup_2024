@@ -1,0 +1,68 @@
+.question-sider {
+  background: #fff;
+  padding: 16px;
+  height: 100vh;
+  overflow-y: auto;
+  border-right: 1px solid #e8e8e8;
+}
+
+.question-title {
+  margin-bottom: 8px;
+}
+
+.question-difficulty {
+  margin-bottom: 12px;
+}
+
+.question-description {
+  margin-bottom: 8px;
+}
+
+.question-format {
+  margin-bottom: 8px;
+}
+
+.question-example,
+.question-output {
+  margin-bottom: 4px;
+}
+
+.question-tips {
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
+
+.question-footer {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.question-full-view {
+  margin-left: 8px;
+}
+
+/* 在Login.module.css中 */
+.transition-enter {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.transition-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition:
+    opacity 300ms,
+    transform 300ms ease-in-out;
+}
+
+.transition-exit {
+  opacity: 1;
+}
+
+.transition-exit-active {
+  opacity: 0;
+  transform: scale(0.95);
+  transition:
+    opacity 300ms,
+    transform 300ms ease-in-out;
+}

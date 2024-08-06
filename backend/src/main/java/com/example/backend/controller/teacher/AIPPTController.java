@@ -109,7 +109,7 @@ public class AIPPTController extends BaseApiController {
 
         //查询ppt生成进度 日志记录
         UserEventLog userEventLog = new UserEventLog();
-        userEventLog.setDeleted(false);
+
         userEventLog.setUserId(getCurrentUser().getId());
         userEventLog.setUserName(getCurrentUser().getUserName());
         userEventLog.setCreateTime(new Date());

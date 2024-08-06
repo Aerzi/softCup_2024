@@ -1,72 +1,56 @@
-import { IQuestion } from "../../types/questionType";
-import { getLocalData } from "../../utils/Storage";
-import request from "../http/http";
+import { IQuestion } from "../../components/Question/type";
+import { del, get, post, put } from "../config/config";
 
 // 教师端
-/**
- * 创建题目
- * @param data
- * @returns
- */
-export const addTeacherQuestion = (data: IQuestion) => {
-  return request("post", "teacher/question/add", data, {
-    headers: {
-      Authorization:
-        getLocalData("token") !== null ? getLocalData("token") : "",
-    },
-  });
+// 创建题目
+export const addQuestion = (data: IQuestion) => {
+  return post("teacher/question/add", data);
 };
 
-/**
- * 获取题目列表
- * @param pageIndex
- * @param pageSize
- * @returns
- */
-export const getPageTeacherQuestion = (
-  pageIndex: number,
-  pageSize: number,
-  classId: number
-) => {
-  return request(
-    "post",
-    "teacher/question/page",
-    {
-      pageIndex: pageIndex,
-      pageSize: pageSize,
-      classId: classId,
-    },
-    {
-      headers: {
-        Authorization:
-          getLocalData("token") !== null ? getLocalData("token") : "",
-      },
-    }
-  );
+// 编辑题目
+export const editQuestion = (data: IQuestion) => {
+  return put("teacher/question/edit", data);
 };
 
-export const onGetTeacherClassList = () => {
-  return request("get", "teacher/question/list", {}, {});
+// 删除题目
+export const deleteQuestion = (id: number) => {
+  return del(`teacher/question/delete/${id}`);
 };
 
-export const onStudentGetQuestionPage = ({
+// 教师端获取题目列表
+export const getQuestionPage = ({
   pageIndex,
   pageSize,
   classId,
-}: any): any => {
-  return request(
-    "post",
-    "student/question/page",
-    {
-      pageIndex,
-      pageSize,
-      classId,
-    },
-    {
-      headers: {
-        Authorization:
-          getLocalData("token") !== null ? getLocalData("token") : "",
-      },
-    }
-  );
+}: {
+  pageIndex: number;
+  pageSize?: number;
+  classId: number;
+}) => {
+  return post("teacher/question/page", {
+    pageIndex: pageIndex,
+    pageSize: pageSize,
+    classId: classId,
+  });
+};
+
+export const onGetClassList = () => {
+  return get("teacher/question/list");
+};
+
+// 学生端
+export const getStudentQuestionPage = ({
+  pageIndex,
+  pageSize,
+  classId,
+}: {
+  pageIndex: number;
+  pageSize: number;
+  classId: number;
+}) => {
+  return post("student/question/page", {
+    pageIndex,
+    pageSize,
+    classId,
+  });
 };

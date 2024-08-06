@@ -1,144 +1,55 @@
-import { Token } from "monaco-editor";
-import request from "../http/http";
-import { getLocalData } from "../../utils/Storage";
+import { get, post, put } from "../config/config";
 import { UserInfo } from "../../types/UserType";
 
 // 统一接口
 
-/**
- * 统一登录接口 -- 登录后开放用户权限，允许访问所有网页
- * @param userName
- * @param password
- * @returns
- */
+// 统一登录接口 -- 登录后开放用户权限，允许访问所有网页
 export const onLogin = (userName: string, password: string) => {
-  return request(
-    "post",
-    "user/login",
-    {
-      userName: userName,
-      password: password,
-    },
-    {}
-  );
+  return post("user/login", {
+    userName: userName,
+    password: password,
+  });
 };
 
-/**
- * 统一注销接口 -- 注销后退出系统
- * @returns
- */
+// 统一注销接口 -- 注销后退出系统
 export const onLogout = () => {
-  return request(
-    "get",
-    "user/logout",
-    {},
-    {
-      headers: {
-        Authorization:
-          getLocalData("token") !== null ? getLocalData("token") : "",
-      },
-    }
-  );
+  return get("user/logout");
 };
 
 // 学生相关
-/**
- * 学生注册接口
- * @param userName
- * @param password
- * @returns
- */
+// 学生注册接口
 export const onStudentRegister = (userName: string, password: string) => {
-  return request(
-    "post",
-    "student/user/register",
-    {
-      userName: userName,
-      password: password,
-    },
-    {}
-  );
-};
-
-/**
- * 学生获取用户信息
- * @returns
- */
-export const onGetStudentInfo = () => {
-  return request(
-    "get",
-    "student/user/info",
-    {},
-    {
-      headers: {
-        Authorization:
-          getLocalData("token") !== null ? getLocalData("token") : "",
-      },
-    }
-  );
-};
-
-/**
- * 学生修改信息
- * @param data
- * @returns
- */
-export const onEditStudentInfo = (data: UserInfo) => {
-  return request("put", "student/user/edit", data, {
-    headers: {
-      Authorization:
-        getLocalData("token") !== null ? getLocalData("token") : "",
-    },
+  return post("student/user/register", {
+    userName: userName,
+    password: password,
   });
+};
+
+// 学生获取用户信息
+export const onGetStudentInfo = () => {
+  return get("student/user/info");
+};
+
+// 学生修改信息
+export const onEditStudentInfo = (data: UserInfo) => {
+  return put("student/user/edit", data);
 };
 
 // 教师相关
-/**
- * 教师注册接口
- * @param userName
- * @param password
- * @returns
- */
+//教师注册接口
 export const onTeacherRegister = (userName: string, password: string) => {
-  return request(
-    "post",
-    "teacher/user/register",
-    {
-      userName: userName,
-      password: password,
-    },
-    {}
-  );
-};
-
-/**
- * 教师获取信息
- * @returns
- */
-export const onGetTeacherInfo = () => {
-  return request(
-    "get",
-    "teacher/user/info",
-    {},
-    {
-      headers: {
-        Authorization:
-          getLocalData("token") !== null ? getLocalData("token") : "",
-      },
-    }
-  );
-};
-
-/**
- * 教师修改信息
- * @param data
- * @returns
- */
-export const onEditTeacherInfo = (data: UserInfo) => {
-  return request("put", "teacher/user/edit", data, {
-    headers: {
-      Authorization:
-        getLocalData("token") !== null ? getLocalData("token") : "",
-    },
+  return post("teacher/user/register", {
+    userName: userName,
+    password: password,
   });
+};
+
+// 教师获取信息
+export const onGetTeacherInfo = () => {
+  return get("teacher/user/info");
+};
+
+// 教师修改信息
+export const onEditTeacherInfo = (data: UserInfo) => {
+  return put("teacher/user/edit", data);
 };

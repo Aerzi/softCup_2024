@@ -1,6 +1,7 @@
 package com.example.backend.controller.teacher;
 
 import com.example.backend.base.BaseApiController;
+import com.example.backend.base.RestResponse;
 import com.example.backend.base.EventLogMessage;
 import com.example.backend.base.RestResponse;
 import com.example.backend.event.UserEvent;
@@ -27,6 +28,12 @@ import java.util.Date;
 public class PDFTranslationController extends BaseApiController {
     private final PDFTranslationService pdfTranslationService;
     private final FileUploadService fileUploadService;
+
+    @Autowired
+    public PDFTranslationController(PDFTranslationService pdfTranslationService, FileUploadService fileUploadService) {
+        this.pdfTranslationService = pdfTranslationService;
+        this.fileUploadService = fileUploadService;
+
     private final ApplicationEventPublisher eventPublisher;
 
     @Autowired

@@ -1,0 +1,139 @@
+@import "@/styles/styles.less";
+
+.xf-header__nav {
+  align-items: center;
+  display: flex;
+  flex-flow: row nowrap;
+  height: 64px;
+  justify-content: space-between;
+  // header居中
+  margin: 0 auto;
+  width: 1200px;
+  transition: 0.3s ease-in-out width;
+
+  .xf-header__user {
+    width: 580px;
+    font-family: "阿里妈妈数黑体 Bold";
+    color: @header-font-color-default;
+    display: flex;
+    flex-direction: row-reverse;
+    cursor: pointer;
+  }
+
+  .xf-header__nav-list {
+    width: 600px;
+    list-style: none;
+  }
+
+  .xf-header__nav-item {
+    float: left;
+    position: relative;
+    margin-right: 20px;
+    line-height: 64px;
+    height: 64px;
+    width: 100px;
+    user-select: none;
+    list-style: none;
+  }
+  .xf-header__nav-item-user {
+    margin-left: auto; // 这会将元素推到容器的右侧
+  }
+
+  .xf-header__nav-item-link {
+    text-decoration: none;
+    color: @header-font-color-default;
+    font-size: 1rem;
+    font-family: "阿里妈妈数黑体 Bold";
+    transform: 0.3s ease-in-out all;
+  }
+
+  .xf-header__nav-item-link::before {
+    content: "";
+    position: absolute;
+    bottom: 16px;
+    left: 0;
+    width: 0;
+    /* 初始宽度为0 */
+    height: 2px;
+    /* 下划线高度 */
+    background-color: #fff;
+    /* 下划线颜色 */
+  }
+
+  .xf-header__nav-item-link:hover::before {
+    animation: underlineAnimation 0.5s ease-in-out forwards;
+  }
+
+  .xf-header__nav-item-link--active {
+    text-decoration: none;
+    color: @header-font-color-default;
+    font-size: 1rem;
+    font-family: "阿里妈妈数黑体 Bold";
+  }
+
+  .xf-header__nav-item-link--active::before {
+    content: "";
+    position: absolute;
+    bottom: 16px;
+    left: 0;
+    width: 64px;
+    /* 初始宽度为0 */
+    height: 2px;
+    /* 下划线高度 */
+    background-color: #fff;
+    /* 下划线颜色 */
+  }
+}
+
+.link-box {
+  width: 100px;
+  height: 64px;
+  line-height: 64px;
+  position: relative;
+  .login-link {
+    color: white;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .login-link::before {
+    content: "";
+    position: absolute;
+    bottom: 16px;
+    left: 0;
+    width: 0;
+    /* 初始宽度为0 */
+    height: 2px;
+    /* 下划线高度 */
+    background-color: #fff;
+    /* 下划线颜色 */
+  }
+
+  .login-link:hover::before {
+    animation: underlineAnimation 0.5s ease-in-out forwards;
+  }
+}
+
+/* 定义动画 */
+@keyframes underlineAnimation {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 64px;
+  }
+}
+
+@keyframes underlineRetract {
+  from {
+    width: 64px;
+  }
+
+  to {
+    width: 0;
+  }
+}
