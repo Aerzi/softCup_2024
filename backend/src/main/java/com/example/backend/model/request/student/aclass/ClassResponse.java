@@ -19,4 +19,6 @@ public class ClassResponse {
     private String modifyTime;
 
     private Integer userId;
+
+    private Boolean isAdded;
 }

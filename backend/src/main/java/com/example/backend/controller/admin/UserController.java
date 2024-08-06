@@ -7,11 +7,14 @@ import com.example.backend.model.enums.RoleEnum;
 import com.example.backend.model.enums.UserStatusEnum;
 import com.example.backend.model.request.admin.user.UserAddRequest;
 import com.example.backend.model.request.admin.user.UserEditRequest;
+import com.example.backend.model.request.user.UserPageRequest;
 import com.example.backend.model.request.user.UserRegisterRequest;
 import com.example.backend.model.request.user.UserResponse;
 import com.example.backend.service.AuthenticationService;
 import com.example.backend.service.UserService;
 import com.example.backend.utils.DateTimeUtil;
+import com.example.backend.utils.PageInfoHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,5 +72,18 @@ public class UserController extends BaseApiController {
         response.setModifyTime(DateTimeUtil.dateFormat(user.getModifyTime()));
         response.setLastActiveTime(DateTimeUtil.dateFormat(user.getLastActiveTime()));
         return RestResponse.ok(response);
+    }
+
+    @PostMapping("/page")
+    public RestResponse<PageInfo<UserResponse>> page(@RequestBody UserPageRequest request){
+        PageInfo<User> pageInfo = userService.page(request);
+        PageInfo<UserResponse> page = PageInfoHelper.copyMap(pageInfo,e->{
+            UserResponse response = modelMapper.map(e,UserResponse.class);
+            response.setCreateTime(DateTimeUtil.dateFormat(e.getCreateTime()));
+            response.setModifyTime(DateTimeUtil.dateFormat(e.getModifyTime()));
+            return response;
+        });
+
+        return RestResponse.ok(page);
     }
 }

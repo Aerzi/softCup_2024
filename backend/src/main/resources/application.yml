@@ -22,8 +22,8 @@ system:
     secret-key: V3Sdiyqdwmm9mGSU9akX2UYLNzeeCzUbbsam7/Ot+sQ=
     expiration: 7
   qn:
-    url: http://sg8dboiyc.hd-bkt.clouddn.com
-    bucket: cs-education-platform
+    url: http://shrsp0xi2.hd-bkt.clouddn.com
+    bucket: cs--education--platform
     access-key: oJOFdOBRRkkYi7ssuvB17PpRXrXzZjU46-eOsnbd
     secret-key: 5pp0Y1WoB1118fiQWDpnh6MJGYtKoNyd6M_zIGPI
   judge0:
@@ -74,3 +74,34 @@ ok:
     max-idle-connections: 200
     # 连接空闲时间最多为 300 秒
     keep-alive-duration: 300
+
+spark:
+  ai-img:
+    host-url: https://spark-api.cn-huabei-1.xf-yun.com/v2.1/tti
+    app-id: 5e04969c
+    api-secret: Y2JiZThhYjI2ZmYzODI1MDMwZmQyZTgy
+    api-key: f318d6bf3b1b6051b787e1752ed17532
+  ai-rewrite:
+    request-url: https://api.xf-yun.com/v1/private/se3acbe7f
+    app-id: 5e04969c
+    api-secret: Y2JiZThhYjI2ZmYzODI1MDMwZmQyZTgy
+    api-key: f318d6bf3b1b6051b787e1752ed17532
+  ai-chat-doc:
+    upload-url: https://chatdoc.xfyun.cn/openapi/v1/file/upload
+    chat-url: wss://chatdoc.xfyun.cn/openapi/chat
+    summary-start-url: https://chatdoc.xfyun.cn/openapi/v1/file/summary/start
+    summary-query-url: https://chatdoc.xfyun.cn/openapi/v1/file/summary/query
+    app-id: 5e04969c
+    secret: Y2JiZThhYjI2ZmYzODI1MDMwZmQyZTgy
+  ai-ppt:
+    base-url: https://zwapi.xfyun.cn
+    app-id: 5e04969c
+    secret: Y2JiZThhYjI2ZmYzODI1MDMwZmQyZTgy
+  ai-translation:
+    request-url: https://itrans.xf-yun.com/v1/its
+    app-id: 5e04969c
+    api-secret: Y2JiZThhYjI2ZmYzODI1MDMwZmQyZTgy
+    api-key: f318d6bf3b1b6051b787e1752ed17532
+    res-id: xadwhq8pmp
+
+

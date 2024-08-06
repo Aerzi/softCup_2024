@@ -23,8 +23,6 @@ public class FileResponse extends BaseRequest {
 
     private String modifyTime;
 
-    private Integer size;
-
     private Integer status;
 
     private String description;
@@ -32,4 +30,6 @@ public class FileResponse extends BaseRequest {
     private Integer classId;
 
     private Integer userId;
+
+    private Boolean isAiGen;
 }

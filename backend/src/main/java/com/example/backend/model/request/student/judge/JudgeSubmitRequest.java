@@ -14,5 +14,9 @@ public class JudgeSubmitRequest {
     @NotNull
     private Integer classId;
 
+    @NotNull
+    private String codeType;
+
+    @NotNull
     private JudgeRequest request;
 }

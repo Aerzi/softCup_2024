@@ -27,6 +27,8 @@ public class ProgrammingAssess implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    private String codeType;
+
     private String code;
 
     private String feedback;

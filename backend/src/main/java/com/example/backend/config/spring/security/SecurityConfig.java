@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -55,7 +56,7 @@ public class SecurityConfig {
             List<String> securityIgnoreUrls = systemConfig.getSecurityIgnoreUrls();
             String[] ignores = new String[securityIgnoreUrls.size()];
             http.csrf().disable().httpBasic()
-                    .and().addFilterAt(new TokenLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+                    .and().addFilterAt(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                     .addFilterBefore(new TokenVerifyFilter(), TokenLoginFilter.class)
                     .exceptionHandling().authenticationEntryPoint(loginAuthenticationEntryPoint)
                     .and().authenticationProvider(restAuthenticationProvider)
@@ -69,6 +70,15 @@ public class SecurityConfig {
                     .and().userDetailsService(restDetailsService)
                     .logout().logoutUrl("/api/user/logout").logoutSuccessHandler(restLogoutSuccessHandler).invalidateHttpSession(true).deleteCookies("JSESSIONID");
         }
+
+        //忽略websocket拦截
+        @Override
+        public void configure(WebSecurity webSecurity) {
+            webSecurity.ignoring().antMatchers(
+                    "/api/chat/doc", "/api/ppt/progress"
+            );
+        }
+
 
         /**
          * Cors configuration source cors configuration source.
@@ -86,6 +96,19 @@ public class SecurityConfig {
             final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
             source.registerCorsConfiguration("/api/**", configuration);
             return source;
+        }
+
+        /**
+         * Authentication filter rest login authentication filter.
+         *
+         * @return the rest login authentication filter
+         * @throws Exception the exception
+         */
+        @Bean
+        public TokenLoginFilter authenticationFilter() throws Exception {
+            TokenLoginFilter authenticationFilter = new TokenLoginFilter();
+            authenticationFilter.setAuthenticationManager(authenticationManagerBean());
+            return authenticationFilter;
         }
     }
 }

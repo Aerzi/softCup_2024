@@ -1,0 +1,14 @@
+# 使用包含 JDK 8 的基础镜像
+FROM openjdk:8-jdk-alpine
+
+# 设置工作目录
+WORKDIR /appServer
+
+# 复制构建好的 Spring Boot 应用的 JAR 文件到工作目录
+COPY cs_education_platform.jar cs_education_platform.jar
+
+# 暴露应用使用的端口（例如8080）
+EXPOSE 8888
+
+# 启动 Spring Boot 应用
+CMD ["java", "-jar", "cs_education_platform.jar"]

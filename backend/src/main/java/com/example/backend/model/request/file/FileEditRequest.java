@@ -22,8 +22,6 @@ public class FileEditRequest {
 
     private String filePath;
 
-    private Integer size;
-
     private Integer status;
 
     private String description;

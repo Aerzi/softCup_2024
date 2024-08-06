@@ -3,12 +3,10 @@ package com.example.backend.controller.student;
 import com.example.backend.base.BaseApiController;
 import com.example.backend.base.RestResponse;
 import com.example.backend.model.entity.ProgrammingAssess;
-import com.example.backend.model.request.student.programmingassess.ProgrammingAssessEditRequest;
 import com.example.backend.model.request.student.programmingassess.ProgrammingAssessSelectOneRequest;
 import com.example.backend.service.ProgrammingAssessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.stereotype.Controller;
 
 import javax.validation.Valid;
 

@@ -1,12 +1,16 @@
 package com.example.backend.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.backend.model.entity.User;
 import com.example.backend.mapper.UserMapper;
 import com.example.backend.model.request.user.UserEditRequest;
+import com.example.backend.model.request.user.UserPageRequest;
 import com.example.backend.model.request.user.UserResponse;
 import com.example.backend.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,5 +64,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id",id);
         return userMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public PageInfo<User> page(UserPageRequest request) {
+        LambdaQueryWrapper<User> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(User::getDeleted,false)
+                .eq(User::getStatus,1);
+
+        return PageHelper.startPage(request.getPageIndex(), request.getPageSize(), "id desc").doSelectPageInfo(() ->
+                userMapper.selectList(lambdaQueryWrapper)
+        );
     }
 }
